@@ -157,7 +157,7 @@ SpringJoint:
   m_AutoConfigureConnectedAnchor: 0
   m_ConnectedAnchor: {x: 0, y: 0.5, z: 0}
   serializedVersion: 2
-  m_Spring: 100
+  m_Spring: 80
   m_Damper: 1
   m_MinDistance: 0
   m_MaxDistance: 0.1
@@ -177,7 +177,7 @@ Rigidbody:
   m_GameObject: {fileID: 10573562}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 2
+  m_Drag: 5
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -293,9 +293,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f37e64032e1184fa4843f9fafd0762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnRate: 0
-  _catchUpDistance: 1
-  _followingSpringMultiplier: 3
+  _turnAssistRate: 15
+  _stayMass: 100
+  _ChaseLength: 0.5
+  _ChaseSpringMultiplier: 2.5
 --- !u!1 &81420947
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,8 +430,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 292854127}
   serializedVersion: 4
-  m_Mass: 5
-  m_Drag: 1
+  m_Mass: 100
+  m_Drag: 5
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -663,7 +664,7 @@ SpringJoint:
   m_AutoConfigureConnectedAnchor: 0
   m_ConnectedAnchor: {x: 0, y: 0.5, z: 0}
   serializedVersion: 2
-  m_Spring: 100
+  m_Spring: 80
   m_Damper: 1
   m_MinDistance: 0
   m_MaxDistance: 0.1
@@ -683,7 +684,7 @@ Rigidbody:
   m_GameObject: {fileID: 975082435}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 2
+  m_Drag: 5
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -799,9 +800,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f37e64032e1184fa4843f9fafd0762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnRate: 0
-  _catchUpDistance: 1
-  _followingSpringMultiplier: 3
+  _turnAssistRate: 15
+  _stayMass: 100
+  _ChaseLength: 0.5
+  _ChaseSpringMultiplier: 2.5
 --- !u!1 &1086582175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,7 +1154,7 @@ SpringJoint:
   m_AutoConfigureConnectedAnchor: 0
   m_ConnectedAnchor: {x: 0, y: 0.5, z: 0}
   serializedVersion: 2
-  m_Spring: 100
+  m_Spring: 80
   m_Damper: 1
   m_MinDistance: 0
   m_MaxDistance: 0.1
@@ -1172,7 +1174,7 @@ Rigidbody:
   m_GameObject: {fileID: 1394360647}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 2
+  m_Drag: 5
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -1288,9 +1290,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f37e64032e1184fa4843f9fafd0762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnRate: 0
-  _catchUpDistance: 1
-  _followingSpringMultiplier: 3
+  _turnAssistRate: 15
+  _stayMass: 100
+  _ChaseLength: 0.5
+  _ChaseSpringMultiplier: 2.5
 --- !u!1 &1603143398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1428,7 +1431,7 @@ Rigidbody:
   m_GameObject: {fileID: 2020559580}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 2
+  m_Drag: 5
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -1459,7 +1462,7 @@ SpringJoint:
   m_AutoConfigureConnectedAnchor: 0
   m_ConnectedAnchor: {x: 0, y: 0.5, z: 0}
   serializedVersion: 2
-  m_Spring: 100
+  m_Spring: 80
   m_Damper: 1
   m_MinDistance: 0
   m_MaxDistance: 0.1
@@ -1568,9 +1571,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f37e64032e1184fa4843f9fafd0762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnRate: 0
-  _catchUpDistance: 1
-  _followingSpringMultiplier: 3
+  _turnAssistRate: 15
+  _stayMass: 100
+  _ChaseLength: 0.5
+  _ChaseSpringMultiplier: 2.5
 --- !u!1 &2143171873
 GameObject:
   m_ObjectHideFlags: 0

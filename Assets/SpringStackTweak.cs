@@ -6,8 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(SpringJoint))]
 public class SpringStackTweak : MonoBehaviour
 {
-    [SerializeField] float turnRate;
-    [SerializeField] float _catchUpDistance, _followingSpringMultiplier;
+    [SerializeField] float _turnAssistRate;
+    [SerializeField] float _stayMass;
+    [SerializeField] float _ChaseLength, _ChaseSpringMultiplier;
     Quaternion rotationBase;
     float springBase;
     float dragBase;
@@ -31,23 +32,27 @@ public class SpringStackTweak : MonoBehaviour
         globalAnchor = transform.TransformPoint(m_SpringJoint.anchor);
         globalConnectedAnchor = m_SpringJoint.connectedBody.transform.TransformPoint(m_SpringJoint.connectedAnchor);
         float stackDistance = (globalAnchor - globalConnectedAnchor).magnitude;
-        bool isFar = stackDistance >= _catchUpDistance;
+        bool isFar = stackDistance >= _ChaseLength;
 
         if (isFar)
         {
-            m_SpringJoint.spring = springBase * ((stackDistance - _catchUpDistance > 1) ? stackDistance - _catchUpDistance : 1) * _followingSpringMultiplier;
+            m_Rigidbody.mass = 1;
+            m_SpringJoint.spring = springBase * ((stackDistance - _ChaseLength > 1) ? stackDistance - _ChaseLength : 1) * _ChaseSpringMultiplier;
             m_Rigidbody.drag = 0;
         }
         else
         {
-            m_SpringJoint.spring = springBase;
-            m_Rigidbody.drag = dragBase;
-            
-            if(turnRate < Quaternion.Angle(m_Rigidbody.rotation, rotationBase) || Quaternion.Angle(m_Rigidbody.rotation, rotationBase)  < 180- turnRate)
+            if (_turnAssistRate < Quaternion.Angle(m_Rigidbody.rotation, rotationBase) && Quaternion.Angle(m_Rigidbody.rotation, rotationBase)  < 180 - _turnAssistRate)
             {
-                Debug.Log("I YEARN TO SPIN: " + Quaternion.Angle(m_Rigidbody.rotation, rotationBase));
-                Quaternion target = Quaternion.RotateTowards(m_Rigidbody.rotation, rotationBase, turnRate * Time.fixedDeltaTime);
+                Debug.Log(this.gameObject.name + " YEARN TO SPIN: " + Quaternion.Angle(m_Rigidbody.rotation, rotationBase));
+                Quaternion target = Quaternion.RotateTowards(m_Rigidbody.rotation, rotationBase, _turnAssistRate * Time.fixedDeltaTime);
                 m_Rigidbody.MoveRotation(target);
+            }
+            else
+            {
+                m_Rigidbody.mass = _stayMass;
+                m_Rigidbody.drag = dragBase;
+                m_SpringJoint.spring = springBase;
             }
         }
     }
