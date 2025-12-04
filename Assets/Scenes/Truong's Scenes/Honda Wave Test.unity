@@ -20,12 +20,12 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
+  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
-  m_SubtractiveShadowColor: {r: 1, g: 1, b: 1, a: 1}
+  m_AmbientMode: 0
+  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -368,8 +368,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &455197521
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +482,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 455197521}
   serializedVersion: 4
-  m_Mass: 0.06
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -503,7 +501,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
->>>>>>> Stashed changes
 --- !u!1 &489739911
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,6 +635,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 455197522}
+  - {fileID: 1612368527}
+  - {fileID: 1222907103}
   - {fileID: 2027506864}
   m_Father: {fileID: 1954781856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1825,8 +1825,6 @@ Transform:
   - {fileID: 1595470482}
   m_Father: {fileID: 617690342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &1222907102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1870,7 +1868,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222907102}
   serializedVersion: 4
-  m_Mass: 0.06
+  m_Mass: 555
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1960,7 +1958,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222907102}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
->>>>>>> Stashed changes
 --- !u!1 &1265918854
 GameObject:
   m_ObjectHideFlags: 0
@@ -2547,8 +2544,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &1612368526
 GameObject:
   m_ObjectHideFlags: 0
@@ -2663,7 +2658,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1612368526}
   serializedVersion: 4
-  m_Mass: 0.06
+  m_Mass: 222
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -2682,7 +2677,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
->>>>>>> Stashed changes
 --- !u!1 &1901824133
 GameObject:
   m_ObjectHideFlags: 0
@@ -3101,13 +3095,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027506863}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.72302645, w: 0.6908204}
-  m_LocalPosition: {x: 0.002, y: 0.646, z: -0.244}
-  m_LocalScale: {x: 0.036741998, y: 0.17900084, z: 0.20916364}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.066, y: 0.6471, z: -0.244}
+  m_LocalScale: {x: 0.081815414, y: 0.14855863, z: 0.28463835}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 496233652}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -92.61}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2027506865
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3187,15 +3181,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2027506863}
   serializedVersion: 4
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  m_Mass: 15
-=======
-  m_Mass: 0.06
->>>>>>> Stashed changes
-=======
-  m_Mass: 0.06
->>>>>>> Stashed changes
+  m_Mass: 666
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
