@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BikeCameraController : MonoBehaviour
+public class MotorbikeCamController : MonoBehaviour
 {
     [Header("Target Settings")]
     [SerializeField] private Transform _target;

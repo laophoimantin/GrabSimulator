@@ -25,7 +25,7 @@ public class PlayerInteractor : MonoBehaviour
 
         if (_currentInteractable != null && Input.GetKeyDown(_interactKey))
         {
-            _currentInteractable.Interact();
+            _currentInteractable.Interact(this);
         }
     }
 
