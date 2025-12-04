@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
-public class CamController : MonoBehaviour
+public class PlayerCamController : MonoBehaviour
 {
     private enum CameraStyle
     {
