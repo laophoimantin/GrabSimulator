@@ -3188,7 +3188,11 @@ Rigidbody:
   m_GameObject: {fileID: 2027506863}
   serializedVersion: 4
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   m_Mass: 15
+=======
+  m_Mass: 0.06
+>>>>>>> Stashed changes
 =======
   m_Mass: 0.06
 >>>>>>> Stashed changes
