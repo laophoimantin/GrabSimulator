@@ -5,7 +5,7 @@ using UnityEngine;
 public class Door : MonoBehaviour, IInteractable
 {
     private bool _isOpen;
-    public void Interact()
+    public void Interact( PlayerInteractor player)
     {
         if (_isOpen) CloseChest();
         else OpenChest();

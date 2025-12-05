@@ -25,7 +25,7 @@ public class PlayerInteractor : MonoBehaviour
 
         if (_currentInteractable != null && Input.GetKeyDown(_interactKey))
         {
-            _currentInteractable.Interact();
+            _currentInteractable.Interact(this);
         }
     }
 
@@ -50,11 +50,6 @@ public class PlayerInteractor : MonoBehaviour
             }
            
             _currentInteractable = nearestInteractable;
-        }
-
-        if ( _currentInteractable != null)
-        {
-            Debug.Log("Current Interactable: " + _currentInteractable.GetInteractionPrompt());
         }
     }
 

@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public void Interact();
+    public void Interact(PlayerInteractor player);
     public string GetInteractionPrompt();
 }
