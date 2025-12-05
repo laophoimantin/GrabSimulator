@@ -5,20 +5,24 @@ using UnityEngine;
 public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
 {
     [Header("References")]
-    [SerializeField] private MotorbikeController _motorbikeControllerScript; 
-    [SerializeField] private GameObject _carCamera;
-    [SerializeField] private Transform _exitPoint; 
+    [SerializeField] private MotorbikeController _motorbikeControllerScript;
+    [SerializeField] private MotorbikeCamController _motorbikeCamControllerScript;
     
+    [SerializeField] private Transform _exitPoint;
+
     [Header("Settings")]
     [SerializeField] private KeyCode _exitKey = KeyCode.E;
 
-    private GameObject _player; 
+    private GameObject _player;
     private bool _isDriving = false;
 
     void Start()
     {
-        _motorbikeControllerScript.enabled = false;
-        _carCamera.SetActive(false);
+        if (!_isDriving)
+        {
+            _motorbikeControllerScript.enabled = false;
+            _motorbikeCamControllerScript.HideCamera();
+        }
     }
 
     void Update()
@@ -48,21 +52,20 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _player.transform.SetParent(transform);
         _motorbikeControllerScript.enabled = true;
 
-        _carCamera.SetActive(true);
+        _motorbikeCamControllerScript.ShowCamera();
     }
 
     private void ExitCar()
     {
         _isDriving = false;
 
-        _player.transform.SetParent(null); 
+        _player.transform.SetParent(null);
         _player.transform.position = _exitPoint.position;
         _player.transform.rotation = _exitPoint.rotation;
 
         _player.SetActive(true);
 
         _motorbikeControllerScript.enabled = false;
-
-        _carCamera.SetActive(false);
+        _motorbikeCamControllerScript.HideCamera();
     }
 }

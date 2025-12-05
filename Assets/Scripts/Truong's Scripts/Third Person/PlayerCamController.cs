@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerCamController : MonoBehaviour
 {
-    private enum CameraStyle
+    private enum PlayerCameraStyle
     {
         Basic,
         Combat
@@ -13,7 +13,7 @@ public class PlayerCamController : MonoBehaviour
 
     [Header("references")]
     [SerializeField] private Transform _orientation;
-    [SerializeField] private Transform _player;
+    //[SerializeField] private Transform _player;
     [SerializeField] private Transform _playerObj;
     [SerializeField] private Transform _mainCamera;
 
@@ -25,7 +25,7 @@ public class PlayerCamController : MonoBehaviour
     [SerializeField] private GameObject _combatCamObj;
     [SerializeField] private KeyCode _switchKey = KeyCode.V;
     
-    [SerializeField] private CameraStyle _currentStyle = CameraStyle.Basic;
+    [SerializeField] private PlayerCameraStyle _currentStyle = PlayerCameraStyle.Basic;
     
     [SerializeField] private Transform _combatLookAt;
 
@@ -41,7 +41,6 @@ public class PlayerCamController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         SwitchCameraInput();
@@ -50,19 +49,18 @@ public class PlayerCamController : MonoBehaviour
         Vector3 viewDir = _playerObj.position - new Vector3(_mainCamera.position.x, _playerObj.position.y, _mainCamera.position.z);
         _orientation.forward = viewDir.normalized;
 
-        // Rotate player object
-        if (_currentStyle == CameraStyle.Basic)
+        // Rotate the player object
+        if (_currentStyle == PlayerCameraStyle.Basic)
         {
             RotateBasic();
         }
-        else if (_currentStyle == CameraStyle.Combat)
+        else if (_currentStyle == PlayerCameraStyle.Combat)
         {
             Vector3 dirToCombatLookAt = _combatLookAt.position - new Vector3(_mainCamera.position.x, _combatLookAt.position.y, _mainCamera.position.z);
             _orientation.forward = dirToCombatLookAt.normalized;
             //_playerObj.forward = dirToCombatLookAt.normalized;
             RotateCombat(dirToCombatLookAt.normalized);
         }
-
     }
 
     private void RotateBasic()
@@ -92,16 +90,16 @@ public class PlayerCamController : MonoBehaviour
     {
         if (Input.GetKeyDown(_switchKey))
         {
-            if (_currentStyle == CameraStyle.Basic) SetStyle(CameraStyle.Combat);
-            else SetStyle(CameraStyle.Basic);
+            if (_currentStyle == PlayerCameraStyle.Basic) SetStyle(PlayerCameraStyle.Combat);
+            else SetStyle(PlayerCameraStyle.Basic);
         }
     }
 
-    private void SetStyle(CameraStyle style)
+    private void SetStyle(PlayerCameraStyle style)
     {
         _currentStyle = style;
-        _basicCamObj.SetActive(_currentStyle == CameraStyle.Basic);
-        _combatCamObj.SetActive(_currentStyle == CameraStyle.Combat);
+        _basicCamObj.SetActive(_currentStyle == PlayerCameraStyle.Basic);
+        _combatCamObj.SetActive(_currentStyle == PlayerCameraStyle.Combat);
     }
     
 }

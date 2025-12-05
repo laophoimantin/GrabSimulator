@@ -51,11 +51,6 @@ public class PlayerInteractor : MonoBehaviour
            
             _currentInteractable = nearestInteractable;
         }
-
-        if ( _currentInteractable != null)
-        {
-            Debug.Log("Current Interactable: " + _currentInteractable.GetInteractionPrompt());
-        }
     }
 
     private void OnDrawGizmosSelected()
