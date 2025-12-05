@@ -80,6 +80,10 @@ public class MotorbikeCamController : MonoBehaviour
     [SerializeField] private MBikeCameraStyle _currentStyle = MBikeCameraStyle.ThirdPerson;
     
     [SerializeField] private Transform _firstPersonAnchor;
+
+    public bool IsDriving { get; set; } = false;
+
+
     
     void Start()
     {
@@ -125,7 +129,7 @@ public class MotorbikeCamController : MonoBehaviour
     
     private void SwitchCameraInput()
     {
-        if (Input.GetKeyDown(_switchKey))
+        if (Input.GetKeyDown(_switchKey) && IsDriving)
         {
             if (_currentStyle == MBikeCameraStyle.ThirdPerson) SetStyle(MBikeCameraStyle.FirstPerson);
             else SetStyle(MBikeCameraStyle.ThirdPerson);

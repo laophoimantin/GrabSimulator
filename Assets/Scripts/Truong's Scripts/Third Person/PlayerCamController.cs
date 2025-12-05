@@ -39,6 +39,9 @@ public class PlayerCamController : MonoBehaviour
             if (Camera.main != null)
                 _mainCamera = Camera.main.transform;
 
+        if (_currentStyle == PlayerCameraStyle.Basic) SetStyle(PlayerCameraStyle.Combat);
+        else SetStyle(PlayerCameraStyle.Basic);
+
     }
 
     void Update()

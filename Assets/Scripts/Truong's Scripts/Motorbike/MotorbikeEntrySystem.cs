@@ -7,7 +7,8 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     [Header("References")]
     [SerializeField] private MotorbikeController _motorbikeControllerScript;
     [SerializeField] private MotorbikeCamController _motorbikeCamControllerScript;
-    
+    [SerializeField] private GameObject _playerModel;
+
     [SerializeField] private Transform _exitPoint;
 
     [Header("Settings")]
@@ -22,6 +23,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         {
             _motorbikeControllerScript.enabled = false;
             _motorbikeCamControllerScript.HideCamera();
+            _playerModel.SetActive(false);
         }
     }
 
@@ -53,6 +55,8 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _motorbikeControllerScript.enabled = true;
 
         _motorbikeCamControllerScript.ShowCamera();
+        _motorbikeCamControllerScript.IsDriving = true;
+        _playerModel.SetActive(true);
     }
 
     private void ExitCar()
@@ -67,5 +71,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
 
         _motorbikeControllerScript.enabled = false;
         _motorbikeCamControllerScript.HideCamera();
+        _motorbikeCamControllerScript.IsDriving = false;
+        _playerModel.SetActive(false);
     }
 }
