@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd696d016a0c48a18b6c799da8697265, type: 3}
+  m_Name: New Dialogue Object 1
+  m_EditorClassIdentifier: 
+  _dialogue:
+  - 'This, is, my, DIALOGUE!!!!
+
+    NI'
+  - fewfw
+  _responses:
+  - _responseText: Yes
+    _dialogueObject: {fileID: 11400000, guid: 46dd811affb89ca4288905a188778c25, type: 2}
+  - _responseText: No
+    _dialogueObject: {fileID: 11400000, guid: 9cb19aea625c5434287fa8fe21c313cc, type: 2}

@@ -13,9 +13,12 @@ public class PlayerInteractor : MonoBehaviour
 
     private IInteractable _currentInteractable;
 
+    [SerializeField] private DialogueUI _dialogueUI;
+    public DialogueUI DialogueUI => _dialogueUI;
+    
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
