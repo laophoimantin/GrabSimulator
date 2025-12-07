@@ -32,12 +32,15 @@ public class PlayerCamController : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         
         if (_mainCamera == null)
             if (Camera.main != null)
                 _mainCamera = Camera.main.transform;
+
+        if (_currentStyle == PlayerCameraStyle.Basic) SetStyle(PlayerCameraStyle.Combat);
+        else SetStyle(PlayerCameraStyle.Basic);
 
     }
 
