@@ -32,20 +32,22 @@ public class PlayerCamController : MonoBehaviour
 
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        CursorManager.Instance.HideCursor();
         
         if (_mainCamera == null)
             if (Camera.main != null)
                 _mainCamera = Camera.main.transform;
 
-        if (_currentStyle == PlayerCameraStyle.Basic) SetStyle(PlayerCameraStyle.Combat);
-        else SetStyle(PlayerCameraStyle.Basic);
+        if (_currentStyle == PlayerCameraStyle.Basic) SetStyle(PlayerCameraStyle.Basic);
+        else SetStyle(PlayerCameraStyle.Combat);
 
     }
 
     void Update()
     {
+        if (CursorManager.Instance.IsCursorActive) 
+            return;
+        
         SwitchCameraInput();
         
         // Rotate orientation 

@@ -10,13 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd696d016a0c48a18b6c799da8697265, type: 3}
-  m_Name: Npc1
+  m_Name: Thanks
   m_EditorClassIdentifier: 
   _dialogue:
-  - 'Hi player, '
-  - would you marry me?
-  _responses:
-  - _responseText: Yes
-    _dialogueObject: {fileID: 11400000, guid: 46dd811affb89ca4288905a188778c25, type: 2}
-  - _responseText: No
-    _dialogueObject: {fileID: 11400000, guid: 9cb19aea625c5434287fa8fe21c313cc, type: 2}
+  - Thanks
+  _responses: []

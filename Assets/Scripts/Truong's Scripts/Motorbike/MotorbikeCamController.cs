@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class MotorbikeCamController : MonoBehaviour
 {
     // [Header("Target Settings")]

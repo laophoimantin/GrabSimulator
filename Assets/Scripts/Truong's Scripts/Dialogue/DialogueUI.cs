@@ -1,21 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
 
-public class DialogueUI : MonoBehaviour
+public class DialogueUI : Singleton<DialogueUI>
 {
     [SerializeField] GameObject _dialogueBox;
     [SerializeField] private TMP_Text _textLabel;
-    [SerializeField] private DialogueObject _dialogueObject;
 
     public bool IsOpen { get; private set; }
 
     [SerializeField] private ResponseHandler _responseHandler;
     [SerializeField] private TypewriterEffect _typewriterEffect;
 
-    [SerializeField] KeyCode _keyToContinue = KeyCode.Space;
+    [SerializeField] private KeyCode _keyToContinue = KeyCode.Mouse0;
+
+    private event Action onDialogueClosed;
+    
+    private DialogueActivator _currentDialogueActivator;
+    
 
     void Start()
     {
@@ -23,13 +28,18 @@ public class DialogueUI : MonoBehaviour
             _typewriterEffect = GetComponent<TypewriterEffect>();
         if (_responseHandler == null)
             _responseHandler = GetComponent<ResponseHandler>();
-        CloseDialogueBox();
-        //ShowDialogue(_dialogueObject);
+
+        _dialogueBox.SetActive(false);
+        _textLabel.text = string.Empty;
+        IsOpen = false;
     }
 
 
-    public void ShowDialogue(DialogueObject dialogueObject)
+    public void ShowDialogue(DialogueActivator activator, DialogueObject dialogueObject, Action onFinishedEvent = null)
     {
+        _currentDialogueActivator = activator;
+        onDialogueClosed = onFinishedEvent;
+
         IsOpen = true;
         OpenDialogueBox();
         StartCoroutine(StepThroughDialogue(dialogueObject));
@@ -39,18 +49,10 @@ public class DialogueUI : MonoBehaviour
     {
         _responseHandler.AddResponseEvents(responseEvents);
     }
-    
+
 
     private IEnumerator StepThroughDialogue(DialogueObject dialogueObject)
     {
-        // foreach (string dialogue in dialogueObject.Dialogue)
-        // {
-        //     yield return _typewriterEffect.Run(dialogue, _textLabel);
-        //     yield return new WaitUntil(() => Input.GetKeyDown(_keyToContinue));
-        // }
-
-
-
         for (int i = 0; i < dialogueObject.Dialogue.Length; i++)
         {
             string dialogue = dialogueObject.Dialogue[i];
@@ -75,6 +77,14 @@ public class DialogueUI : MonoBehaviour
             CloseDialogueBox();
         }
     }
+    
+
+    public void StepToNode(DialogueObject dialogueObject)
+    {
+        StopAllCoroutines();
+        _currentDialogueActivator.UpdateCurrentDialogueObject(dialogueObject);
+        StartCoroutine(StepThroughDialogue(dialogueObject));
+    }
 
     private IEnumerator RunTypingEffect(string dialogue)
     {
@@ -98,8 +108,11 @@ public class DialogueUI : MonoBehaviour
 
     public void CloseDialogueBox()
     {
+        onDialogueClosed?.Invoke();
+        onDialogueClosed = null;
+
         IsOpen = false;
         _dialogueBox.SetActive(false);
         _textLabel.text = string.Empty;
     }
-}   
+}

@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _jumpForce = 12f;
     [SerializeField] private float _jumpCooldown = 0.25f;
     [SerializeField] private float _airMultiplier = 0.4f;
+    [SerializeField] private bool _canMove = true;
 
     [Header("Key Bindings")]
     [SerializeField] private KeyCode _jumpKey = KeyCode.Space;
@@ -57,7 +58,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        MovePlayer();
+        if (_canMove)
+        {
+            MovePlayer();
+        }
+
         ApplyGravityModifiers();
     }
 
@@ -102,8 +107,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.velocity += Vector3.up * Physics.gravity.y * (_fallMultiplier - 1) * Time.fixedDeltaTime;
         }
-        else 
-        if (_rb.velocity.y > 0 && !Input.GetKey(_jumpKey))
+        else if (_rb.velocity.y > 0 && !Input.GetKey(_jumpKey))
         {
             _rb.velocity += Vector3.up * Physics.gravity.y * (_lowJumpMultiplier - 1) * Time.fixedDeltaTime;
         }
@@ -148,5 +152,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void SetCanMove(bool canMove)
+    {
+        _canMove = canMove;
+        if (!_canMove)
+        {
+            CursorManager.Instance.ShowCursor();
+        }
+        else
+        {
+            CursorManager.Instance.HideCursor();
+        }
     }
 }

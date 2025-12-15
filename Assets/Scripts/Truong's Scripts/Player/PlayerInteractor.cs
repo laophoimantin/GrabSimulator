@@ -5,20 +5,22 @@ using UnityEngine;
 
 public class PlayerInteractor : MonoBehaviour
 {
-    [Header("Dectector Settings")]
+    [Header("Script References")]
+    [SerializeField] private PlayerMovement _playerMovement;
+    public PlayerMovement PlayerMovement => _playerMovement;
+
+    [Header("Detector Settings")]
     [SerializeField] private Transform _interactionPoint;
     [SerializeField] private float _interactRadius = 0.5f;
     [SerializeField] private LayerMask _interactLayer;
     [SerializeField] private KeyCode _interactKey = KeyCode.E;
 
+    private bool _canInteract = true;
     private IInteractable _currentInteractable;
 
-    [SerializeField] private DialogueUI _dialogueUI;
-    public DialogueUI DialogueUI => _dialogueUI;
-    
+
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -34,7 +36,6 @@ public class PlayerInteractor : MonoBehaviour
 
     private void DetectInteractable()
     {
-        
         Collider[] colliders = Physics.OverlapSphere(_interactionPoint.position, _interactRadius, _interactLayer);
 
         IInteractable nearestInteractable = null;
@@ -51,9 +52,14 @@ public class PlayerInteractor : MonoBehaviour
                     nearestInteractable = interactable;
                 }
             }
-           
+
             _currentInteractable = nearestInteractable;
         }
+    }
+
+    public void SetCanInteract(bool canInteract)
+    {
+        _canInteract = canInteract;
     }
 
     private void OnDrawGizmosSelected()
