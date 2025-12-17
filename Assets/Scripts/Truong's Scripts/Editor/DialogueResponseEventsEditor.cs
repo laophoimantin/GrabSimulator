@@ -6,7 +6,7 @@ using UnityEngine;
 [CustomEditor(typeof(DialogueResponseEvents))]
 public class DialogueResponseEventsEditor : Editor
 {
-    override public void OnInspectorGUI()
+    public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
         

@@ -11,11 +11,6 @@ public class Door : MonoBehaviour, IInteractable
         else OpenChest();
     }
 
-    public string GetInteractionPrompt()
-    {
-        return _isOpen ? "Close Door" : "Open Door";
-    }
-
     private void OpenChest()
     {
         _isOpen = true;

@@ -2,7 +2,58 @@ using UnityEngine;
 
 public class MotorbikeCamController : MonoBehaviour
 {
-    // [Header("Target Settings")]
+    private enum CameraStyle
+    {
+        FirstPerson,
+        ThirdPerson
+    }
+
+    [Header("Camera Switching")]
+    [SerializeField] private GameObject _firstPersonCamObj;
+    [SerializeField] private GameObject _thirdPersonCamObj;
+    [SerializeField] private KeyCode _switchKey = KeyCode.V;
+    [SerializeField] private CameraStyle _currentStyle = CameraStyle.ThirdPerson;
+
+    public bool IsDriving { get; set; } = false;
+    
+    void Start()
+    {
+        _firstPersonCamObj.SetActive(false);
+        _thirdPersonCamObj.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (IsDriving && Input.GetKeyDown(_switchKey))
+        {
+            ToggleCameraStyle();
+        }
+    }
+
+    public void ShowCamera()
+    {
+        ActivateCamera(_currentStyle);
+    }
+
+    private void ToggleCameraStyle()
+    {
+        if (_currentStyle == CameraStyle.ThirdPerson)
+            _currentStyle = CameraStyle.FirstPerson;
+        else
+            _currentStyle = CameraStyle.ThirdPerson;
+
+        ActivateCamera(_currentStyle);
+    }
+
+    private void ActivateCamera(CameraStyle style)
+    {
+        GameObject targetCam = (style == CameraStyle.ThirdPerson) ? _thirdPersonCamObj : _firstPersonCamObj;
+        CinemachineManager.Instance.SetNewCamera(targetCam);
+    }
+}
+
+// Graveyard
+// [Header("Target Settings")]
     // [SerializeField] private Transform _target;
     // [SerializeField] private Transform _firstPersonAnchor; // optional: bike handlebar or rider head
     // [SerializeField] private Vector3 _thirdPersonOffset = new Vector3(0, 2f, -5f);
@@ -56,90 +107,3 @@ public class MotorbikeCamController : MonoBehaviour
 
 
 
-
-
-
-    private enum MBikeCameraStyle
-    {
-        FirstPerson,
-        ThirdPerson
-    }
-    [Header("References")]
-    [SerializeField] private Transform _orientation;
-    [SerializeField] private Transform _mBikeObj;
-    [SerializeField] private Transform _mainCamera;
-
-    [Header("Settings")]
-    [SerializeField] private float _rotationSpeed;
-    
-    [Header("Camera Switching")]
-    [SerializeField] private GameObject _firstPersonCamObj;
-    [SerializeField] private GameObject _thirdPersonCamObj;
-    [SerializeField] private KeyCode _switchKey = KeyCode.V;
-    
-    [SerializeField] private MBikeCameraStyle _currentStyle = MBikeCameraStyle.ThirdPerson;
-    
-    [SerializeField] private Transform _firstPersonAnchor;
-
-    public bool IsDriving { get; set; } = false;
-
-
-    
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        
-        if (_mainCamera == null)
-            if (Camera.main != null)
-                _mainCamera = Camera.main.transform;
-    }
-
-
-    void Update()
-    {
-        SwitchCameraInput();
-        
-        // Rotate orientation 
-        Vector3 viewDir = _mBikeObj.position - new Vector3(_mainCamera.position.x, _mBikeObj.position.y, _mainCamera.position.z);
-        _orientation.forward = viewDir.normalized;
-    }
-
-    public void ShowCamera()
-    {
-        if (_currentStyle == MBikeCameraStyle.ThirdPerson)
-        {
-            _thirdPersonCamObj.SetActive(true);
-            _firstPersonCamObj.SetActive(false);
-        }
-        else
-        {
-            _thirdPersonCamObj.SetActive(false);
-            _firstPersonCamObj.SetActive(true);
-        }
-    }
-
-    public void HideCamera()
-    {
-        _firstPersonCamObj.SetActive(false);
-        _thirdPersonCamObj.SetActive(false);
-    }
-    
-    
-    
-    private void SwitchCameraInput()
-    {
-        if (Input.GetKeyDown(_switchKey) && IsDriving)
-        {
-            if (_currentStyle == MBikeCameraStyle.ThirdPerson) SetStyle(MBikeCameraStyle.FirstPerson);
-            else SetStyle(MBikeCameraStyle.ThirdPerson);
-        }
-    }
-
-    private void SetStyle(MBikeCameraStyle style)
-    {
-        _currentStyle = style;
-        _thirdPersonCamObj.SetActive(_currentStyle == MBikeCameraStyle.ThirdPerson);
-        _firstPersonCamObj.SetActive(_currentStyle == MBikeCameraStyle.FirstPerson);
-    }
-}

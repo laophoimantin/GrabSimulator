@@ -1,32 +1,56 @@
 using UnityEngine;
 
-namespace DefaultNamespace
+public class DialogueActivator : MonoBehaviour, IInteractable
 {
-    public class DialogueActivator : MonoBehaviour, IInteractable
+    [Header("Dialogue Object")]
+    [SerializeField] DialogueObject _dialogueObject;
+    
+    private DialogueObject _currentDialogueObject;
+    
+    [Header("References")]
+    [SerializeField] private GameObject _responseEventHolder;
+
+    void Start()
     {
-        [SerializeField] DialogueObject _dialogueObject;
+        _currentDialogueObject = _dialogueObject;
+    }
+    
+    public void UpdateDialogueObject(DialogueObject dialogueObject)
+    {
+        _dialogueObject = dialogueObject;
+    }
 
-        public void UpdateDialogueObject(DialogueObject dialogueObject)
-        {
-            _dialogueObject = dialogueObject;
-        }
+    public void UpdateCurrentDialogueObject(DialogueObject dialogueObject)
+    {
+        _currentDialogueObject = dialogueObject;
+        AddDialogueResponseEvents();
+    }
+
+    public void Interact(PlayerInteractor playerInteractor)
+    {
+        if (DialogueUI.Instance.IsOpen) return;
         
-        public void Interact(PlayerInteractor player)
+        AddDialogueResponseEvents();
+
+        playerInteractor.PlayerMovement.SetCanMove(false);
+        
+        playerInteractor.SetCanInteract(false);
+        
+        DialogueUI.Instance.ShowDialogue(this, _dialogueObject, () =>
         {
-            foreach (DialogueResponseEvents dialogueResponseEvents in GetComponents<DialogueResponseEvents>())
+            playerInteractor.PlayerMovement.SetCanMove(true);
+            playerInteractor.SetCanInteract(true);
+        });
+    }
+
+    private void AddDialogueResponseEvents()
+    {
+        foreach (DialogueResponseEvents dialogueResponseEvents in _responseEventHolder.GetComponents<DialogueResponseEvents>())
+        {
+            if (dialogueResponseEvents.DialogueObject == _currentDialogueObject)
             {
-                if (dialogueResponseEvents.DialogueObject == _dialogueObject)
-                {
-                    player.DialogueUI.AddResponseEvents(dialogueResponseEvents.ResponseEvents);
-                }
+                DialogueUI.Instance.AddResponseEvents(dialogueResponseEvents.ResponseEvents);
             }
-
-            player.DialogueUI.ShowDialogue(_dialogueObject);
-        }
-
-        public string GetInteractionPrompt()
-        {
-            return "Dialogue Activated";
         }
     }
 }

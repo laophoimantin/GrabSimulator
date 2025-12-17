@@ -13,7 +13,7 @@ public class ResponseHandler : MonoBehaviour
     private DialogueUI _dialogueUI;
     private ResponseEvent[] _responseEvents;
 
-    private List<GameObject> tempResponseButtons = new();
+    private readonly List<GameObject> _tempResponseButtons = new();
 
     void Start()
     {
@@ -24,11 +24,15 @@ public class ResponseHandler : MonoBehaviour
     public void AddResponseEvents(ResponseEvent[] responseEvents)
     {
         _responseEvents = responseEvents;
+        foreach (ResponseEvent responseEvent in responseEvents)
+        {
+            Debug.Log(responseEvent.Name);
+        }
     }
 
     public void ShowResponse(Response[] responses)
     {
-        float resonseBoxHeight = 0;
+        float responseBoxHeight = 0;
         for (int i = 0; i < responses.Length; i++)
         {
             Response response = responses[i];
@@ -39,12 +43,12 @@ public class ResponseHandler : MonoBehaviour
             responseButton.GetComponent<TMP_Text>().text = response.ResponseText;
             responseButton.GetComponent<Button>().onClick.AddListener(() => OnPickedResponse(response, responseIndex));
 
-            tempResponseButtons.Add(responseButton);
+            _tempResponseButtons.Add(responseButton);
 
-            resonseBoxHeight += _responseButtonTemplate.sizeDelta.y;
+            responseBoxHeight += _responseButtonTemplate.sizeDelta.y;
         }
 
-        _responseBox.sizeDelta = new Vector2(_responseBox.sizeDelta.x, resonseBoxHeight);
+        _responseBox.sizeDelta = new Vector2(_responseBox.sizeDelta.x, responseBoxHeight);
         _responseBox.gameObject.SetActive(true);
     }
 
@@ -52,21 +56,23 @@ public class ResponseHandler : MonoBehaviour
     {
         _responseBox.gameObject.SetActive(false);
 
-        foreach (GameObject responseButton in tempResponseButtons)
+        foreach (GameObject responseButton in _tempResponseButtons)
         {
             Destroy(responseButton);
         }
+        _tempResponseButtons.Clear();
 
         if (_responseEvents != null && responseIndex < _responseEvents.Length)
         {
             _responseEvents[responseIndex].OnPickedResponse?.Invoke();
+            Debug.Log("Response picked");
+            Debug.Log(_responseEvents[responseIndex].Name);
         }
-
         _responseEvents = null;
 
         if (response.DialogueObject != null)
         {
-            _dialogueUI.ShowDialogue(response.DialogueObject);
+            _dialogueUI.StepToNode(response.DialogueObject);
         }
         else
         {

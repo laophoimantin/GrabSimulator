@@ -1,77 +1,88 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
 {
     [Header("References")]
-    [SerializeField] private MotorbikeController _motorbikeControllerScript;
-    [SerializeField] private MotorbikeCamController _motorbikeCamControllerScript;
-    [SerializeField] private GameObject _playerModel;
-
+    [SerializeField] private MotorbikeMovement _bikeMovement;
+    [SerializeField] private MotorbikeCamController _bikeCam;
+    [SerializeField] private GameObject _fakeRiderVisuals;
     [SerializeField] private Transform _exitPoint;
 
     [Header("Settings")]
-    [SerializeField] private KeyCode _exitKey = KeyCode.E;
+    private readonly KeyCode _exitKey = KeyCode.F;
 
+    private PlayerInteractor _playerInteractor;
     private GameObject _player;
     private bool _isDriving = false;
 
     void Start()
     {
-        if (!_isDriving)
-        {
-            _motorbikeControllerScript.enabled = false;
-            _motorbikeCamControllerScript.HideCamera();
-            _playerModel.SetActive(false);
-        }
+        _bikeMovement.enabled = false;
+        _fakeRiderVisuals.SetActive(false);
     }
 
     void Update()
     {
         if (_isDriving && Input.GetKeyDown(_exitKey))
         {
-            ExitCar();
+            Dismount();
         }
     }
 
     public void Interact(PlayerInteractor player)
     {
+        _playerInteractor = player;
         _player = player.gameObject;
-        if (_player != null)
-            EnterCar();
+        Mount();
     }
 
-    public string GetInteractionPrompt()
-    {
-        return "Drive";
-    }
-
-    private void EnterCar()
+    private void Mount()
     {
         _isDriving = true;
-        _player.SetActive(false);
-        _player.transform.SetParent(transform);
-        _motorbikeControllerScript.enabled = true;
-
-        _motorbikeCamControllerScript.ShowCamera();
-        _motorbikeCamControllerScript.IsDriving = true;
-        _playerModel.SetActive(true);
+        
+        _playerInteractor.PlayerMovement.SetCanMove(false);
+        _player.SetActive(false); 
+        ToggleBikeState(true);
     }
 
-    private void ExitCar()
+    private void Dismount()
     {
         _isDriving = false;
-
-        _player.transform.SetParent(null);
+        
+        ToggleBikeState(false);
+            
+        // Teleport player back to exit point
         _player.transform.position = _exitPoint.position;
         _player.transform.rotation = _exitPoint.rotation;
 
         _player.SetActive(true);
+        
+        if (_playerInteractor != null)
+        {
+            _playerInteractor.PlayerMovement.SetCanMove(true);
+            _playerInteractor.PlayerCamController.ShowCamera(); 
+        }
+    }
+    
+    private void ToggleBikeState(bool status)
+    {
+        if (!status) 
+        {
+            _bikeMovement.FullStop();
+        }
+        
+        _bikeMovement.enabled = status;
+        _fakeRiderVisuals.SetActive(status);
 
-        _motorbikeControllerScript.enabled = false;
-        _motorbikeCamControllerScript.HideCamera();
-        _motorbikeCamControllerScript.IsDriving = false;
-        _playerModel.SetActive(false);
+        if (status)
+        {
+            _bikeCam.ShowCamera();
+        }
+        
+        _bikeCam.IsDriving = status;
     }
 }

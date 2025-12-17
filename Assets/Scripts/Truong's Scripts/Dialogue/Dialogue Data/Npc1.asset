@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Npc1
   m_EditorClassIdentifier: 
   _dialogue:
-  - Hi player, would you marry me?
+  - 'Hi player, '
+  - would you marry me?
   _responses:
   - _responseText: Yes
     _dialogueObject: {fileID: 11400000, guid: 46dd811affb89ca4288905a188778c25, type: 2}
