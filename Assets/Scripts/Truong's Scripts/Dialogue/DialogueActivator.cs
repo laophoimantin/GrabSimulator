@@ -33,7 +33,9 @@ public class DialogueActivator : MonoBehaviour, IInteractable
         AddDialogueResponseEvents();
 
         playerInteractor.PlayerMovement.SetCanMove(false);
+        
         playerInteractor.SetCanInteract(false);
+        
         DialogueUI.Instance.ShowDialogue(this, _dialogueObject, () =>
         {
             playerInteractor.PlayerMovement.SetCanMove(true);
@@ -50,10 +52,5 @@ public class DialogueActivator : MonoBehaviour, IInteractable
                 DialogueUI.Instance.AddResponseEvents(dialogueResponseEvents.ResponseEvents);
             }
         }
-    }
-
-    public string GetInteractionPrompt()
-    {
-        return "Dialogue Activated";
     }
 }

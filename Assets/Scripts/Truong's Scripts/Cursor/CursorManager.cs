@@ -3,8 +3,17 @@ using UnityEngine;
 
 public class CursorManager : Singleton<CursorManager>
 {
-    public bool IsCursorActive => Cursor.visible;
-
+    // bool IsCursorActive => Cursor.visible;
+    public bool IsCursorActive => Cursor.lockState != CursorLockMode.Locked;
+    
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (IsCursorActive) HideCursor();
+        }
+    }
+    
     public void ShowCursor()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -26,6 +35,6 @@ public class CursorManager : Singleton<CursorManager>
 
     private void UnlockCinemachine()
     {
-        CinemachineCore.GetInputAxis = (axisName) => Input.GetAxis(axisName);
+        CinemachineCore.GetInputAxis = Input.GetAxis;
     }
 }

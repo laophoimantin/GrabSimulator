@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInteractor : MonoBehaviour
 {
     [Header("Script References")]
     [SerializeField] private PlayerMovement _playerMovement;
+    [SerializeField] private PlayerCamController _playerCamController;
     public PlayerMovement PlayerMovement => _playerMovement;
+    public PlayerCamController PlayerCamController => _playerCamController;
 
     [Header("Detector Settings")]
     [SerializeField] private Transform _interactionPoint;
@@ -18,16 +17,13 @@ public class PlayerInteractor : MonoBehaviour
     private bool _canInteract = true;
     private IInteractable _currentInteractable;
 
-
-    void Start()
-    {
-    }
-
     // Update is called once per frame
     void Update()
     {
+        if (!_canInteract) return;
+        
         DetectInteractable();
-
+        
         if (_currentInteractable != null && Input.GetKeyDown(_interactKey))
         {
             _currentInteractable.Interact(this);
@@ -41,11 +37,11 @@ public class PlayerInteractor : MonoBehaviour
         IInteractable nearestInteractable = null;
         float nearestDistance = float.MaxValue;
 
-        foreach (Collider collider in colliders)
+        foreach (Collider interactableCollider in colliders)
         {
-            if (collider.TryGetComponent<IInteractable>(out IInteractable interactable))
+            if (interactableCollider.TryGetComponent(out IInteractable interactable))
             {
-                float distance = Vector3.Distance(_interactionPoint.position, collider.transform.position);
+                float distance = Vector3.Distance(_interactionPoint.position, interactableCollider.transform.position);
                 if (distance < nearestDistance)
                 {
                     nearestDistance = distance;
