@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -29,11 +30,26 @@ public class DeliveryZone : MonoBehaviour
             if (orderManager.CurrentOrder.DropoffLocationID == _locationID)
             {
                 orderManager.DeliverPackage(_dropPoint);
+                PlayEffect();
+
             }
             else
             {
                 Debug.Log("This isn't the customer's house.");
             }
         }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            PlayEffect();
+        }
+    }
+
+    private void PlayEffect()
+    {
+        EffectManager.Instance.PlayVFX("Firework", transform.position, Quaternion.LookRotation(Vector3.up));
     }
 }
