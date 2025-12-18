@@ -15,6 +15,11 @@ public class DeliveryZone : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        OrderManager.Instance.RegisterDropoff(_locationID, transform);
+    }
+    
     private void DropOrder()
     {
         var orderManager = OrderManager.Instance;

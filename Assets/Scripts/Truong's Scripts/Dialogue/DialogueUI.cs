@@ -108,11 +108,14 @@ public class DialogueUI : Singleton<DialogueUI>
 
     public void CloseDialogueBox()
     {
+        
         onDialogueClosed?.Invoke();
         onDialogueClosed = null;
 
         IsOpen = false;
         _dialogueBox.SetActive(false);
         _textLabel.text = string.Empty;
+        CursorManager.Instance.HideCursor();
+        
     }
 }

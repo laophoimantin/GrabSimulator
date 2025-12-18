@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PizzaHub - Ecopark
   m_EditorClassIdentifier: 
   OrderName: Pizza
-  Description: Fuck Domino
+  Description: A pepperoni pizza
   RewardMoney: 10
   PickupLocationID: 1
   DropoffLocationID: 3

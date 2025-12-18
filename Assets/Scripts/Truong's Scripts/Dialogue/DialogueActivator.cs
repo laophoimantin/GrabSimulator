@@ -9,6 +9,7 @@ public class DialogueActivator : MonoBehaviour, IInteractable
     
     [Header("References")]
     [SerializeField] private GameObject _responseEventHolder;
+    [SerializeField] private GameObject _cinemachineObj;
 
     void Start()
     {
@@ -26,20 +27,25 @@ public class DialogueActivator : MonoBehaviour, IInteractable
         AddDialogueResponseEvents();
     }
 
-    public void Interact(PlayerInteractor playerInteractor)
+    public void Interact(IInteractor interactor)
     {
         if (DialogueUI.Instance.IsOpen) return;
-        
-        AddDialogueResponseEvents();
 
-        playerInteractor.PlayerMovement.SetCanMove(false);
+        CursorManager.Instance.ShowCursor();
+        CinemachineManager.Instance.SetNewCamera(_cinemachineObj);
         
-        playerInteractor.SetCanInteract(false);
+;        AddDialogueResponseEvents();
+
+        if (interactor != null)
+        {
+            interactor.SetCanMove(false);
+            interactor.SetCanInteract(false);
+        }
         
         DialogueUI.Instance.ShowDialogue(this, _dialogueObject, () =>
         {
-            playerInteractor.PlayerMovement.SetCanMove(true);
-            playerInteractor.SetCanInteract(true);
+            interactor.SetCanMove(true);
+            interactor.SetCanInteract(true);
         });
     }
 

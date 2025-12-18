@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -7,6 +8,11 @@ public class PackagePickupZone : MonoBehaviour
     [SerializeField] private Transform _packageSpawnPoint;
     private GameObject _currentPackage;
 
+    void Start()
+    {
+        OrderManager.Instance.RegisterPickup(_locationID, transform);
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Bike"))

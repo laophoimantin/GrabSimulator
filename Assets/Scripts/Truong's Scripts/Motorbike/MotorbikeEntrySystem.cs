@@ -13,10 +13,9 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     [SerializeField] private Transform _exitPoint;
 
     [Header("Settings")]
-    private readonly KeyCode _exitKey = KeyCode.F;
-
+    private readonly KeyCode _exitKey = KeyCode.E;
+    
     private PlayerInteractor _playerInteractor;
-    private GameObject _player;
     private bool _isDriving = false;
 
     void Start()
@@ -36,45 +35,44 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     public void Interact(PlayerInteractor player)
     {
         _playerInteractor = player;
-        _player = player.gameObject;
         Mount();
     }
 
     private void Mount()
     {
         _isDriving = true;
-        
+
         _playerInteractor.PlayerMovement.SetCanMove(false);
-        _player.SetActive(false); 
+        _playerInteractor.gameObject.SetActive(false);
         ToggleBikeState(true);
+        
+        QuestArrow.Instance.SetAnchor(transform);
     }
 
     private void Dismount()
     {
         _isDriving = false;
-        
-        ToggleBikeState(false);
-            
-        // Teleport player back to exit point
-        _player.transform.position = _exitPoint.position;
-        _player.transform.rotation = _exitPoint.rotation;
 
-        _player.SetActive(true);
+        ToggleBikeState(false);
+
+        // Teleport player back to exit point
+        _playerInteractor.gameObject.transform.position = _exitPoint.position;
+        _playerInteractor.gameObject.transform.rotation = _exitPoint.rotation;
         
-        if (_playerInteractor != null)
-        {
-            _playerInteractor.PlayerMovement.SetCanMove(true);
-            _playerInteractor.PlayerCamController.ShowCamera(); 
-        }
+        _playerInteractor.gameObject.SetActive(true);
+        _playerInteractor.PlayerMovement.SetCanMove(true);
+        _playerInteractor.PlayerCamController.ShowCamera();
+        
+        QuestArrow.Instance.SetAnchor(_playerInteractor.gameObject.transform);
     }
-    
+
     private void ToggleBikeState(bool status)
     {
-        if (!status) 
+        if (!status)
         {
             _bikeMovement.FullStop();
         }
-        
+
         _bikeMovement.enabled = status;
         _fakeRiderVisuals.SetActive(status);
 
@@ -82,7 +80,12 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         {
             _bikeCam.ShowCamera();
         }
-        
+
         _bikeCam.IsDriving = status;
+    }
+
+    public void Interact(IInteractor interactor)
+    {
+        throw new System.NotImplementedException();
     }
 }
