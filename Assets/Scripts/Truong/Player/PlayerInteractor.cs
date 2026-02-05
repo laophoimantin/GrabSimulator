@@ -2,12 +2,6 @@ using UnityEngine;
 
 public class PlayerInteractor : MonoBehaviour, IInteractor
 {
-    [Header("Script References")]
-    [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private PlayerCamController _playerCamController;
-    public PlayerMovement PlayerMovement => _playerMovement;
-    public PlayerCamController PlayerCamController => _playerCamController;
-
     [Header("Detector Settings")]
     [SerializeField] private Transform _interactionPoint;
     [SerializeField] private float _interactRadius = 0.5f;
@@ -16,10 +10,13 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
 
     private bool _canInteract = true;
     private IInteractable _currentInteractable;
-
-    // Update is called once per frame
+    
+    private readonly Collider[] _colliderBuffer = new Collider[10];
+        
     void Update()
     {
+        _currentInteractable = null;
+        
         if (!_canInteract) return;
         
         DetectInteractable();
@@ -32,25 +29,26 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
 
     private void DetectInteractable()
     {
-        Collider[] colliders = Physics.OverlapSphere(_interactionPoint.position, _interactRadius, _interactLayer);
+        int hits = Physics.OverlapSphereNonAlloc(_interactionPoint.position, _interactRadius, _colliderBuffer, _interactLayer);
+
+        if (hits == 0) return; 
 
         IInteractable nearestInteractable = null;
         float nearestDistance = float.MaxValue;
 
-        foreach (Collider interactableCollider in colliders)
+        for (int i = 0; i < hits; i++)
         {
-            if (interactableCollider.TryGetComponent(out IInteractable interactable))
+            if (_colliderBuffer[i].TryGetComponent(out IInteractable interactable))
             {
-                float distance = Vector3.Distance(_interactionPoint.position, interactableCollider.transform.position);
+                float distance = Vector3.Distance(_interactionPoint.position, _colliderBuffer[i].transform.position);
                 if (distance < nearestDistance)
                 {
                     nearestDistance = distance;
                     nearestInteractable = interactable;
                 }
             }
-
-            _currentInteractable = nearestInteractable;
         }
+        _currentInteractable = nearestInteractable;
     }
 
     public void SetCanInteract(bool canInteract)

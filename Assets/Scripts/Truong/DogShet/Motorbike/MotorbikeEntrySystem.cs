@@ -42,7 +42,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     {
         _isDriving = true;
 
-        _playerInteractor.PlayerMovement.SetCanMove(false);
+        //_playerInteractor.PlayerMovement.SetCanMove(false);
         _playerInteractor.gameObject.SetActive(false);
         ToggleBikeState(true);
         
@@ -60,8 +60,8 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _playerInteractor.gameObject.transform.rotation = _exitPoint.rotation;
         
         _playerInteractor.gameObject.SetActive(true);
-        _playerInteractor.PlayerMovement.SetCanMove(true);
-        _playerInteractor.PlayerCamController.ShowCamera();
+        //_playerInteractor.PlayerMovement.SetCanMove(true);
+        //_playerInteractor.PlayerCamController.ShowCamera();
         
         QuestArrow.Instance.SetAnchor(_playerInteractor.gameObject.transform);
     }
