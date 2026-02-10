@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -8,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     private enum PlayerState { Idle, Walking, Falling }
     
     private PlayerState _playerState;
+    
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 7f;
     [SerializeField] private float _groundDrag = 5f;
@@ -26,8 +25,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody _rb;
 
     // Slope Handling
+    private bool _isGrounded;
+    private bool _isOnSlope;
     private RaycastHit _slopeHit;
-
 
     void Start()
     {
@@ -38,6 +38,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        CheckGrounded();
+        StateHandler();
+        
         if (!_canMove) 
         {
             _horizontalInput = 0;
@@ -45,10 +48,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
         
-        MyInput();
+        GetInput();
         SpeedControl();
 
-        if (OnSlope())
+        if (_isOnSlope)
         {
             _rb.drag = _slopeDrag;
         }
@@ -66,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void MyInput()
+    private void GetInput()
     {
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Vertical");
@@ -78,70 +81,83 @@ public class PlayerMovement : MonoBehaviour
         _moveDirection = _orientation.forward * _verticalInput + _orientation.right * _horizontalInput;
 
         // Slope
-        if (OnSlope())
+        if (_isOnSlope)
         {
             _moveDirection = Vector3.ProjectOnPlane(_moveDirection, _slopeHit.normal).normalized;
             _rb.AddForce(-_slopeHit.normal * 80f, ForceMode.Force);
         }
 
-        // Apply Force
-        if (OnGround())
+        // Ground
+        if (_isGrounded)
         {
             _rb.AddForce(_moveDirection.normalized * _moveSpeed * 10f, ForceMode.Force);
         }
         else // In Air
         {
             _rb.AddForce(_moveDirection.normalized * _moveSpeed * 10f * _airMultiplier, ForceMode.Force);
-            _rb.AddForce(Vector3.down * 9.81f, ForceMode.Acceleration);
+            _rb.AddForce(Vector3.down * 115f, ForceMode.Acceleration);
         }
-
     }
 
 
     private void SpeedControl()
     {
-        Vector3 flatVel = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
-
-        if (flatVel.magnitude > _moveSpeed)
+        if (_isOnSlope)
         {
-            Vector3 limitedVel = flatVel.normalized * _moveSpeed;
-            _rb.velocity = new Vector3(limitedVel.x, _rb.velocity.y, limitedVel.z);
+            if (_rb.velocity.magnitude > _moveSpeed)
+            {
+                _rb.velocity = _rb.velocity.normalized * _moveSpeed;
+            }
+        }
+        else
+        {
+            Vector3 flatVel = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
+            if (flatVel.magnitude > _moveSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * _moveSpeed;
+                _rb.velocity = new Vector3(limitedVel.x, _rb.velocity.y, limitedVel.z);
+            }
         }
     }
 
 
-    private bool OnSlope()
+
+    private void CheckGrounded()
     {
+        // Ground Check
+        _isGrounded = Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.2f, _groundMask);
+        
+        // Slope Check
+        _isOnSlope = false;
         if (Physics.Raycast(transform.position, Vector3.down, out _slopeHit, _playerHeight * 0.5f + 0.3f))
         {
             float angle = Vector3.Angle(Vector3.up, _slopeHit.normal);
-            return angle < 45 && angle != 0;
+            _isOnSlope = angle < 45 && angle != 0;
         }
-        return false;
     }
 
-    private bool OnGround()
+    
+    public void LockMovement(bool isLocked)
     {
-        return Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.1f, _groundMask);
+        _canMove = !isLocked; 
+        
+        if (!_canMove)
+        {
+            _rb.velocity = Vector3.zero; 
+        }
     }
     
-    public void SetCanMove(bool canMove)
-    {
-        _canMove = canMove;
-    }
 
-    private void SetState()
+    private void StateHandler()
     {
-        if (OnGround())
+        float speed = new Vector3(_rb.velocity.x, 0, _rb.velocity.z).magnitude;
+
+        if (_isGrounded)
         {
-            if (_rb.velocity.y <= 0)
-            {
+            if (speed > 0.1f)
                 _playerState = PlayerState.Walking;
-            }
             else
-            {
                 _playerState = PlayerState.Idle;
-            }
         }
         else
         {
@@ -151,8 +167,7 @@ public class PlayerMovement : MonoBehaviour
     
     
     
-    
-    #region DEBUG>>>
+    #region DEBUG
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -162,9 +177,24 @@ public class PlayerMovement : MonoBehaviour
 #endif
     #endregion
     
+    // Graveyard
+    //
+    // private bool OnSlope()
+    // {
+    //     if (Physics.Raycast(transform.position, Vector3.down, out _slopeHit, _playerHeight * 0.5f + 0.3f))
+    //     {
+    //         float angle = Vector3.Angle(Vector3.up, _slopeHit.normal);
+    //         return angle < 45 && angle != 0;
+    //     }
+    //     return false;
+    // }
+    //
+    // private bool OnGround()
+    // {
+    //     return Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.1f, _groundMask);
+    // }
     
 
-    // Graveyard
     // [Header("Movement")]
     // [SerializeField] private float _moveSpeed = 7f;
     // [SerializeField] private float _groundDrag = 5f;

@@ -38,14 +38,14 @@ public class DialogueActivator : MonoBehaviour, IInteractable
 
         if (interactor != null)
         {
-            interactor.SetCanMove(false);
-            interactor.SetCanInteract(false);
+            //.SetCanMove(false);
+            //interactor.SetCanInteract(false);
         }
         
         DialogueUI.Instance.ShowDialogue(this, _dialogueObject, () =>
         {
-            interactor.SetCanMove(true);
-            interactor.SetCanInteract(true);
+            //interactor.SetCanMove(true);
+            //interactor.SetCanInteract(true);
         });
     }
 
