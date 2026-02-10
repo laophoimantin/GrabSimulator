@@ -94,7 +94,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else // In Air
         {
-            Debug.Log("eeee");
             _rb.AddForce(_moveDirection.normalized * _moveSpeed * 10f * _airMultiplier, ForceMode.Force);
             _rb.AddForce(Vector3.down * 115f, ForceMode.Acceleration);
         }

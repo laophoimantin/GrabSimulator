@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7423927457385040856}
   - component: {fileID: 3458958131140737962}
   m_Layer: 5
-  m_Name: Option Template
+  m_Name: Option Template (Doshiet)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
