@@ -11,7 +11,7 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
     private bool _canInteract = true;
     private IInteractable _currentInteractable;
     
-    private readonly Collider[] _colliderBuffer = new Collider[10];
+    private readonly Collider[] _colliders = new Collider[10];
         
     void Update()
     {
@@ -29,7 +29,7 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
 
     private void DetectInteractable()
     {
-        int hits = Physics.OverlapSphereNonAlloc(_interactionPoint.position, _interactRadius, _colliderBuffer, _interactLayer);
+        int hits = Physics.OverlapSphereNonAlloc(_interactionPoint.position, _interactRadius, _colliders, _interactLayer);
 
         if (hits == 0) return; 
 
@@ -38,9 +38,9 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
 
         for (int i = 0; i < hits; i++)
         {
-            if (_colliderBuffer[i].TryGetComponent(out IInteractable interactable))
+            if (_colliders[i].TryGetComponent(out IInteractable interactable))
             {
-                float distance = Vector3.Distance(_interactionPoint.position, _colliderBuffer[i].transform.position);
+                float distance = Vector3.Distance(_interactionPoint.position, _colliders[i].transform.position);
                 if (distance < nearestDistance)
                 {
                     nearestDistance = distance;
@@ -51,6 +51,7 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
         _currentInteractable = nearestInteractable;
     }
 
+    // Lock 
     public void SetCanInteract(bool canInteract)
     {
         _canInteract = canInteract;
@@ -63,10 +64,5 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(_interactionPoint.position, _interactRadius);
         }
-    }
-
-    public void SetCanMove(bool state)
-    {
-        throw new System.NotImplementedException();
     }
 }
