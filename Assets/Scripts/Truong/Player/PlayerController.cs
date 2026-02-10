@@ -8,8 +8,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerMovement _movement;
     [SerializeField] private PlayerInteractor _interactor;
 
-    
-    
     public void SetPlayerMoveState(bool isLocked)
     {
         _movement.LockMovement(isLocked);

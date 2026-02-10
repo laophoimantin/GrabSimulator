@@ -168,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
     
     
     
-    #region DEBUG>>>
+    #region DEBUG
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
