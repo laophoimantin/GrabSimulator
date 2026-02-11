@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DialogueActivator : MonoBehaviour, IInteractable
+public class DialogueActivatorOld : MonoBehaviour, IInteractable
 {
     [Header("Dialogue Object")]
     [SerializeField] DialogueObject _dialogueObject;
@@ -29,7 +29,7 @@ public class DialogueActivator : MonoBehaviour, IInteractable
 
     public void Interact(IInteractor interactor)
     {
-        if (DialogueUI.Instance.IsOpen) return;
+        if (DialogueUIOld.Instance.IsOpen) return;
 
         CursorManager.Instance.ShowCursor();
         CinemachineManager.Instance.SetNewCamera(_cinemachineObj);
@@ -42,7 +42,7 @@ public class DialogueActivator : MonoBehaviour, IInteractable
             //interactor.SetCanInteract(false);
         }
         
-        DialogueUI.Instance.ShowDialogue(this, _dialogueObject, () =>
+        DialogueUIOld.Instance.ShowDialogue(this, _dialogueObject, () =>
         {
             //interactor.SetCanMove(true);
             //interactor.SetCanInteract(true);
@@ -55,7 +55,7 @@ public class DialogueActivator : MonoBehaviour, IInteractable
         {
             if (dialogueResponseEvents.DialogueObject == _currentDialogueObject)
             {
-                DialogueUI.Instance.AddResponseEvents(dialogueResponseEvents.ResponseEvents);
+                DialogueUIOld.Instance.AddResponseEvents(dialogueResponseEvents.ResponseEvents);
             }
         }
     }

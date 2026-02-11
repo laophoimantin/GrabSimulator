@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: NewDialogue
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Nig
+    Text: Hello my vinega! Long time no see
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Nig
+    Text: Cake?
+    VoiceLine: {fileID: 0}
+    Choices:
+    - ChoiceText: Yes
+      TargetNodeID: 2
+    - ChoiceText: No
+      TargetNodeID: 3
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Me
+    Text: Ye
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 11400000, guid: 6a831882b60458d43875734684fe31fd, type: 2}
+  - NodeID: 3
+    SpeakerName: Me
+    Text: Fock off!
+    VoiceLine: {fileID: 0}
+    Choices:
+    - ChoiceText: aa
+      TargetNodeID: 6
+    - ChoiceText: aa
+      TargetNodeID: 6
+    - ChoiceText: aaa
+      TargetNodeID: 6
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 11400000, guid: 0f7ffbd28ab08e04ba23e861cebefde3, type: 2}
+  - NodeID: 6
+    SpeakerName: Me
+    Text: Fock off!
+    VoiceLine: {fileID: 0}
+    Choices:
+    - ChoiceText: 2354
+      TargetNodeID: 
+    - ChoiceText: 2345
+      TargetNodeID: 
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 11400000, guid: 0f7ffbd28ab08e04ba23e861cebefde3, type: 2}
