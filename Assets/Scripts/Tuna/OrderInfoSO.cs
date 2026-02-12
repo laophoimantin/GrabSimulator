@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "new order", menuName = "delivery/order")]
+
 public class OrderInfoSO : ScriptableObject
 {
     [field: SerializeField] public string OrderID { get; private set; }
