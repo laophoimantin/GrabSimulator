@@ -4,7 +4,7 @@ using UnityEngine;
 public class CursorManager : Singleton<CursorManager>
 {
     // bool IsCursorActive => Cursor.visible;
-    public bool IsCursorActive => Cursor.lockState != CursorLockMode.Locked;
+    public bool IsCursorActive => Cursor.lockState != CursorLockMode.Locked;    
     
     void Update()
     {
