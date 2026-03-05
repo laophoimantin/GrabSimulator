@@ -2,36 +2,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeliveryManager : MonoBehaviour
+public class DeliveryManager : Singleton<DeliveryManager>
 {
-    public static DeliveryManager Instance { get; private set; }
+    public OrderInfoSO CurrentOrder;
+    public DeliveryStates DeliveryStates;
 
-    public OrderInfoSO currentOrder;
-    private DeliveryStates deliveryStates;
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
-    }
+    public bool HasOrder => CurrentOrder != null;
     public void StartDelivery(OrderInfoSO order)
     {
-        if (currentOrder != null)
+        if (CurrentOrder != null)
         {
             Debug.LogWarning("Already have an active delivery. Finish it before starting a new one.");
             return;
         }
-        currentOrder = order;
-        deliveryStates = new DeliveryStates(order); 
-        deliveryStates.AcceptOrder(); // Automatically transition to AcceptedOrder when starting
-        Debug.Log($"Started delivery for order: {order.OrderID}");
+        CurrentOrder = order;
+        DeliveryStates.AssignNewOrder(CurrentOrder);
+        DeliveryStates.AcceptOrder(); // Automatically transition to AcceptedOrder when starting
+        Debug.Log($"Started delivery for order: {order.OrderName}");
     }
 
+    public void PickupPackage()
+    {
+        if (CurrentOrder == null)
+        {
+            Debug.LogWarning("No active delivery to pick up.");
+            return;
+        }
 
+        //add any additional logic for package special delivery rules here
 
+        DeliveryStates.PickupPackage();
+    }
+
+    public void DeliverPackage()
+    {
+        if (CurrentOrder == null)
+        {
+            Debug.LogWarning("No active delivery to deliver.");
+            return;
+        }
+
+        //add any additional logic for delivery special rules here
+
+        DeliveryStates.DeliverPackage();
+    }
+
+    public void CompleteDelivery()
+    {
+        if (CurrentOrder == null)
+        {
+            Debug.LogWarning("No active delivery to complete.");
+            return;
+        }
+        else if (DeliveryStates.CurrentDeliveryState != DeliveryState.Delivered)
+        {
+            Debug.LogWarning("Package not delivered yet!");
+            return;
+        }
+        else if (DeliveryStates.CurrentDeliveryState == DeliveryState.Delivered)
+        {
+            Debug.Log($"Completed delivery for order: {CurrentOrder.OrderName}");
+            DeliveryStates.ResetCycle(); // Reset the state machine for the next order
+            CurrentOrder = null;
+        }
+    }
 }
+

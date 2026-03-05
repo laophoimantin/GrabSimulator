@@ -6,41 +6,41 @@ using UnityEngine;
 
 public class OrderInfoSO : ScriptableObject
 {
-    [field: SerializeField] public string OrderID { get; private set; }
-
+    // Private Fields
     [Header("Order Details")]
-
-    public string ClientName;
+    private string _orderName;
+    private string _clientName;
 
     //For more complexity we can add multiple delivery locations per order
+    private LocationID _pickupLocation;
+    private LocationID _dropLocation;
 
-    public PickupLocationSO[] PickupLocations;
-
-    public DropLocationSO[] DropLocations;
-
-    public string[] Items;
+    private string[] _items;
 
     [Header("Special Instructions")]
 
     //Maybe tool reqirements for some specific orders?
 
-    public string ExtraNotes;
+    private string _description;
 
     [Header("Payment")]
+    private int _cashPayment;
 
-    public int CashPayment;
+
+
+
+
+    public string OrderName => _orderName;
+    public string ClientName => _clientName;
+
+    public LocationID PickupLocation => _pickupLocation;
+    public LocationID DropLocation => _dropLocation;
+
+    public string[] Items => _items;
+
+    public string Description => _description;
+    public int CashPayment => _cashPayment;
 
     //Maybe some special rewards like special item or tools here?
-
-    [HideInInspector] public DeliveryState CurrentDeliveryState = DeliveryState.PendingOrder;
-
-
-    private void OnValidate()
-    {
-        #if UNITY_EDITOR
-        OrderID = this.name;
-        UnityEditor.EditorUtility.SetDirty(this);
-        #endif
-
-    }
 }
+

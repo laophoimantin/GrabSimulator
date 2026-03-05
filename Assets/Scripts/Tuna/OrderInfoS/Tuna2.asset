@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570a43d2fd1b5344684377b95975e30a, type: 3}
   m_Name: Tuna2
   m_EditorClassIdentifier: 
-  <OrderID>k__BackingField: Tuna2
-  ClientName: 
-  PickupLocations: []
-  DropLocations: []
+  OrderName: Times City to Sword Lake
+  ClientName: Radiofoam
+  PickupLocation: 2
+  DropLocation: 4
   Items: []
-  ExtraNotes: 
+  Description: 
   CashPayment: 0
   CurrentDeliveryState: 0

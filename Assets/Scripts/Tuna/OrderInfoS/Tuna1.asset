@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570a43d2fd1b5344684377b95975e30a, type: 3}
   m_Name: Tuna1
   m_EditorClassIdentifier: 
-  <OrderID>k__BackingField: Tuna1
+  OrderName: BUV to PizzaHub
   ClientName: Tuna
-  PickupLocations: []
-  DropLocations: []
+  PickupLocation: 0
+  DropLocation: 1
   Items: []
-  ExtraNotes: 
+  Description: 
   CashPayment: 5
   CurrentDeliveryState: 1

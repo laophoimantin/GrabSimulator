@@ -5,23 +5,18 @@ using UnityEngine;
 public class TestNshits : MonoBehaviour
 {
     [SerializeField]
-    public OrderInfoSO order1;
-    public OrderInfoSO order2;
-    public OrderInfoSO order3;
+    public OrderInfoSO[] orders;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            DeliveryManager.Instance.StartDelivery(order1);
+            var random = Random.Range(0, orders.Length);
+            DeliveryManager.Instance.StartDelivery(orders[random]);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            DeliveryManager.Instance.StartDelivery(order2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            DeliveryManager.Instance.StartDelivery(order3);
+            DeliveryManager.Instance.CompleteDelivery();
         }
     }
 }
