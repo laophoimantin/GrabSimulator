@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 /// <summary>
@@ -91,9 +92,9 @@ public class MotorbikeMovement : MonoBehaviour
     {
         if (!_canControl)
             return;
-        
-        _moveInput = Input.GetAxis("Vertical");
-        _steerInput = Input.GetAxis("Horizontal");
+
+        _moveInput = InputManager.Instance.InputActions.OnBike.Move.ReadValue<Vector2>().y;
+        _steerInput = InputManager.Instance.InputActions.OnBike.Move.ReadValue<Vector2>().x;
 
         transform.position = _rbSphere.transform.position;
 
