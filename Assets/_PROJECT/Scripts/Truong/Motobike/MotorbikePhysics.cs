@@ -29,6 +29,10 @@ public class MotorbikePhysics : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _gravity = 20f;
 
+    [Header("Arcade Magic")] // cailongiday
+    [SerializeField] private float _downforce = 50f; // để xe bám đường hơn
+    [SerializeField] private float _fallGravityMultiplier = 3f; // 
+    
 
     public float LateralVelocity { get; private set; }
     public float CurrentVelocityOffset { get; private set; }
@@ -36,16 +40,16 @@ public class MotorbikePhysics : MonoBehaviour
     public RaycastHit GroundHit { get; private set; }
 
     private MotorbikeInput _input;
-    private float _rayLength;
+    private float _sphereRadius;
     private RaycastHit _hit;
 
     private void Awake()
     {
         _input = GetComponent<MotorbikeInput>();
-        _rayLength = _rbSphere.GetComponent<SphereCollider>().radius + 0.2f;
+        _sphereRadius = _rbSphere.GetComponent<SphereCollider>().radius;
 
         //_rbSphere.transform.parent = null;
-        //_rbBikeBody.transform.parent = null;
+        _rbBikeBody.transform.parent = null;
     }
 
     void Update()
@@ -59,6 +63,7 @@ public class MotorbikePhysics : MonoBehaviour
         UpdateVelocityOffset();
 
         IsGrounded = CheckGrounded();
+        print(IsGrounded);
         GroundHit = _hit;
 
         if (IsGrounded)
@@ -68,6 +73,7 @@ public class MotorbikePhysics : MonoBehaviour
 
             Rotate();
             Brake();
+            _rbSphere.AddForce(-transform.up * (_downforce * Mathf.Abs(CurrentVelocityOffset)), ForceMode.Acceleration); // Bám đường hơn chắc .
         }
         else
         {
@@ -188,17 +194,17 @@ public class MotorbikePhysics : MonoBehaviour
     private bool CheckGrounded()
     {
         // Quét một cục cầu từ trên xuống dưới (SphereCast).
-        float radius = _rayLength - 0.02f;
+        float radius = _sphereRadius - 0.02f;
         Vector3 origin = _rbSphere.position + radius * Vector3.up;
-
-        return Physics.SphereCast(origin, radius + 0.02f, -transform.up, out _hit, _rayLength, _groundLayer);
-        //return Physics.SphereCast(origin, radius + 0.02f, Vector3.down, out _hit, _rayLength, _groundLayer);
+        return Physics.SphereCast(origin, radius + 0.02f, -transform.up, out _hit, _sphereRadius + 1f, _groundLayer);
+        //return Physics.SphereCast(origin, radius + 0.02f, Vector3.down, out _hit, _sphereRadius, _groundLayer);
     }
 
     private void ApplyGravity()
     {
         // cái gravity của thằng Unity bị lỏ, phải tự custom dcm
-        _rbSphere.AddForce(_gravity * Vector3.down, ForceMode.Acceleration);
+        Vector3 extraGravity = _gravity * _fallGravityMultiplier * Vector3.down;
+        _rbSphere.AddForce(extraGravity, ForceMode.Acceleration);
     }
 
     private void TiltBike()
