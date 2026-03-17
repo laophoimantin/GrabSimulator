@@ -10,8 +10,9 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     private VehicleState _state = VehicleState.Empty;
 
     [Header("References")]
-    [SerializeField] private MotorbikeController _controller;
-
+    //[SerializeField] private MotorbikeController _controller;
+[SerializeField] private BikeMovement _controller;
+    
     [SerializeField] private GameObject _bikeCam;
     [SerializeField] private Transform _exitPoint;
 

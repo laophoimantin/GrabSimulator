@@ -1,15 +1,5 @@
-using System;
+
 using UnityEngine;
-using UnityEngine.InputSystem;
-
-
-/// <summary>
-/// Controls the ball, tele the body
-/// Handles input;
-/// Handles physics;
-/// Handles visuals;
-/// Handles sounds;
-/// </summary>
 public class MotorbikeMovement : MonoBehaviour
 {
 

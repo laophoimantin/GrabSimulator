@@ -15,7 +15,7 @@ public class InputManager : Singleton<InputManager>
 		_inputActions = new MainInputMaps();
 	}
 
-	private void OnEnable()
+	private void Start()
 	{
 		SetPlayerMode();
 	}
@@ -24,7 +24,6 @@ public class InputManager : Singleton<InputManager>
 	{
 		_inputActions.Disable();
 	}
-
 
 	public void SetPlayerMode()
 	{

@@ -11,17 +11,18 @@ public class MotorbikeInput : MonoBehaviour
 	public float SteerInput { get; private set; }
 	public bool IsBraking { get; private set; }
 
-	private bool _isEnabled = true;
+	public bool CanControl { get; private set; } = true;
 
-    private void OnEnable()
+    private void Start()
     {
 		InputManager.Instance.InputActions.OnBike.Brake.started += OnBrakeStarted;
-		InputManager.Instance.InputActions.OnBike.Brake.started += OnBrakeCanceled;
-
+		InputManager.Instance.InputActions.OnBike.Brake.canceled += OnBrakeCanceled;
 	}
 
     private void OnDisable()
     {
+	    if (InputManager.Instance == null) 
+		    return;
 		InputManager.Instance.InputActions.OnBike.Brake.started -= OnBrakeStarted;
 		InputManager.Instance.InputActions.OnBike.Brake.canceled -= OnBrakeCanceled;
 	}
@@ -31,23 +32,32 @@ public class MotorbikeInput : MonoBehaviour
 
 	void Update()
 	{
-		if (!_isEnabled)
+		if (!CanControl)
 		{
 			MoveInput = 0f;
 			SteerInput = 0f;
+			IsBraking = false;
 			return;
 		}
 
+		ReadAxes();
+	}
+
+	private void ReadAxes()
+	{
 		_inputDir = InputManager.Instance.InputActions.OnBike.Move.ReadValue<Vector2>();
 		MoveInput = _inputDir.y;
 		SteerInput = _inputDir.x;
 	}
-
-	public void SetEnabled(bool enabled)
+	
+	public void LockMovement() => SetMovementLock( true);
+	public void UnlockMovement() => SetMovementLock(false);
+	
+	private void SetMovementLock(bool isLocked)
 	{
-		_isEnabled = enabled;
+		CanControl = !isLocked;
 
-		if (!enabled)
+		if (isLocked)
 		{
 			IsBraking = false;
 		}
