@@ -25,6 +25,7 @@ public class MotorbikeMovement : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] private float _maxSpeed = 10f;
+    public float MaxSpeed { get => _maxSpeed; }
     [SerializeField] private float _acceleration = 10f;
     [SerializeField] private float _steerStrength = 10f;
     
@@ -57,8 +58,8 @@ public class MotorbikeMovement : MonoBehaviour
     [SerializeField] private float _minSkidVelocity = 10f;
 
     [Header("Sound")]
-    [SerializeField] AudioSource _engineSound;
-    [SerializeField] AudioSource _skidSound;
+    //[SerializeField] AudioSource _engineSound;
+    //[SerializeField] AudioSource _skidSound;
     [Range(0, 1)]
     [SerializeField] private float _minPitch = 0.5f;
     [Range(1, 5)]
@@ -74,7 +75,21 @@ public class MotorbikeMovement : MonoBehaviour
     [SerializeField] private float _driftDrag = 0.5f;
 
     [SerializeField] private AnimationCurve _turningCurve;
+
+    [Header("Time To Disengage Engine")]
+    [SerializeField] private float engineDisengageTime = 10f;
+
+
+    // References
+    private MotorcycleSoundHandler _soundHandler;
     
+
+    // Engine-related Variables
+    private bool engineStarted = false;
+    private float currentDisengageTime = 0f;
+
+
+
     private void Start()
     {
         _rbSphere.transform.parent = null;
@@ -84,7 +99,10 @@ public class MotorbikeMovement : MonoBehaviour
         _skidMarks.startWidth = _shidWidth;
         _skidMarks.emitting = false;
 
-        _skidSound.mute = true;
+        //_skidSound.mute = true;
+
+        _soundHandler = GetComponent<MotorcycleSoundHandler>();
+        if (_soundHandler == null) Debug.LogWarning("Couldn't find MotorcycleSoundHandler");
     }
 
     void Update()
@@ -99,6 +117,13 @@ public class MotorbikeMovement : MonoBehaviour
 
         _velocity = _rbBikeBody.transform.InverseTransformDirection(_rbBikeBody.velocity);
         _currentVelocityOffset = _velocity.z / _maxSpeed;
+
+        // Sounds
+        EngineSoundCheck();
+        _soundHandler.EngineSound(_currentVelocityOffset, Grounded());
+
+        Debug.Log($"Velocity Z: {_velocity.z}");
+        Debug.Log($"Max Speed: {_maxSpeed}");
     }
 
     private void FixedUpdate()
@@ -112,10 +137,51 @@ public class MotorbikeMovement : MonoBehaviour
         SkidMarks();
         _frontWheel.Rotate(Vector3.forward, -_wheelRotSpeed * Time.deltaTime * _currentVelocityOffset);
         _rearWheel.Rotate(Vector3.forward, -_wheelRotSpeed * Time.deltaTime * _moveInput);
-
-        // Sounds
-        EngineSound();
     }
+
+
+    #region Duc Anh's Code
+    //------------------
+
+
+    private void EngineSoundCheck() // Call whenever player input + velocity > 0 (check only once)
+    {
+        // Moving
+        if (_currentVelocityOffset > 0.01f) 
+        { 
+            if (HasInput() && !engineStarted)
+            {
+                engineStarted = true;
+                currentDisengageTime = engineDisengageTime;
+
+                _soundHandler.StartEngineSound();
+            }
+        }
+
+        // Stop
+        else 
+        { 
+            if (!HasInput() && engineStarted)
+            {
+                if (currentDisengageTime > 0) currentDisengageTime -= Time.deltaTime; 
+                else 
+                {
+                    engineStarted = false;
+                    _soundHandler.DisengageEngineSound();
+                }
+            }
+        }
+    }
+    
+
+    private bool HasInput()
+    {
+        return _moveInput != 0; // Check player input
+    }
+
+
+    //--------
+    #endregion
 
     void Movement()
     {
@@ -173,11 +239,21 @@ public class MotorbikeMovement : MonoBehaviour
         if (Input.GetKey(_breakKey))
         {
             _rbSphere.velocity *= _breakingFactor / 10;
-            _rbSphere.drag *= _driftDrag;
+            _rbSphere.drag = _driftDrag;
+
+            _soundHandler.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: true);
         }
-        else
+        else if (_moveInput == 0) 
         {
             _rbSphere.drag = _norDrag;
+
+            _soundHandler.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: false);
+        }
+        else 
+        {
+            _rbSphere.drag = 0f;
+
+            _soundHandler.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: false);
         }
     }
 
@@ -199,6 +275,7 @@ public class MotorbikeMovement : MonoBehaviour
     private void Gravity()
     {
         _rbSphere.AddForce(_gravity * Vector3.down, ForceMode.Acceleration);
+        _soundHandler.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: false);
     }
 
     private void SkidMarks()
@@ -207,20 +284,20 @@ public class MotorbikeMovement : MonoBehaviour
         {
             _skidMarks.emitting = true;
 
-            _skidSound.mute = false;
+            //_skidSound.mute = false;
         }
         else
         {
             _skidMarks.emitting = false;
 
-            _skidSound.mute = true;
+            //_skidSound.mute = true;
         }
     }
 
-    private void EngineSound()
-    {
-        _engineSound.pitch = Mathf.Lerp(_minPitch, _maxPitch, Mathf.Abs(_currentVelocityOffset));
-    }
+    //private void EngineSound()
+    //{
+    //    _engineSound.pitch = Mathf.Lerp(_minPitch, _maxPitch, Mathf.Abs(_currentVelocityOffset));
+    //}
     
     public void SetMovementLock(bool isLocked)
     {
@@ -231,4 +308,5 @@ public class MotorbikeMovement : MonoBehaviour
             _rbSphere.velocity = Vector3.zero;
         }
     }
+
 }

@@ -5,15 +5,29 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Audio;
 
-// Enum stays exactly the same...
+
+public enum MotorcycleSoundType
+{
+    // FOR IDENTIFYING MOTORCYCLES
+    Cub,
+}
+
+
 public enum SoundType
 {
+    // FOR GAMEPLAY
+    Drift_Sound, 
+    Collision_Sound,
+    Key_Turn_Sound,
+
     // FOR UI
     Button_Hover, 
     Button_Selection,
 
 }
+
 
 [RequireComponent(typeof(AudioSource))]
 public class SoundManager : MonoBehaviour
@@ -21,13 +35,52 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance { get; set; }
 
 
+    [Header("Mixer")]
+    [SerializeField] private AudioMixer masterMixer;
+    public AudioMixer MasterMixer { get => masterMixer; } // Use this for settings in the future.
+
+
     [Header("Sound List")]
     [SerializeField] private SoundList[] soundList;
+    [SerializeField] private MotorcycleSound[] motorcycleSoundList;
+    public MotorcycleSound[] MotorcycleSoundList { get => motorcycleSoundList; }
 
 
     [Header("3D Settings")]
     [SerializeField] private float maxSoundDistance = 20f;
     [SerializeField] private float spatialBlend = 1f;
+    [Space][Space]
+
+
+    [Header("[ GAMEPLAY ]")]
+
+    [Header("Drift Volume")]
+    [SerializeField] private float _minDriftVolume;
+    [SerializeField] private float _maxDriftVolume;
+    public float DONTCALL_MinDriftVolume { get => _minDriftVolume; }
+    public float DONTCALL_MaxDriftVolume { get => _maxDriftVolume; }
+    [Space]
+
+
+    [Header("Drift Volume Interpolation")]
+    [SerializeField] private AnimationCurve _driftVolumeCurve;
+    public AnimationCurve DriftVolumeCurve { get => _driftVolumeCurve; }
+    [Space]
+
+
+    [Header("Collision Volume")]
+    [SerializeField] private float _minCollisionVolume;
+    [SerializeField] private float _maxCollisionVolume;
+    public float DONTCALL_MinCollisionVolume { get => _minCollisionVolume; }
+    public float DONTCALL_MaxCollisionVolume { get => _maxCollisionVolume; }
+    [Space]
+
+
+    [Header("Collision Pitch Values")]
+    [SerializeField] private float _minCollisionPitch; // Original Pitch
+    [SerializeField] private float _maxCollisionPitch; // For cases of light collision
+    public float DONTCALL_MinCollisionPitch { get => _minCollisionPitch; }
+    public float DONTCALL_MaxCollisionPitch { get => _maxCollisionPitch; }
 
 
     private AudioSource main2DSource; // For UI / OneShots
@@ -72,9 +125,16 @@ public class SoundManager : MonoBehaviour
 
     void OnValidate()
     {
-        string[] names = Enum.GetNames(typeof(SoundType));
-        Array.Resize(ref soundList, names.Length);
-        for (int i = 0; i < soundList.Length; i++) soundList[i].name = names[i];
+        // Initializing normal sounds
+        string[] soundNames = Enum.GetNames(typeof(SoundType));
+        Array.Resize(ref soundList, soundNames.Length);
+        for (int i = 0; i < soundList.Length; i++) soundList[i].name = soundNames[i];
+
+
+        // Initializing motorcycle-related sounds
+        string[] motorcycleSoundNames = Enum.GetNames(typeof(MotorcycleSoundType));
+        Array.Resize(ref motorcycleSoundList, motorcycleSoundNames.Length);
+        for (int i = 0; i < motorcycleSoundList.Length; i++) motorcycleSoundList[i].name = motorcycleSoundNames[i];
     }
 
 
@@ -364,6 +424,9 @@ public class SoundManager : MonoBehaviour
 }
 
 
+#region SOUND STRUCTS
+//-------------------
+
 [Serializable]
 public struct SoundList
 {
@@ -371,6 +434,48 @@ public struct SoundList
     [HideInInspector] public string name;
     [SerializeField] private AudioClip[] sounds;
 }
+
+
+[Serializable]  
+public struct MotorcycleSound
+{
+    [HideInInspector] public string name;
+    public AudioClip EngineRun { get => _engineRun; }
+    public AudioClip EngineStart { get => _engineStart; }
+
+    [SerializeField] private AudioClip _engineStart;
+    [SerializeField] private AudioClip _engineRun;
+
+    public float MinPitch { get => _minPitch; }
+    public float MaxPitch { get => _maxPitch; }
+
+    [Range(-10, 10)]
+    [SerializeField] private float _minPitch;
+    [Range(-10, 10)]
+    [SerializeField] private float _maxPitch;
+
+    public float MaxEngineStartVolume { get => _maxEngineStartVolume; }
+    [SerializeField] private float _maxEngineStartVolume;
+
+    public float MaxEngineVolume { get => _maxEngineVolume; }
+    [SerializeField] private float _maxEngineVolume;
+
+    public float MinDriftVolume { get => SoundManager.Instance.DONTCALL_MinDriftVolume; }
+    public float MaxDriftVolume { get => SoundManager.Instance.DONTCALL_MaxDriftVolume; }
+
+    public float MinCollisionVolume { get => SoundManager.Instance.DONTCALL_MinCollisionVolume; }
+    public float MaxCollisionVolume { get => SoundManager.Instance.DONTCALL_MaxCollisionVolume; }
+
+    public float MinCollisionPitch { get => SoundManager.Instance.DONTCALL_MinCollisionPitch; }
+    public float MaxCollisionPitch { get => SoundManager.Instance.DONTCALL_MaxCollisionPitch; }
+
+    public float TimeTillEngineRun { get => _timeTillEngineRun; }
+
+    [SerializeField] private float _timeTillEngineRun;
+}
+
+//--------
+#endregion
 
 
 public class ButtonSoundInject : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
