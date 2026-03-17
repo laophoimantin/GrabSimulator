@@ -123,14 +123,15 @@ public class MotorcycleSoundHandler : MonoBehaviour
             maxEngineStartVolume = motorcycleSound.MaxEngineStartVolume;
             maxEngineVolume = motorcycleSound.MaxEngineVolume;
 
-            minDriftVolume = motorcycleSound.MinDriftVolume;
-            maxDriftVolume = motorcycleSound.MaxDriftVolume;
 
-            minCollisionVolume = motorcycleSound.MinCollisionVolume;
-            maxCollisionVolume = motorcycleSound.MaxCollisionVolume;
+            minDriftVolume = SoundManager.Instance.MotorcycleVolumeStats.MinDriftVolume;
+            maxDriftVolume = SoundManager.Instance.MotorcycleVolumeStats.MaxDriftVolume;
 
-            minCollisionPitch = motorcycleSound.MinCollisionPitch;
-            maxCollisionPitch = motorcycleSound.MaxCollisionPitch;  
+            minCollisionVolume = SoundManager.Instance.MotorcycleVolumeStats.MinCollisionVolume;
+            maxCollisionVolume = SoundManager.Instance.MotorcycleVolumeStats.MaxCollisionVolume;
+
+            minCollisionPitch = SoundManager.Instance.MotorcycleVolumeStats.MinCollisionPitch;
+            maxCollisionPitch = SoundManager.Instance.MotorcycleVolumeStats.MaxCollisionPitch;
         }
 
 
@@ -158,6 +159,8 @@ public class MotorcycleSoundHandler : MonoBehaviour
     }
 
 
+
+    #region ENGINE START AUDIO
     public void StartEngineSound() // Once the player starts moving, this plays.
     {
         if (startEngineCoroutine != null)
@@ -184,7 +187,83 @@ public class MotorcycleSoundHandler : MonoBehaviour
 
         startEngineCoroutine = null;
     }
+    #endregion
 
+
+
+    #region ENGINE RUN SOUND
+    public void EngineSound(float velocityOffset, bool isGrounded)
+    {
+        if (engineRunAudioSource.clip == null) return;
+
+        float clampedVelosityOffset = Mathf.Max(0f, velocityOffset);
+        float speedMain = Mathf.Lerp(minPitch, maxPitch, clampedVelosityOffset);
+
+        engineRunAudioSource.pitch = speedMain;
+
+        float fadeSpeed = 3f;
+        float targetVolume = isGrounded ? maxEngineVolume : maxEngineVolume / 2f;
+
+        if (!Mathf.Approximately(engineRunAudioSource.volume, targetVolume))
+        {
+            float tempVolume = Mathf.MoveTowards(engineRunAudioSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
+            engineRunAudioSource.volume = tempVolume;
+        }
+        else
+        {
+            engineRunAudioSource.volume = targetVolume;
+        }
+    }
+    #endregion
+
+
+
+    #region DRIFT SOUND
+    public void DriftSound(float velocityMagnitude, float maxSpeed, bool isDrifting)
+    {
+        if (driftAudioSource.clip == null) return;
+
+        if (!driftAudioSource.isPlaying)
+        {
+            driftAudioSource.Play();
+        }
+
+        float normalizeSpeed = Mathf.Clamp01(velocityMagnitude / maxSpeed);
+        float curvedPercentage = SoundManager.Instance.MotorcycleVolumeStats.DriftVolumeCurve.Evaluate(normalizeSpeed);
+
+        float targetVolume = Mathf.Lerp(minDriftVolume, maxDriftVolume, curvedPercentage);
+
+        if (!isDrifting)
+        {
+            targetVolume = 0f;
+        }
+
+        float fadeSpeed = 3f;
+        driftAudioSource.volume = Mathf.MoveTowards(driftAudioSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
+    }
+    #endregion
+
+
+
+    #region COLLISION SOUND
+    public void CollisionSound(float impactSpeed, float maxSpeed)
+    {
+        if (collisionAudioSource == null) return;
+
+        float crashSeverityPercentage = Mathf.Clamp01(impactSpeed / maxSpeed);
+        float targetVolume = Mathf.Lerp(minCollisionVolume, maxCollisionVolume, crashSeverityPercentage);
+        float targetPitch = Mathf.Lerp(maxCollisionPitch, minCollisionPitch, crashSeverityPercentage);
+
+        collisionAudioSource.pitch = targetPitch;
+        collisionAudioSource.volume = targetVolume;
+        collisionAudioSource.PlayOneShot(collisionAudio);
+    }
+    #endregion
+
+
+
+    #region Helpers & Extra Functionalities
+    //-------------------------------------
 
     private void EngineAudio(AudioClip engineAudio, bool isStartEngine)
     {
@@ -192,7 +271,7 @@ public class MotorcycleSoundHandler : MonoBehaviour
 
         if (isStartEngine)
         {
-            engineToggleAudioSource.PlayOneShot(engineAudio, 1f);
+            engineToggleAudioSource.PlayOneShot(engineAudio, maxEngineStartVolume);
         }
         else
         {
@@ -250,71 +329,11 @@ public class MotorcycleSoundHandler : MonoBehaviour
     public void DisengageEngineSound() // If players stand still for too long, turn engine off.
     {
         FadeEngineSound(FadeOption.FadeOut);
-        engineToggleAudioSource.PlayOneShot(keyturnAudio, Global.Motorcycle.MaximumKeychainVolume);
+        engineToggleAudioSource.PlayOneShot(keyturnAudio, SoundManager.Instance.MotorcycleVolumeStats.KeyturnVolume);
     }
 
-
-
-    #region PUBLIC FUNCTIONS TO CALL
-    public void EngineSound(float velocityOffset, bool isGrounded)
-    {
-        if (engineRunAudioSource.clip == null) return;
-
-        float speedMain = Mathf.Lerp(minPitch, maxPitch, Mathf.Abs(velocityOffset));
-        engineRunAudioSource.pitch = speedMain;
-
-        float fadeSpeed = 3f;
-        float targetVolume = isGrounded ? maxEngineVolume : maxEngineVolume / 2f;
-
-        if (!Mathf.Approximately(engineRunAudioSource.volume, targetVolume))
-        {
-            float tempVolume = Mathf.MoveTowards(engineRunAudioSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
-            engineRunAudioSource.volume = tempVolume;
-        }
-        else
-        {
-            engineRunAudioSource.volume = targetVolume;
-        }
-    }
-
-
-    public void DriftSound(float velocityMagnitude, float maxSpeed, bool isDrifting)
-    {
-        if (driftAudioSource.clip == null) return;
-
-        if (!driftAudioSource.isPlaying)
-        {
-            driftAudioSource.Play();
-        }
-
-        float normalizeSpeed = Mathf.Clamp01(velocityMagnitude / maxSpeed);
-        float curvedPercentage = SoundManager.Instance.DriftVolumeCurve.Evaluate(normalizeSpeed);
-
-        float targetVolume = Mathf.Lerp(minDriftVolume, maxDriftVolume, curvedPercentage);
-
-        if (!isDrifting)
-        {
-            targetVolume = 0f;
-        }
-
-        float fadeSpeed = 3f;
-        driftAudioSource.volume = Mathf.MoveTowards(driftAudioSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
-    }
-
-
-    public void CollisionSound(float impactSpeed, float maxSpeed)
-    {
-        if (collisionAudioSource == null) return;
-
-        float crashSeverityPercentage = Mathf.Clamp01(impactSpeed / maxSpeed);
-        float targetVolume = Mathf.Lerp(minCollisionVolume, maxCollisionVolume, crashSeverityPercentage);
-        float targetPitch = Mathf.Lerp(maxCollisionPitch, minCollisionPitch, crashSeverityPercentage);
-
-        collisionAudioSource.pitch = targetPitch;
-        collisionAudioSource.volume = targetVolume;
-        collisionAudioSource.PlayOneShot(collisionAudio);
-    }
-
+    //--------
     #endregion
+
 }
 

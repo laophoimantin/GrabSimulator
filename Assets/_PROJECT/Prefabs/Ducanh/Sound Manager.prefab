@@ -42,7 +42,7 @@ AudioSource:
   m_GameObject: {fileID: 1705541090383648367}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: f9c7674dfd6f5a74aa005ce95b174b31, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -149,6 +149,9 @@ MonoBehaviour:
   - name: Collision_Sound
     sounds:
     - {fileID: 8300000, guid: b4a0e2bc5242c5c40827fb68501f1a76, type: 3}
+  - name: Key_Turn_Sound
+    sounds:
+    - {fileID: 8300000, guid: 540ba818d72c0794f813656d41f5ef07, type: 3}
   - name: Button_Hover
     sounds: []
   - name: Button_Selection
@@ -159,36 +162,40 @@ MonoBehaviour:
     _engineRun: {fileID: 8300000, guid: 4a6bfedfeffc31f4f902bc29075ef797, type: 3}
     _minPitch: 0.5
     _maxPitch: 1
-    _maxEngineVolume: 0.2
+    _maxEngineStartVolume: 0.35
+    _maxEngineVolume: 0.35
     _timeTillEngineRun: 0.25
   maxSoundDistance: 20
   spatialBlend: 1
-  _minDriftVolume: 0
-  _maxDriftVolume: 0.35
-  _minCollisionVolume: 0
-  _maxCollisionVolume: 0
-  _driftVolumeCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  minSpeedCollisionSoundValidator: 0
+  motorcycleVolumeStats:
+    _keyturnVolume: 0.35
+    _minDriftVolume: 0
+    _maxDriftVolume: 0.5
+    _driftVolumeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    _minCollisionVolume: 0
+    _maxCollisionVolume: 0.65
+    _minCollisionPitch: 1
+    _maxCollisionPitch: 1.5
