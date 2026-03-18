@@ -3,7 +3,7 @@ using UnityEngine;
 public class MotorbikeController : MonoBehaviour
 {
     [SerializeField] private MotorbikeMovement _movement;
-    [SerializeField] private MotorbikeVisualController _visualController;
+    [SerializeField] private MotorbikeVisuals _visuals;
 
     void Start()
     {
@@ -22,11 +22,11 @@ public class MotorbikeController : MonoBehaviour
 
     public void HideDummyModel()
     {
-        _visualController.SetDummyModelState(false);
+        _visuals.SetDummyModelState(false);
     }
 
     public void ShowDummyModel()
     {
-        _visualController.SetDummyModelState(true);
+        _visuals.SetDummyModelState(true);
     }
 }

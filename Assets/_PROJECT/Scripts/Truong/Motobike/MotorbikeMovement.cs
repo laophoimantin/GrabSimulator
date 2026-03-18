@@ -1,14 +1,5 @@
-using System;
+
 using UnityEngine;
-
-
-/// <summary>
-/// Controls the ball, tele the body
-/// Handles input;
-/// Handles physics;
-/// Handles visuals;
-/// Handles sounds;
-/// </summary>
 public class MotorbikeMovement : MonoBehaviour
 {
 
@@ -109,9 +100,9 @@ public class MotorbikeMovement : MonoBehaviour
     {
         if (!_canControl)
             return;
-        
-        _moveInput = Input.GetAxis("Vertical");
-        _steerInput = Input.GetAxis("Horizontal");
+
+        _moveInput = InputManager.Instance.InputActions.OnBike.Move.ReadValue<Vector2>().y;
+        _steerInput = InputManager.Instance.InputActions.OnBike.Move.ReadValue<Vector2>().x;
 
         transform.position = _rbSphere.transform.position;
 

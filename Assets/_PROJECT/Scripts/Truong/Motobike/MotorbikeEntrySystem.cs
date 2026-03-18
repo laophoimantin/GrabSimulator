@@ -10,8 +10,9 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     private VehicleState _state = VehicleState.Empty;
 
     [Header("References")]
-    [SerializeField] private MotorbikeController _controller;
-
+    //[SerializeField] private MotorbikeController _controller;
+[SerializeField] private BikeMovement _controller;
+    
     [SerializeField] private GameObject _bikeCam;
     [SerializeField] private Transform _exitPoint;
 
@@ -42,6 +43,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     private void EnterVehicle(PlayerController driver)
     {
         _state = VehicleState.Occupied;
+        InputManager.Instance.SetMotorcycleMode();
 
         _driver = driver;
 
@@ -49,6 +51,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _driver.LockInteraction();
         _driver.LockMovement();
         _driver.HideModel();
+
 
         _controller.ShowDummyModel();
         _controller.UnlockMovement();
@@ -59,8 +62,10 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     {
         if (_state != VehicleState.Occupied)
             return;
+		InputManager.Instance.SetPlayerMode();
 
-        _controller.HideDummyModel();
+
+		_controller.HideDummyModel();
         _controller.LockMovement();
 
 
