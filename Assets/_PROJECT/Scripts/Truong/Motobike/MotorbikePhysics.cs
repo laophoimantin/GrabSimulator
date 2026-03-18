@@ -44,9 +44,6 @@ public class MotorbikePhysics : MonoBehaviour
     private float _sphereRadius;
     private RaycastHit _hit;
 
-    // Scripts
-    private MotorbikeSoundController _soundHandler;
-
 
     private void Awake()
     {
@@ -55,9 +52,6 @@ public class MotorbikePhysics : MonoBehaviour
 
         //_rbSphere.transform.parent = null;
         _rbBikeBody.transform.parent = null;
-
-        _soundHandler = GetComponent<MotorbikeSoundController>();
-        if (_soundHandler == null) Debug.Log("Add MotorcycleSoundHandler Component!");
     }
 
     void Update()
