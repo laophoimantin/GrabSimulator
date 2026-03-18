@@ -475,8 +475,10 @@ public struct MotorcycleSound
     [SerializeField] private float _maxEngineVolume;
 
     public float TimeTillEngineRun { get => _timeTillEngineRun; }
-
     [SerializeField] private float _timeTillEngineRun;
+
+    public float TimeTillEngineDisengage { get => _timeTillEngineDisengage; }
+    [SerializeField] private float _timeTillEngineDisengage;
 }
 
 //--------

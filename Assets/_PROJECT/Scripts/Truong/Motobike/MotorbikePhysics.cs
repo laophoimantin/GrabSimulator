@@ -8,7 +8,7 @@ public class MotorbikePhysics : MonoBehaviour
     [SerializeField] private Rigidbody _rbBikeBody;
 
     [Header("Movement")]
-    [SerializeField] private float _maxSpeed = 30f;
+    [SerializeField] private float _maxSpeed = 30f; 
     [SerializeField] private float _acceleration = 5f;
 
     [Header("Steering")]
@@ -36,12 +36,17 @@ public class MotorbikePhysics : MonoBehaviour
 
     public float LateralVelocity { get; private set; }
     public float CurrentVelocityOffset { get; private set; }
+    public float MaxSpeed { get => _maxSpeed; }
     public bool IsGrounded { get; private set; }
     public RaycastHit GroundHit { get; private set; }
 
     private MotorbikeInput _input;
     private float _sphereRadius;
     private RaycastHit _hit;
+
+    // Scripts
+    private MotorbikeSoundController _soundHandler;
+
 
     private void Awake()
     {
@@ -50,6 +55,9 @@ public class MotorbikePhysics : MonoBehaviour
 
         //_rbSphere.transform.parent = null;
         _rbBikeBody.transform.parent = null;
+
+        _soundHandler = GetComponent<MotorbikeSoundController>();
+        if (_soundHandler == null) Debug.Log("Add MotorcycleSoundHandler Component!");
     }
 
     void Update()

@@ -2,8 +2,12 @@ using System.Collections;
 using UnityEngine;
 
 
-public class MotorcycleSoundHandler : MonoBehaviour
+public class MotorbikeSoundController : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private MotorbikePhysics motorPhysics;
+    [SerializeField] private MotorbikeInput motorInput;
+
 
     [Header("Engine Audio Sources")]
     [SerializeField] private AudioSource engineToggleAudioSource;
@@ -64,21 +68,20 @@ public class MotorcycleSoundHandler : MonoBehaviour
     private float minPitch;
     private float maxPitch;
     private float timeTillEngineRun;
+    private float timeTillEngineDisengage;
+    private float currentDisengageTime;
 
 
     // Variable
     private bool assigned = false;
     private bool engineEngaged = false;
     private bool fadeEngine = false;
+    private bool engineStarted = false;
 
 
     // Engine Coroutines
     private Coroutine startEngineCoroutine = null; // for engine start
     private Coroutine fadeEngineCoroutine = null; // for fading in/out engine sound
-
-
-    // Drifting Coroutine
-    private Coroutine driftCoroutine = null; // for fading in/out drifting sound
 
 
 
@@ -87,6 +90,20 @@ public class MotorcycleSoundHandler : MonoBehaviour
         StartCoroutine(Initialization());
     }
 
+    private void Update()
+    {
+        EngineSoundCheck();
+        EngineSound(motorPhysics.CurrentVelocityOffset, motorPhysics.IsGrounded);
+
+        if (motorInput.IsBraking)
+        {
+            if (motorPhysics.IsGrounded) DriftSound(motorPhysics.CurrentVelocityOffset, motorPhysics.MaxSpeed, isDrifting: true);
+            else DriftSound(motorPhysics.CurrentVelocityOffset, motorPhysics.MaxSpeed, isDrifting: false);
+        }
+        else DriftSound(motorPhysics.CurrentVelocityOffset, motorPhysics.MaxSpeed, isDrifting: false);
+        
+
+    }
 
     private IEnumerator Initialization()
     {
@@ -159,9 +176,44 @@ public class MotorcycleSoundHandler : MonoBehaviour
     }
 
 
+    private void EngineSoundCheck() // Call whenever player input + velocity > 0 (check only once)
+    {
+        // Moving
+        if (motorPhysics.CurrentVelocityOffset > 0.01f)
+        {
+            if (HasInput() && !engineStarted)
+            {
+                engineStarted = true;
+                currentDisengageTime = timeTillEngineDisengage;
+
+                StartEngineSound();
+            }
+        }
+
+        // Stop
+        else
+        {
+            if (!HasInput() && engineStarted)
+            {
+                if (currentDisengageTime > 0) currentDisengageTime -= Time.deltaTime;
+                else
+                {
+                    engineStarted = false;
+                    DisengageEngineSound();
+                }
+            }
+        }
+    }
+
+
+    private bool HasInput()
+    {
+        return motorInput.MoveInput != 0; // Check movement input
+    }
+
 
     #region ENGINE START AUDIO
-    public void StartEngineSound() // Once the player starts moving, this plays.
+    private void StartEngineSound() // Once the player starts moving, this plays.
     {
         if (startEngineCoroutine != null)
         {
@@ -192,7 +244,7 @@ public class MotorcycleSoundHandler : MonoBehaviour
 
 
     #region ENGINE RUN SOUND
-    public void EngineSound(float velocityOffset, bool isGrounded)
+    private void EngineSound(float velocityOffset, bool isGrounded)
     {
         if (engineRunAudioSource.clip == null) return;
 
@@ -219,7 +271,7 @@ public class MotorcycleSoundHandler : MonoBehaviour
 
 
     #region DRIFT SOUND
-    public void DriftSound(float velocityMagnitude, float maxSpeed, bool isDrifting)
+    private void DriftSound(float velocityMagnitude, float maxSpeed, bool isDrifting)
     {
         if (driftAudioSource.clip == null) return;
 
@@ -326,7 +378,7 @@ public class MotorcycleSoundHandler : MonoBehaviour
     }
 
 
-    public void DisengageEngineSound() // If players stand still for too long, turn engine off.
+    private void DisengageEngineSound() // If players stand still for too long, turn engine off.
     {
         FadeEngineSound(FadeOption.FadeOut);
         engineToggleAudioSource.PlayOneShot(keyturnAudio, SoundManager.Instance.MotorcycleVolumeStats.KeyturnVolume);

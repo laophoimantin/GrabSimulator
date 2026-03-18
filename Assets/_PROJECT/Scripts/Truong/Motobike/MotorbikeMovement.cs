@@ -72,7 +72,7 @@ public class MotorbikeMovement : MonoBehaviour
 
 
     // References
-    private MotorcycleSoundHandler _soundHandler;
+    private MotorbikeSoundController _soundController;
     
 
     // Engine-related Variables
@@ -92,8 +92,8 @@ public class MotorbikeMovement : MonoBehaviour
 
         //_skidSound.mute = true;
 
-        _soundHandler = GetComponent<MotorcycleSoundHandler>();
-        if (_soundHandler == null) Debug.LogWarning("Couldn't find MotorcycleSoundHandler");
+        _soundController = GetComponent<MotorbikeSoundController>();
+        if (_soundController == null) Debug.LogWarning("Couldn't find MotorcycleSoundHandler");
     }
 
     void Update()
@@ -110,8 +110,8 @@ public class MotorbikeMovement : MonoBehaviour
         _currentVelocityOffset = _velocity.z / _maxSpeed;
 
         // Sounds
-        EngineSoundCheck();
-        _soundHandler.EngineSound(_currentVelocityOffset, Grounded());
+        //EngineSoundCheck();
+        //_soundController.EngineSound(_currentVelocityOffset, Grounded());
 
         Debug.Log($"Velocity Z: {_velocity.z}");
         Debug.Log($"Max Speed: {_maxSpeed}");
@@ -131,48 +131,48 @@ public class MotorbikeMovement : MonoBehaviour
     }
 
 
-    #region Duc Anh's Code
-    //------------------
+    //#region Duc Anh's Code
+    ////------------------
 
 
-    private void EngineSoundCheck() // Call whenever player input + velocity > 0 (check only once)
-    {
-        // Moving
-        if (_currentVelocityOffset > 0.01f) 
-        { 
-            if (HasInput() && !engineStarted)
-            {
-                engineStarted = true;
-                currentDisengageTime = engineDisengageTime;
+    //private void EngineSoundCheck() // Call whenever player input + velocity > 0 (check only once)
+    //{
+    //    // Moving
+    //    if (_currentVelocityOffset > 0.01f) 
+    //    { 
+    //        if (HasInput() && !engineStarted)
+    //        {
+    //            engineStarted = true;
+    //            currentDisengageTime = engineDisengageTime;
 
-                _soundHandler.StartEngineSound();
-            }
-        }
+    //            _soundController.StartEngineSound();
+    //        }
+    //    }
 
-        // Stop
-        else 
-        { 
-            if (!HasInput() && engineStarted)
-            {
-                if (currentDisengageTime > 0) currentDisengageTime -= Time.deltaTime; 
-                else 
-                {
-                    engineStarted = false;
-                    _soundHandler.DisengageEngineSound();
-                }
-            }
-        }
-    }
+    //    // Stop
+    //    else 
+    //    { 
+    //        if (!HasInput() && engineStarted)
+    //        {
+    //            if (currentDisengageTime > 0) currentDisengageTime -= Time.deltaTime; 
+    //            else 
+    //            {
+    //                engineStarted = false;
+    //                _soundController.DisengageEngineSound();
+    //            }
+    //        }
+    //    }
+    //}
     
 
-    private bool HasInput()
-    {
-        return _moveInput != 0; // Check player input
-    }
+    //private bool HasInput()
+    //{
+    //    return _moveInput != 0; // Check player input
+    //}
 
 
-    //--------
-    #endregion
+    ////--------
+    //#endregion
 
     void Movement()
     {
@@ -184,7 +184,7 @@ public class MotorbikeMovement : MonoBehaviour
             }
             Rotation();
 
-            Break();
+            //Break();
         }
         else
         {
@@ -225,28 +225,28 @@ public class MotorbikeMovement : MonoBehaviour
         _rbBikeBody.MoveRotation(newRotation);
     }
 
-    private void Break()
-    {
-        if (Input.GetKey(_breakKey))
-        {
-            _rbSphere.velocity *= _breakingFactor / 10;
-            _rbSphere.drag = _driftDrag;
+    //private void Break()
+    //{
+    //    if (Input.GetKey(_breakKey))
+    //    {
+    //        _rbSphere.velocity *= _breakingFactor / 10;
+    //        _rbSphere.drag = _driftDrag;
 
-            _soundHandler.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: true);
-        }
-        else if (_moveInput == 0) 
-        {
-            _rbSphere.drag = _norDrag;
+    //        _soundController.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: true);
+    //    }
+    //    else if (_moveInput == 0) 
+    //    {
+    //        _rbSphere.drag = _norDrag;
 
-            _soundHandler.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: false);
-        }
-        else 
-        {
-            _rbSphere.drag = 0f;
+    //        _soundController.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: false);
+    //    }
+    //    else 
+    //    {
+    //        _rbSphere.drag = 0f;
 
-            _soundHandler.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: false);
-        }
-    }
+    //        _soundController.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: false);
+    //    }
+    //}
 
     private bool Grounded()
     {
@@ -266,7 +266,7 @@ public class MotorbikeMovement : MonoBehaviour
     private void Gravity()
     {
         _rbSphere.AddForce(_gravity * Vector3.down, ForceMode.Acceleration);
-        _soundHandler.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: false);
+        //_soundController.DriftSound(_rbBikeBody.velocity.magnitude, _maxSpeed, isDrifting: false);
     }
 
     private void SkidMarks()
