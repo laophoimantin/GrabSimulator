@@ -65,7 +65,6 @@ public class MotorbikePhysics : MonoBehaviour
         UpdateVelocityOffset();
 
         IsGrounded = CheckGrounded();
-        print(IsGrounded);
         GroundHit = _hit;
 
         if (IsGrounded)

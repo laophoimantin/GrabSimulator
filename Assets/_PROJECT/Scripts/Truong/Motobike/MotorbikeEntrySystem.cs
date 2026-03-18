@@ -10,8 +10,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     private VehicleState _state = VehicleState.Empty;
 
     [Header("References")]
-    //[SerializeField] private MotorbikeController _controller;
-[SerializeField] private BikeMovement _controller;
+    [SerializeField] private BikeMovement _controller;
     
     [SerializeField] private GameObject _bikeCam;
     [SerializeField] private Transform _exitPoint;
@@ -62,6 +61,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     {
         if (_state != VehicleState.Occupied)
             return;
+		_state = VehicleState.Empty;
 		InputManager.Instance.SetPlayerMode();
 
 
