@@ -89,22 +89,6 @@ public class MotorbikeSoundController : MonoBehaviour
     {
         StartCoroutine(Initialization());
     }
-
-    private void Update()
-    {
-        EngineSoundCheck();
-        EngineSound(motorPhysics.CurrentVelocityOffset, motorPhysics.IsGrounded);
-
-        if (motorInput.IsBraking)
-        {
-            if (motorPhysics.IsGrounded) DriftSound(motorPhysics.CurrentVelocityOffset, motorPhysics.MaxSpeed, isDrifting: true);
-            else DriftSound(motorPhysics.CurrentVelocityOffset, motorPhysics.MaxSpeed, isDrifting: false);
-        }
-        else DriftSound(motorPhysics.CurrentVelocityOffset, motorPhysics.MaxSpeed, isDrifting: false);
-        
-
-    }
-
     private IEnumerator Initialization()
     {
         if (SoundManager.Instance.MotorcycleSoundList.Length == 0)
@@ -136,6 +120,7 @@ public class MotorbikeSoundController : MonoBehaviour
             minPitch = motorcycleSound.MinPitch;
             maxPitch = motorcycleSound.MaxPitch;
             timeTillEngineRun = motorcycleSound.TimeTillEngineRun;
+            timeTillEngineDisengage = motorcycleSound.TimeTillEngineDisengage;
 
             maxEngineStartVolume = motorcycleSound.MaxEngineStartVolume;
             maxEngineVolume = motorcycleSound.MaxEngineVolume;
@@ -176,32 +161,58 @@ public class MotorbikeSoundController : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        EngineSoundCheck();
+        EngineSound(motorPhysics.CurrentVelocityOffset, motorPhysics.IsGrounded);
+
+        if (motorInput.IsBraking)
+        {
+            if (motorPhysics.IsGrounded)
+            {
+                DriftSound(motorPhysics.BikeRB.velocity.magnitude, motorPhysics.MaxSpeed, isDrifting: true);
+            }
+            else DriftSound(motorPhysics.BikeRB.velocity.magnitude, motorPhysics.MaxSpeed, isDrifting: false);
+        }
+        else DriftSound(motorPhysics.BikeRB.velocity.magnitude, motorPhysics.MaxSpeed, isDrifting: false);
+    }
+
+
     private void EngineSoundCheck() // Call whenever player input + velocity > 0 (check only once)
     {
-        // Moving
+
+        // Moving (forward / backward)
         if (motorPhysics.CurrentVelocityOffset > 0.01f)
         {
-            if (HasInput() && !engineStarted)
+            if (HasInput())
             {
-                engineStarted = true;
-                currentDisengageTime = timeTillEngineDisengage;
+                if (!engineStarted)
+                {
+                    engineStarted = true;
+                    StartEngineSound();
+                }
 
-                StartEngineSound();
+                currentDisengageTime = timeTillEngineDisengage;
             }
         }
 
         // Stop
         else
         {
-            if (!HasInput() && engineStarted)
+            if (HasInput() && engineStarted)
+            {
+                currentDisengageTime = timeTillEngineDisengage;
+            }
+            else if (!HasInput() && engineStarted)
             {
                 if (currentDisengageTime > 0) currentDisengageTime -= Time.deltaTime;
                 else
                 {
                     engineStarted = false;
                     DisengageEngineSound();
-                }
+                }                       
             }
+            
         }
     }
 

@@ -11662,6 +11662,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9094855750682424809, guid: ff0dee624930c464c84f860f58efa195, type: 3}
+      propertyPath: motorcycleSoundList.Array.data[0]._timeTillEngineDisengage
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

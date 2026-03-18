@@ -36,6 +36,7 @@ public class MotorbikePhysics : MonoBehaviour
 
     public float LateralVelocity { get; private set; }
     public float CurrentVelocityOffset { get; private set; }
+    public Rigidbody BikeRB { get => _rbBikeBody; }
     public float MaxSpeed { get => _maxSpeed; }
     public bool IsGrounded { get; private set; }
     public RaycastHit GroundHit { get; private set; }
