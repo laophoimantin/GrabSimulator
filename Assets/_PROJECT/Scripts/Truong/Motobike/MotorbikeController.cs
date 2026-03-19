@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Prototype
+/// </summary>
 public class MotorbikeController : MonoBehaviour
 {
     [SerializeField] private MotorbikeMovement _movement;

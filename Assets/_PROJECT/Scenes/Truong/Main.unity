@@ -1601,8 +1601,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1164537474}
+  m_Children: []
   m_Father: {fileID: 894542080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &552621867
@@ -2491,6 +2490,7 @@ Transform:
   m_Children:
   - {fileID: 1600396985}
   - {fileID: 552621866}
+  - {fileID: 1164537474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &899879735
@@ -8183,7 +8183,7 @@ Transform:
   m_Children:
   - {fileID: 72522401}
   - {fileID: 1604892668}
-  m_Father: {fileID: 552621866}
+  m_Father: {fileID: 894542080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!138 &1164537475
 FixedJoint:
@@ -9856,9 +9856,9 @@ GameObject:
   - component: {fileID: 1600396985}
   - component: {fileID: 1600396995}
   - component: {fileID: 1600396986}
+  - component: {fileID: 1600396996}
   - component: {fileID: 1600396992}
   - component: {fileID: 1600396987}
-  - component: {fileID: 1600396996}
   m_Layer: 15
   m_Name: Xemay Controller
   m_TagString: Untagged
@@ -9929,10 +9929,10 @@ MonoBehaviour:
   _brakingFactor: 10
   _driftDrag: 0.4
   _normalDrag: 2
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 16384
+  _groundCheck: {fileID: 1600396996}
   _gravity: 25
+  _downforce: 50
+  _fallGravityMultiplier: 3
 --- !u!114 &1600396987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9989,9 +9989,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1600396984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f90a4b3c991e52489090f9b8a424ba1, type: 3}
+  m_Script: {fileID: 11500000, guid: d74d791ff95fc0a428366f7de7d930dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rbSphere: {fileID: 552621867}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 16384
 --- !u!1 &1604892667
 GameObject:
   m_ObjectHideFlags: 0
@@ -17213,10 +17217,10 @@ MonoBehaviour:
   _brakingFactor: 5
   _driftDrag: 5
   _normalDrag: 1
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  _groundCheck: {fileID: 0}
   _gravity: 20
+  _downforce: 50
+  _fallGravityMultiplier: 3
 --- !u!114 &2090036854
 MonoBehaviour:
   m_ObjectHideFlags: 0

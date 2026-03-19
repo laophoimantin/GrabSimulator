@@ -62,8 +62,8 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     {
         if (_state != VehicleState.Occupied)
             return;
-		InputManager.Instance.SetPlayerMode();
-
+        _state = VehicleState.Empty;
+        InputManager.Instance.SetPlayerMode();
 
 		_controller.HideDummyModel();
         _controller.LockMovement();

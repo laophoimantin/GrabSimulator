@@ -14,6 +14,8 @@ public class BikeMovement : MonoBehaviour
         _input = GetComponent<MotorbikeInput>();
         _physics = GetComponent<MotorbikePhysics>();
         _visuals = GetComponent<MotorbikeVisuals>();
+
+        HideDummyModel();
     }
     public void LockMovement() => _input.LockMovement();
     public void UnlockMovement() => _input.UnlockMovement();
