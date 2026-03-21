@@ -14,7 +14,13 @@ public class DialogueUI : MonoBehaviour
 
     [Header("Dynamic Choices")]
     [SerializeField] private Transform _choiceContainer;
-    [SerializeField] private Button _choiceButtonPrefab; 
+    [SerializeField] private Button _choiceButtonPrefab;
+
+    [Header("Scripts")]
+    [SerializeField] private DialogueSoundController _dialogueSoundController;
+
+    [Header("F#cking around with dialogue pitch")]
+    [Range(1, 5)][SerializeField] private float dialoguePitchValue;
 
     private List<Button> _activeButtons = new List<Button>();
     private Coroutine _typeRoutine;
@@ -103,6 +109,8 @@ public class DialogueUI : MonoBehaviour
         foreach (char c in text)
         {
             _bodyText.text += c;
+            _dialogueSoundController.DialogueSoundGenerator(c, dialoguePitchValue, 0.5f);
+
             yield return new WaitForSeconds(_typeSpeed);
         }
         _isTyping = false;

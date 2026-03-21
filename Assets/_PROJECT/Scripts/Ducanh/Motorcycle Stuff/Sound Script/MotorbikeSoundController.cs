@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class MotorbikeSoundController : MonoBehaviour
 {
@@ -20,11 +20,11 @@ public class MotorbikeSoundController : MonoBehaviour
 
 
     [Header("Sound of what motorcycle?")]
-    [SerializeField] private MotorcycleSoundType motorcycleSoundType;
+    [SerializeField] private MotorbikeType motorcycleSoundType;
 
 
     // Main
-    private MotorcycleSound motorcycleSound;
+    private MotorbikeSoundSettingList motorcycleSound;
 
 
     // Engine Sound References
@@ -98,7 +98,13 @@ public class MotorbikeSoundController : MonoBehaviour
         }
 
 
-        foreach (MotorcycleSound sound in SoundManager.Instance.MotorcycleSoundList)
+        if (engineToggleAudioSource != null) engineToggleAudioSource.playOnAwake = false;
+        if (engineRunAudioSource != null) engineRunAudioSource.playOnAwake = false;
+        if (collisionAudioSource != null) collisionAudioSource.playOnAwake = false;
+        if (driftAudioSource != null) driftAudioSource.playOnAwake = false;
+
+
+        foreach (MotorbikeSoundSettingList sound in SoundManager.Instance.MotorcycleSoundList)
         {
             if (motorcycleSoundType.ToString() == sound.name)
             {
@@ -126,18 +132,18 @@ public class MotorbikeSoundController : MonoBehaviour
             maxEngineVolume = motorcycleSound.MaxEngineVolume;
 
 
-            minDriftVolume = SoundManager.Instance.MotorcycleVolumeStats.MinDriftVolume;
-            maxDriftVolume = SoundManager.Instance.MotorcycleVolumeStats.MaxDriftVolume;
+            minDriftVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinDriftVolume;
+            maxDriftVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxDriftVolume;
 
-            minCollisionVolume = SoundManager.Instance.MotorcycleVolumeStats.MinCollisionVolume;
-            maxCollisionVolume = SoundManager.Instance.MotorcycleVolumeStats.MaxCollisionVolume;
+            minCollisionVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinCollisionVolume;
+            maxCollisionVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxCollisionVolume;
 
-            minCollisionPitch = SoundManager.Instance.MotorcycleVolumeStats.MinCollisionPitch;
-            maxCollisionPitch = SoundManager.Instance.MotorcycleVolumeStats.MaxCollisionPitch;
+            minCollisionPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinCollisionPitch;
+            maxCollisionPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxCollisionPitch;
         }
 
 
-        driftAudio = SoundManager.Instance.GetRandomClip(SoundType.Drift_Sound);
+        driftAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Drift_Sound);
         if (driftAudio == null) Debug.Log("Assign Drift_Sound in SoundManager");
         else
         {
@@ -147,7 +153,7 @@ public class MotorbikeSoundController : MonoBehaviour
         }
 
 
-        collisionAudio = SoundManager.Instance.GetRandomClip(SoundType.Collision_Sound);
+        collisionAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Collision_Sound);
         if (collisionAudio == null) Debug.Log("Assign Collision_Sound in SoundManager");
         else
         {
@@ -156,7 +162,7 @@ public class MotorbikeSoundController : MonoBehaviour
             collisionAudioSource.volume = 0f;
         }
 
-        keyturnAudio = SoundManager.Instance.GetRandomClip(SoundType.Key_Turn_Sound);
+        keyturnAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Key_Turn_Sound);
         if (keyturnAudio == null) Debug.Log("Assign Key_Turn_Sound in SoundManager");
     }
 
@@ -292,7 +298,7 @@ public class MotorbikeSoundController : MonoBehaviour
         }
 
         float normalizeSpeed = Mathf.Clamp01(velocityMagnitude / maxSpeed);
-        float curvedPercentage = SoundManager.Instance.MotorcycleVolumeStats.DriftVolumeCurve.Evaluate(normalizeSpeed);
+        float curvedPercentage = SoundManager.Instance.MotorcycleUniversalVolumeStats.DriftVolumeCurve.Evaluate(normalizeSpeed);
 
         float targetVolume = Mathf.Lerp(minDriftVolume, maxDriftVolume, curvedPercentage);
 
@@ -392,7 +398,7 @@ public class MotorbikeSoundController : MonoBehaviour
     private void DisengageEngineSound() // If players stand still for too long, turn engine off.
     {
         FadeEngineSound(FadeOption.FadeOut);
-        engineToggleAudioSource.PlayOneShot(keyturnAudio, SoundManager.Instance.MotorcycleVolumeStats.KeyturnVolume);
+        engineToggleAudioSource.PlayOneShot(keyturnAudio, SoundManager.Instance.MotorcycleUniversalVolumeStats.KeyturnVolume);
     }
 
     //--------

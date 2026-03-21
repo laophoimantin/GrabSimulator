@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterMixer: {fileID: 24100000, guid: f9c7674dfd6f5a74aa005ce95b174b31, type: 2}
-  soundList:
+  motorbikeGameplaySoundList:
   - name: Drift_Sound
     sounds:
     - {fileID: 8300000, guid: 58ba1ae2b536e78449db7e551f68e167, type: 3}
@@ -152,25 +152,104 @@ MonoBehaviour:
   - name: Key_Turn_Sound
     sounds:
     - {fileID: 8300000, guid: 540ba818d72c0794f813656d41f5ef07, type: 3}
-  - name: Button_Hover
+  environmentSoundList:
+  - name: City
     sounds: []
-  - name: Button_Selection
-    sounds: []
-  motorcycleSoundList:
+  dialogueSoundList:
+  - name: A
+    sounds:
+    - {fileID: 8300000, guid: 1cdacc8a658066342a8366573f635576, type: 3}
+  - name: B
+    sounds:
+    - {fileID: 8300000, guid: 0da3c3354c7a8b149a0ae7fbc013beb7, type: 3}
+  - name: C
+    sounds:
+    - {fileID: 8300000, guid: de631f59878f9424eb3850db97ace009, type: 3}
+  - name: D
+    sounds:
+    - {fileID: 8300000, guid: 0283f76595d095942af439d4b37e8252, type: 3}
+  - name: E
+    sounds:
+    - {fileID: 8300000, guid: 5cbaacbbe68d2974c8c18aa9d9d6f62d, type: 3}
+  - name: F
+    sounds:
+    - {fileID: 8300000, guid: 9ff96a38070954d40b39c9cc5d4aae5f, type: 3}
+  - name: G
+    sounds:
+    - {fileID: 8300000, guid: 28ce1b43d6d88824e8a535b4f76dd72e, type: 3}
+  - name: H
+    sounds:
+    - {fileID: 8300000, guid: 3560e6ece2c844248b6c29ce9a7d5566, type: 3}
+  - name: I
+    sounds:
+    - {fileID: 8300000, guid: f2ebf4179e52f7c4cbee905a82b0745f, type: 3}
+  - name: J
+    sounds:
+    - {fileID: 8300000, guid: 74b1ea2391d7d2345abcd28f7d7844f5, type: 3}
+  - name: K
+    sounds:
+    - {fileID: 8300000, guid: f71dd341c710b124c85ab05e594d9bad, type: 3}
+  - name: L
+    sounds:
+    - {fileID: 8300000, guid: f1e9fdad02bf6324cac0996f50a0d750, type: 3}
+  - name: M
+    sounds:
+    - {fileID: 8300000, guid: 0c5a8bcc6c3a90d4196a3e2d6fc145f8, type: 3}
+  - name: N
+    sounds:
+    - {fileID: 8300000, guid: 518d55655b5a81344b223824f4d6db0f, type: 3}
+  - name: O
+    sounds:
+    - {fileID: 8300000, guid: b43c989aedb7f324781fa53ab433169e, type: 3}
+  - name: P
+    sounds:
+    - {fileID: 8300000, guid: 19c90365c3419034f98aaa881cf05cc7, type: 3}
+  - name: Q
+    sounds:
+    - {fileID: 8300000, guid: 2d10f524e26e2184bb203fa548a55822, type: 3}
+  - name: R
+    sounds:
+    - {fileID: 8300000, guid: a39e304a65b430444bdf25d443283fbe, type: 3}
+  - name: S
+    sounds:
+    - {fileID: 8300000, guid: b9d02dea670e25f4ab726e3c1a8bf227, type: 3}
+  - name: T
+    sounds:
+    - {fileID: 8300000, guid: 71709abf414025a468330409b3c2dcd1, type: 3}
+  - name: U
+    sounds:
+    - {fileID: 8300000, guid: 746b654bab82dbb4eab4a7cfd7148954, type: 3}
+  - name: V
+    sounds:
+    - {fileID: 8300000, guid: e5eed31107e6fb4429019d12a8be76a0, type: 3}
+  - name: W
+    sounds:
+    - {fileID: 8300000, guid: 235124ca29a432649a2341ff17a0b871, type: 3}
+  - name: X
+    sounds:
+    - {fileID: 8300000, guid: 20bf0c2572f871043bfe70fe1579b857, type: 3}
+  - name: Y
+    sounds:
+    - {fileID: 8300000, guid: 7eedda895c2f3b347973f22c4d7afda1, type: 3}
+  - name: Z
+    sounds:
+    - {fileID: 8300000, guid: 432bbb85286d515418ef58706f9ed680, type: 3}
+  motorbikeSoundList:
   - name: Cub
     _engineStart: {fileID: 8300000, guid: c108fa3701954ba499f19d5d31c6c0de, type: 3}
     _engineRun: {fileID: 8300000, guid: 4a6bfedfeffc31f4f902bc29075ef797, type: 3}
     _minPitch: 0.5
     _maxPitch: 1
     _maxEngineStartVolume: 0.35
-    _maxEngineVolume: 0.35
+    _maxEngineVolume: 1
     _timeTillEngineRun: 0.25
+    _timeTillEngineDisengage: 2
   maxSoundDistance: 20
   spatialBlend: 1
-  motorcycleVolumeStats:
-    _keyturnVolume: 0.35
+  motorcycleUniversalVolumeStats:
+    _keyturnVolume: 0.3
     _minDriftVolume: 0
-    _maxDriftVolume: 0.5
+    _maxDriftVolume: 1
     _driftVolumeCurve:
       serializedVersion: 2
       m_Curve:
@@ -196,6 +275,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     _minCollisionVolume: 0
-    _maxCollisionVolume: 0.65
+    _maxCollisionVolume: 1
     _minCollisionPitch: 1
     _maxCollisionPitch: 1.5
