@@ -3500,6 +3500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840631779cb149e1a278dad95326cc00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  motorbikeStatsSO: {fileID: 11400000, guid: 1ff964e78cfa45b499965f75830710a0, type: 2}
   _rbSphere: {fileID: 2038784846}
   _rbBikeBody: {fileID: 195491599}
   _maxSpeed: 50
@@ -11843,6 +11844,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9094855750682424809, guid: ff0dee624930c464c84f860f58efa195, type: 3}
+      propertyPath: motorbikeGameplaySoundList.Array.data[0].sounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094855750682424809, guid: ff0dee624930c464c84f860f58efa195, type: 3}
+      propertyPath: motorbikeGameplaySoundList.Array.data[1].sounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094855750682424809, guid: ff0dee624930c464c84f860f58efa195, type: 3}
+      propertyPath: motorbikeGameplaySoundList.Array.data[2].sounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094855750682424809, guid: ff0dee624930c464c84f860f58efa195, type: 3}
+      propertyPath: motorbikeGameplaySoundList.Array.data[0].sounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 58ba1ae2b536e78449db7e551f68e167, type: 3}
+    - target: {fileID: 9094855750682424809, guid: ff0dee624930c464c84f860f58efa195, type: 3}
+      propertyPath: motorbikeGameplaySoundList.Array.data[1].sounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: b4a0e2bc5242c5c40827fb68501f1a76, type: 3}
+    - target: {fileID: 9094855750682424809, guid: ff0dee624930c464c84f860f58efa195, type: 3}
+      propertyPath: motorbikeGameplaySoundList.Array.data[2].sounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 540ba818d72c0794f813656d41f5ef07, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -38,18 +38,18 @@ public class MotorbikeSoundController : MonoBehaviour
 
 
     // Drift Volume
-    private readonly float minDriftVolume;
-    private readonly float maxDriftVolume;
+    private float minDriftVolume;
+    private float maxDriftVolume;
 
 
     // Collision Volume
-    private readonly float minCollisionVolume;
-    private readonly float maxCollisionVolume;
+    private float minCollisionVolume;
+    private float maxCollisionVolume;
 
 
     // Collision Pitch
-    private readonly float minCollisionPitch;
-    private readonly float maxCollisionPitch;
+    private float minCollisionPitch;
+    private float maxCollisionPitch;
 
 
     // Sound Variable
@@ -84,6 +84,15 @@ public class MotorbikeSoundController : MonoBehaviour
         if (collisionAudioSource != null) collisionAudioSource.playOnAwake = false;
         if (driftAudioSource != null) driftAudioSource.playOnAwake = false;
 
+
+        minDriftVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinDriftVolume;
+        maxDriftVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxDriftVolume;
+
+        minCollisionVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinCollisionVolume;
+        maxCollisionVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxCollisionVolume;
+
+        minCollisionPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinCollisionPitch;
+        maxCollisionPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxCollisionPitch;
 
 
         driftAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Drift_Sound);
@@ -141,7 +150,7 @@ public class MotorbikeSoundController : MonoBehaviour
                     StartEngineSound();
                 }
 
-                currentDisengageTime = 2f;
+                currentDisengageTime = motorPhysics.MotorbikeStatsSO.TimeTillEngineDisengage;
             }
         }
 
@@ -150,7 +159,7 @@ public class MotorbikeSoundController : MonoBehaviour
         {
             if (HasInput() && engineStarted)
             {
-                currentDisengageTime = 2f;
+                currentDisengageTime = motorPhysics.MotorbikeStatsSO.TimeTillEngineDisengage;
             }
             else if (!HasInput() && engineStarted)
             {
@@ -192,7 +201,7 @@ public class MotorbikeSoundController : MonoBehaviour
         }
 
         EngineAudio(motorbikeSoundSO.EngineStartAudio, isStartEngine: true);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(motorPhysics.MotorbikeStatsSO.TimeTillEngineStart);
 
         EngineAudio(motorbikeSoundSO.EngineRunAudio, isStartEngine: false);
         FadeEngineSound(FadeOption.FadeIn);
@@ -260,6 +269,8 @@ public class MotorbikeSoundController : MonoBehaviour
     #region COLLISION SOUND
     public void CollisionSound(float impactSpeed, float maxSpeed)
     {
+        Debug.Log("Goddamn");
+
         if (collisionAudioSource == null) return;
 
         float crashSeverityPercentage = Mathf.Clamp01(impactSpeed / maxSpeed);

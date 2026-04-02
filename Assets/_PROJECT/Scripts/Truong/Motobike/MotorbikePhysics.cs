@@ -3,6 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(MotorbikeInput))]
 public class MotorbikePhysics : MonoBehaviour
 {
+
+    [Header("Motorbike Stats SO Reference")]
+    [SerializeField] private MotorbikeStatsSO motorbikeStatsSO;
+    public MotorbikeStatsSO MotorbikeStatsSO => motorbikeStatsSO;
+
     [Header("References")]
     [SerializeField] private Rigidbody _rbSphere;
     [SerializeField] private Rigidbody _rbBikeBody;

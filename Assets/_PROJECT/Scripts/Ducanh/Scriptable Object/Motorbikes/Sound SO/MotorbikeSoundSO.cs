@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "New Motorbike Sound Data", menuName = "Motorbike Sound SO/Motorbike Sound Data")]
+[CreateAssetMenu(fileName = "New Motorbike Sound Data", menuName = "Motorbike Sound SO/Motorbike Sound")]
 public class MotorbikeSoundSO : ScriptableObject
 {
     public MotorbikeType MotorbikeType;
