@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8846e4f31cbb7384a9ea918ce9446d52, type: 3}
+  m_Name: Cub Sound Data
+  m_EditorClassIdentifier: 
+  MotorbikeType: 0
+  EngineStartAudio: {fileID: 8300000, guid: c108fa3701954ba499f19d5d31c6c0de, type: 3}
+  EngineRunAudio: {fileID: 8300000, guid: 4a6bfedfeffc31f4f902bc29075ef797, type: 3}
+  MinPitch: 0.5
+  MaxPitch: 1
+  MaxEngineStartVolume: 0.35
+  MaxEngineRunVolume: 1

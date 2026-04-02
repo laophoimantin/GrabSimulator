@@ -4,6 +4,11 @@ using UnityEngine.UI;
 
 public class MotorbikeSoundController : MonoBehaviour
 {
+
+    [Header("Motorbike Sound SO Reference")]
+    [SerializeField] private MotorbikeSoundSO motorbikeSoundSO;
+
+
     [Header("References")]
     [SerializeField] private MotorbikePhysics motorPhysics;
     [SerializeField] private MotorbikeInput motorInput;
@@ -23,15 +28,6 @@ public class MotorbikeSoundController : MonoBehaviour
     [SerializeField] private MotorbikeType motorcycleSoundType;
 
 
-    // Main
-    private MotorbikeSoundSettingList motorcycleSound;
-
-
-    // Engine Sound References
-    private AudioClip engineStartAudio;
-    private AudioClip engineRunAudio;
-
-
     // Key Turn Sound References
     private AudioClip keyturnAudio;
 
@@ -41,41 +37,26 @@ public class MotorbikeSoundController : MonoBehaviour
     private AudioClip collisionAudio;
 
 
-    // Engine Start Volume
-    private float maxEngineStartVolume;
-
-
-    // Engine Run Volume
-    private float maxEngineVolume;
-
-
     // Drift Volume
-    private float minDriftVolume;
-    private float maxDriftVolume;
+    private readonly float minDriftVolume;
+    private readonly float maxDriftVolume;
 
 
     // Collision Volume
-    private float minCollisionVolume;
-    private float maxCollisionVolume;
+    private readonly float minCollisionVolume;
+    private readonly float maxCollisionVolume;
 
 
     // Collision Pitch
-    private float minCollisionPitch;
-    private float maxCollisionPitch;
+    private readonly float minCollisionPitch;
+    private readonly float maxCollisionPitch;
 
 
     // Sound Variable
-    private float minPitch;
-    private float maxPitch;
-    private float timeTillEngineRun;
-    private float timeTillEngineDisengage;
     private float currentDisengageTime;
 
 
     // Variable
-    private bool assigned = false;
-    private bool engineEngaged = false;
-    private bool fadeEngine = false;
     private bool engineStarted = false;
 
 
@@ -87,60 +68,22 @@ public class MotorbikeSoundController : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(Initialization());
+        Initialization();
     }
-    private IEnumerator Initialization()
+    private void Initialization()
     {
-        if (SoundManager.Instance.MotorcycleSoundList.Length == 0)
-        {
-            Debug.LogWarning("No motorcycle sound is assigned!");
-            yield break;
-        }
 
+        if (motorbikeSoundSO == null) 
+        { 
+            Debug.Log("Assign Motorbike SO");
+            return;
+        }
 
         if (engineToggleAudioSource != null) engineToggleAudioSource.playOnAwake = false;
         if (engineRunAudioSource != null) engineRunAudioSource.playOnAwake = false;
         if (collisionAudioSource != null) collisionAudioSource.playOnAwake = false;
         if (driftAudioSource != null) driftAudioSource.playOnAwake = false;
 
-
-        foreach (MotorbikeSoundSettingList sound in SoundManager.Instance.MotorcycleSoundList)
-        {
-            if (motorcycleSoundType.ToString() == sound.name)
-            {
-                motorcycleSound = sound;
-                assigned = true;
-
-                break;
-            }
-
-            yield return null;
-        }
-
-
-        if (assigned)
-        {
-            engineStartAudio = motorcycleSound.EngineStart;
-            engineRunAudio = motorcycleSound.EngineRun;  
-
-            minPitch = motorcycleSound.MinPitch;
-            maxPitch = motorcycleSound.MaxPitch;
-            timeTillEngineRun = motorcycleSound.TimeTillEngineRun;
-            timeTillEngineDisengage = motorcycleSound.TimeTillEngineDisengage;
-
-            maxEngineStartVolume = motorcycleSound.MaxEngineStartVolume;
-            maxEngineVolume = motorcycleSound.MaxEngineVolume;
-
-
-            minDriftVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinDriftVolume;
-            maxDriftVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxDriftVolume;
-
-            minCollisionVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinCollisionVolume;
-            maxCollisionVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxCollisionVolume;
-
-            minCollisionPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinCollisionPitch;
-            maxCollisionPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxCollisionPitch;
-        }
 
 
         driftAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Drift_Sound);
@@ -198,7 +141,7 @@ public class MotorbikeSoundController : MonoBehaviour
                     StartEngineSound();
                 }
 
-                currentDisengageTime = timeTillEngineDisengage;
+                currentDisengageTime = 2f;
             }
         }
 
@@ -207,7 +150,7 @@ public class MotorbikeSoundController : MonoBehaviour
         {
             if (HasInput() && engineStarted)
             {
-                currentDisengageTime = timeTillEngineDisengage;
+                currentDisengageTime = 2f;
             }
             else if (!HasInput() && engineStarted)
             {
@@ -248,10 +191,10 @@ public class MotorbikeSoundController : MonoBehaviour
             yield break;
         }
 
-        EngineAudio(engineStartAudio, isStartEngine: true);
-        yield return new WaitForSeconds(timeTillEngineRun);
+        EngineAudio(motorbikeSoundSO.EngineStartAudio, isStartEngine: true);
+        yield return new WaitForSeconds(0.25f);
 
-        EngineAudio(engineRunAudio, isStartEngine: false);
+        EngineAudio(motorbikeSoundSO.EngineRunAudio, isStartEngine: false);
         FadeEngineSound(FadeOption.FadeIn);
 
         startEngineCoroutine = null;
@@ -266,12 +209,12 @@ public class MotorbikeSoundController : MonoBehaviour
         if (engineRunAudioSource.clip == null) return;
 
         float clampedVelosityOffset = Mathf.Max(0f, velocityOffset);
-        float speedMain = Mathf.Lerp(minPitch, maxPitch, clampedVelosityOffset);
+        float speedMain = Mathf.Lerp(motorbikeSoundSO.MinPitch, motorbikeSoundSO.MaxPitch, clampedVelosityOffset);
 
         engineRunAudioSource.pitch = speedMain;
 
         float fadeSpeed = 3f;
-        float targetVolume = isGrounded ? maxEngineVolume : maxEngineVolume / 2f;
+        float targetVolume = isGrounded ? motorbikeSoundSO.MaxEngineRunVolume : motorbikeSoundSO.MaxEngineRunVolume / 2f;
 
         if (!Mathf.Approximately(engineRunAudioSource.volume, targetVolume))
         {
@@ -340,7 +283,7 @@ public class MotorbikeSoundController : MonoBehaviour
 
         if (isStartEngine)
         {
-            engineToggleAudioSource.PlayOneShot(engineAudio, maxEngineStartVolume);
+            engineToggleAudioSource.PlayOneShot(engineAudio, motorbikeSoundSO.MaxEngineStartVolume);
         }
         else
         {
@@ -368,7 +311,7 @@ public class MotorbikeSoundController : MonoBehaviour
 
         bool isFadeOut = option == FadeOption.FadeOut ? true : false;
 
-        float targetVolume = option == FadeOption.FadeIn ? maxEngineVolume : 0f;
+        float targetVolume = option == FadeOption.FadeIn ? motorbikeSoundSO.MaxEngineRunVolume: 0f;
 
         if (option == FadeOption.FadeIn)
         {

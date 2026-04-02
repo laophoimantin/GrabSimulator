@@ -8,18 +8,10 @@ using System.Collections;
 using UnityEngine.Audio;
 
 
-#region MOVE THIS TO ANOTHER SCRIPT
-public enum MotorbikeType 
-{
-    // FOR IDENTIFYING MOTORCYCLES
-    Cub,
-}
-#endregion
-
 
 public enum MotorbikeGameplaySoundType
 {
-    // FOR GAMEPLAY
+    // FOR MOTORBIKE
     Drift_Sound, 
     Collision_Sound,
     Key_Turn_Sound,
@@ -96,11 +88,6 @@ public class SoundManager : MonoBehaviour
     public DialogueSoundList[] DialogueSoundList { get => dialogueSoundList; }
 
     [Space]
-    [Header("Motorbike")]
-    [SerializeField] private MotorbikeSoundSettingList[] motorbikeSoundList;
-    public MotorbikeSoundSettingList[] MotorcycleSoundList { get => motorbikeSoundList; }
-
-
     [Header("3D Settings")]
     [SerializeField] private float maxSoundDistance = 20f;
     [SerializeField] private float spatialBlend = 1f;
@@ -219,25 +206,24 @@ public class SoundManager : MonoBehaviour
 
     void OnValidate()
     {
-        // Initializing MOTORBIKE-related sounds
-        string[] motorbikeSoundNames = Enum.GetNames(typeof(MotorbikeType));
-        Array.Resize(ref motorbikeSoundList, motorbikeSoundNames.Length);
-        for (int i = 0; i < motorbikeSoundList.Length; i++) motorbikeSoundList[i].name = motorbikeSoundNames[i];
 
         // Initializing GAMEPLAY-related sounds
         string[] gameplaySoundNames = Enum.GetNames(typeof(MotorbikeGameplaySoundType));
         Array.Resize(ref motorbikeGameplaySoundList, gameplaySoundNames.Length);
         for (int i = 0; i < motorbikeGameplaySoundList.Length; i++) motorbikeGameplaySoundList[i].name = gameplaySoundNames[i];
 
+
         // Initializing ENVIRONMENT-related sounds
         string[] environmentSoundNames = Enum.GetNames(typeof(EnvironmentSoundType));
         Array.Resize(ref environmentSoundList, environmentSoundNames.Length);
         for (int i = 0; i < environmentSoundList.Length; i++) environmentSoundList[i].name = environmentSoundNames[i];
 
+
         // Initializing DIALOGUE-related sounds
         string[] dialogueSoundNames = Enum.GetNames(typeof(DialogueSoundType));
         Array.Resize(ref dialogueSoundList, dialogueSoundNames.Length);
         for (int i = 0; i < dialogueSoundList.Length; i++) dialogueSoundList[i].name = dialogueSoundNames[i];
+
     }
 
 

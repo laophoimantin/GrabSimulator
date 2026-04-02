@@ -25,8 +25,21 @@ public class Global
 }
 
 
-#region Motorbike Sound Controller ENUM
-//-------------------------------------
+#region [ENUM] Motorbike Type
+//---------------------------
+
+public enum MotorbikeType
+{
+    Cub,
+}
+
+//--------
+#endregion
+
+
+
+#region [ENUM] Motorbike Sound Controller 
+//---------------------------------------
 
 public enum FadeOption
 {
@@ -37,10 +50,10 @@ public enum FadeOption
 //--------
 #endregion
 
-//[SPACE]
 
-#region Sound Manager STRUCT
-//--------------------------
+
+#region [STRUCT] Sound Manager
+//----------------------------
 
 [Serializable]
 public struct MotorbikeGameplaySoundList
@@ -66,38 +79,6 @@ public struct DialogueSoundList
     public AudioClip[] Sounds { get => sounds; }
     [HideInInspector] public string name;
     [SerializeField] private AudioClip[] sounds;
-}
-
-
-[Serializable]
-public struct MotorbikeSoundSettingList
-{
-    [HideInInspector] public string name;
-    public AudioClip EngineRun { get => _engineRun; }
-    public AudioClip EngineStart { get => _engineStart; }
-
-    [SerializeField] private AudioClip _engineStart;
-    [SerializeField] private AudioClip _engineRun;
-
-    public float MinPitch { get => _minPitch; }
-    public float MaxPitch { get => _maxPitch; }
-
-    [Range(-10, 10)]
-    [SerializeField] private float _minPitch;
-    [Range(-10, 10)]
-    [SerializeField] private float _maxPitch;
-
-    public float MaxEngineStartVolume { get => _maxEngineStartVolume; }
-    [SerializeField] private float _maxEngineStartVolume;
-
-    public float MaxEngineVolume { get => _maxEngineVolume; }
-    [SerializeField] private float _maxEngineVolume;
-
-    public float TimeTillEngineRun { get => _timeTillEngineRun; }
-    [SerializeField] private float _timeTillEngineRun;
-
-    public float TimeTillEngineDisengage { get => _timeTillEngineDisengage; }
-    [SerializeField] private float _timeTillEngineDisengage;
 }
 
 
