@@ -10,7 +10,7 @@ public class ResponseHandler : MonoBehaviour
     [SerializeField] private RectTransform _responseButtonTemplate;
     [SerializeField] private RectTransform _responseContainer;
 
-    private DialogueUI _dialogueUI;
+    private DialogueUIOld _dialogueUI;
     private ResponseEvent[] _responseEvents;
 
     private readonly List<GameObject> _tempResponseButtons = new();
@@ -18,7 +18,7 @@ public class ResponseHandler : MonoBehaviour
     void Start()
     {
         if (_dialogueUI == null)
-            _dialogueUI = GetComponent<DialogueUI>();
+            _dialogueUI = GetComponent<DialogueUIOld>();
     }
 
     public void AddResponseEvents(ResponseEvent[] responseEvents)

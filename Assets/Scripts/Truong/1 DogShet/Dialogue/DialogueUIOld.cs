@@ -5,7 +5,7 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 
-public class DialogueUI : Singleton<DialogueUI>
+public class DialogueUIOld : Singleton<DialogueUIOld>
 {
     [SerializeField] GameObject _dialogueBox;
     [SerializeField] private TMP_Text _textLabel;
@@ -19,7 +19,7 @@ public class DialogueUI : Singleton<DialogueUI>
 
     private event Action onDialogueClosed;
     
-    private DialogueActivator _currentDialogueActivator;
+    private DialogueActivatorOld _currentDialogueActivatorOld;
     
 
     void Start()
@@ -35,9 +35,9 @@ public class DialogueUI : Singleton<DialogueUI>
     }
 
 
-    public void ShowDialogue(DialogueActivator activator, DialogueObject dialogueObject, Action onFinishedEvent = null)
+    public void ShowDialogue(DialogueActivatorOld activatorOld, DialogueObject dialogueObject, Action onFinishedEvent = null)
     {
-        _currentDialogueActivator = activator;
+        _currentDialogueActivatorOld = activatorOld;
         onDialogueClosed = onFinishedEvent;
 
         IsOpen = true;
@@ -82,7 +82,7 @@ public class DialogueUI : Singleton<DialogueUI>
     public void StepToNode(DialogueObject dialogueObject)
     {
         StopAllCoroutines();
-        _currentDialogueActivator.UpdateCurrentDialogueObject(dialogueObject);
+        _currentDialogueActivatorOld.UpdateCurrentDialogueObject(dialogueObject);
         StartCoroutine(StepThroughDialogue(dialogueObject));
     }
 
