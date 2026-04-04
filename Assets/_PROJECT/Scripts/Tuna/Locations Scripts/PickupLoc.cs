@@ -10,11 +10,17 @@ public class PickupLoc : MonoBehaviour
     private bool HasPackage => _currentPackage != null;
     public static event Action<LocationID> OnPickupEntered;
 
-    private void Awake()
+    private void Start() 
     {
-        DeliveryManager.Instance.Register(_id, this);
+        DeliveryManager.Instance.RegisterPickup(_id, this);
     }
 
+    private void OnDestroy()
+    {
+        if (DeliveryManager.Instance == null) return;
+        DeliveryManager.Instance.UnregisterPickup(_id);
+    }
+    
     public void SpawnPackage(GameObject package)
     {
         _currentPackage = Instantiate(package, _packageSpawnPoint.position, _packageSpawnPoint.rotation);
@@ -22,20 +28,16 @@ public class PickupLoc : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        if (!other.CompareTag("Player") || !HasPackage)
             return;
 
-        if (!HasPackage)
-            return;
-
-        Pickup();
+        OnPickupEntered?.Invoke(_id);
     }
 
-    private void Pickup()
+    public void RemovePackage()
     {
         if (_currentPackage != null)
         {
-            OnPickupEntered?.Invoke(_id);
             Destroy(_currentPackage);
             _currentPackage = null;
         }

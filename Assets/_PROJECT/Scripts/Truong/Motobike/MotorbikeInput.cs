@@ -1,65 +1,76 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MotorbikeInput : MonoBehaviour
 {
-	private Vector2 _inputDir;
-	public float MoveInput { get; private set; }
-	public float SteerInput { get; private set; }
-	public bool IsBraking { get; private set; }
+    public float MoveInput { get; private set; }
+    public bool IsReversing => MoveInput < 0;
+    public float SteerInput { get; private set; }
+    public bool IsBraking { get; private set; }
 
-	public bool CanControl { get; private set; } = true;
+    public bool CanControl { get; private set; } = true;
+
+    private InputAction _moveAction;
+    private InputAction _brakeAction;
 
     private void Start()
     {
-		InputManager.Instance.InputActions.OnBike.Brake.started += OnBrakeStarted;
-		InputManager.Instance.InputActions.OnBike.Brake.canceled += OnBrakeCanceled;
-	}
+        if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
+        {
+            var onBikeMap = InputManager.Instance.InputActions.OnBike;
+            
+            _moveAction = onBikeMap.Move;
+            _brakeAction = onBikeMap.Brake;
 
-    private void OnDisable()
+            _brakeAction.started += OnBrakeStarted;
+            _brakeAction.canceled += OnBrakeCanceled;
+        }
+        else
+        {
+            Debug.LogError("Mất tích InputManager! Check lại Script Execution Order đi.");
+        }
+    }
+
+    private void OnDestroy()
     {
-	    if (InputManager.Instance == null) 
-		    return;
-		InputManager.Instance.InputActions.OnBike.Brake.started -= OnBrakeStarted;
-		InputManager.Instance.InputActions.OnBike.Brake.canceled -= OnBrakeCanceled;
-	}
+        if (_brakeAction != null)
+        {
+            _brakeAction.started -= OnBrakeStarted;
+            _brakeAction.canceled -= OnBrakeCanceled;
+        }
+    }
 
-	private void OnBrakeStarted(InputAction.CallbackContext ctx) => IsBraking = true;
-	private void OnBrakeCanceled(InputAction.CallbackContext ctx) => IsBraking = false;
+    private void OnBrakeStarted(InputAction.CallbackContext ctx) => IsBraking = true;
+    private void OnBrakeCanceled(InputAction.CallbackContext ctx) => IsBraking = false;
 
-	void Update()
-	{
-		if (!CanControl)
-		{
-			MoveInput = 0f;
-			SteerInput = 0f;
-			IsBraking = false;
-			return;
-		}
+    void Update()
+    {
+        if (!CanControl)
+        {
+            MoveInput = 0f;
+            SteerInput = 0f;
+            IsBraking = false;
+            return;
+        }
 
-		ReadAxes();
-	}
+        if (_moveAction != null)
+        {
+            Vector2 inputDir = _moveAction.ReadValue<Vector2>();
+            MoveInput = inputDir.y;
+            SteerInput = inputDir.x;
+        }
+    }
+    
+    public void LockMovement() => SetMovementLock(true);
+    public void UnlockMovement() => SetMovementLock(false);
+    
+    private void SetMovementLock(bool isLocked)
+    {
+        CanControl = !isLocked;
 
-	private void ReadAxes()
-	{
-		_inputDir = InputManager.Instance.InputActions.OnBike.Move.ReadValue<Vector2>();
-		MoveInput = _inputDir.y;
-		SteerInput = _inputDir.x;
-	}
-	
-	public void LockMovement() => SetMovementLock( true);
-	public void UnlockMovement() => SetMovementLock(false);
-	
-	private void SetMovementLock(bool isLocked)
-	{
-		CanControl = !isLocked;
-
-		if (isLocked)
-		{
-			IsBraking = false;
-		}
-	}
+        if (isLocked)
+        {
+            IsBraking = false;
+        }
+    }
 }

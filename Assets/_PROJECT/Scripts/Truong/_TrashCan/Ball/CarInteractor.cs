@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CarInteractor : MonoBehaviour, IInteractor
 {
@@ -8,7 +9,6 @@ public class CarInteractor : MonoBehaviour, IInteractor
     [SerializeField] private Transform _interactionPoint;
     [SerializeField] private float _interactRadius = 0.5f;
     [SerializeField] private LayerMask _interactLayer;
-    [SerializeField] private KeyCode _interactKey = KeyCode.E;
 
     private bool _canInteract = true;
     private IInteractable _currentInteractable;
@@ -16,17 +16,31 @@ public class CarInteractor : MonoBehaviour, IInteractor
     
     [SerializeField] private CarControllerLegacy _carController;
 
-    // Update is called once per frame
+    private void OnEnable()
+    {
+        if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
+        {
+            InputManager.Instance.InputActions.OnBike.Interact.performed += OnInteractInput;
+        }
+    }
+    private void OnDisable()
+    {
+        if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
+        {
+            InputManager.Instance.InputActions.OnBike.Interact.performed -= OnInteractInput;
+        }
+    }
+    private void OnInteractInput(InputAction.CallbackContext context)
+    {
+        if (!_canInteract || _currentInteractable == null) return;
+        
+        _currentInteractable.Interact(this);
+    }
     void Update()
     {
         if (!_canInteract) return;
 
         DetectInteractable();
-
-        if (_currentInteractable != null && Input.GetKeyDown(_interactKey))
-        {
-            _currentInteractable.Interact(this);
-        }
     }
 
     private void DetectInteractable()

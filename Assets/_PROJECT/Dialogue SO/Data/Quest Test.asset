@@ -24,8 +24,7 @@ MonoBehaviour:
   - NodeID: 1
     SpeakerName: Nig
     Text: "Look who finally decided to be productive. Yeah, I\u2019ve got a stack
-      of pepperoni disks getting cold. They need to go to BUV (British University
-      Vietnam) immediately."
+      of pepperoni disks getting cold. They need to go to BUV immediately."
     VoiceLine: {fileID: 0}
     Choices: []
     DefaultNextNodeID: 2

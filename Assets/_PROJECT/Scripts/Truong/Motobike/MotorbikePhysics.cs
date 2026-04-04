@@ -9,6 +9,7 @@ public class MotorbikePhysics : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float _maxSpeed = 30f;
+    [SerializeField] private float _reverseSpeed = 10f;
     [SerializeField] private float _acceleration = 5f;
 
     [Header("Steering")]
@@ -24,6 +25,7 @@ public class MotorbikePhysics : MonoBehaviour
     [SerializeField] private float _brakingFactor = 5f;
     [SerializeField] private float _driftDrag = 5f;
     [SerializeField] private float _normalDrag = 1f;
+    [SerializeField] private float _stopDrag = 100f;
 
     [Header("Ground")]
     [SerializeField] private MotorbikeGroundCheck _groundCheck;
@@ -32,7 +34,8 @@ public class MotorbikePhysics : MonoBehaviour
     [Header("Arcade Magic")] // cailongiday
     [SerializeField] private float _downforce = 50f; // để xe bám đường hơn
     [SerializeField] private float _fallGravityMultiplier = 3f; // 
-    
+
+    private bool _isLocked = false;
 
     public float LateralVelocity { get; private set; }
     public float CurrentVelocityOffset { get; private set; }
@@ -57,6 +60,12 @@ public class MotorbikePhysics : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_isLocked)
+        {
+            ApplyGravity();
+            return;
+        }
+
         // 1. Tính xem xe đang trôi dạt (drift) hay đang đi thẳng
         UpdateVelocityOffset();
 
@@ -133,8 +142,10 @@ public class MotorbikePhysics : MonoBehaviour
         Vector3 moveDirection = Vector3.ProjectOnPlane(transform.forward, groundNormal).normalized;
 
         // Vận tốc mục tiêu: Hướng chuẩn x Ga x Tốc độ tối đa.
-        Vector3 targetVelocity = moveDirection * (_input.MoveInput * _maxSpeed);
 
+        float speed = _input.IsReversing ? _reverseSpeed : _maxSpeed;
+        Vector3 targetVelocity = moveDirection * (_input.MoveInput * speed);
+        
         // Vận tốc hiện tại của cục Sphere.
         Vector3 currentVelocity = _rbSphere.velocity;
 
@@ -220,5 +231,11 @@ public class MotorbikePhysics : MonoBehaviour
 
         // Cuối cùng là áp nó vào cái Body của xe.
         _rbBikeBody.MoveRotation(Quaternion.Euler(targetRot.eulerAngles.x, transform.eulerAngles.y, targetRot.eulerAngles.z));
+    }
+
+    public void LockPhysics(bool state)
+    {
+        _isLocked = state;
+        _rbBikeBody.drag = state ? _stopDrag : _normalDrag;
     }
 }

@@ -10,10 +10,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerVisualController _visualController;
 
 
-
-
-
-
     public void LockInteraction()
     {
         _interactor.LockInteraction();

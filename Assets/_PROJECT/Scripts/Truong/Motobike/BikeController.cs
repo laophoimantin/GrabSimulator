@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BikeMovement : MonoBehaviour
+public class BikeController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody _rbSphere;
@@ -16,6 +16,10 @@ public class BikeMovement : MonoBehaviour
         _visuals = GetComponent<MotorbikeVisuals>();
 
         HideDummyModel();
+        
+        LockMovement();
+        LockBike();
+        HideDummyModel();
     }
     public void LockMovement() => _input.LockMovement();
     public void UnlockMovement() => _input.UnlockMovement();
@@ -23,4 +27,7 @@ public class BikeMovement : MonoBehaviour
     public void HideDummyModel() => _visuals.SetDummyModelState(false);
 
     public void ShowDummyModel() => _visuals.SetDummyModelState(true);
+
+    public void LockBike() => _physics.LockPhysics(true);
+    public void UnlockBike() => _physics.LockPhysics(false);
 }

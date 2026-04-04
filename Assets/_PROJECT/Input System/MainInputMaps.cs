@@ -265,6 +265,15 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""e062919e-7336-45a6-ae03-81f2d29f01b5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -399,6 +408,17 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
                     ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""478cfe90-564e-4b16-ac14-baadabb2ba0a"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -425,6 +445,7 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
         m_OnBike_Move = m_OnBike.FindAction("Move", throwIfNotFound: true);
         m_OnBike_Exit = m_OnBike.FindAction("Exit", throwIfNotFound: true);
         m_OnBike_Brake = m_OnBike.FindAction("Brake", throwIfNotFound: true);
+        m_OnBike_Interact = m_OnBike.FindAction("Interact", throwIfNotFound: true);
     }
 
     ~@MainInputMaps()
@@ -616,6 +637,7 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
     private readonly InputAction m_OnBike_Move;
     private readonly InputAction m_OnBike_Exit;
     private readonly InputAction m_OnBike_Brake;
+    private readonly InputAction m_OnBike_Interact;
     /// <summary>
     /// Provides access to input actions defined in input action map "OnBike".
     /// </summary>
@@ -639,6 +661,10 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "OnBike/Brake".
         /// </summary>
         public InputAction @Brake => m_Wrapper.m_OnBike_Brake;
+        /// <summary>
+        /// Provides access to the underlying input action "OnBike/Interact".
+        /// </summary>
+        public InputAction @Interact => m_Wrapper.m_OnBike_Interact;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -674,6 +700,9 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         /// <summary>
@@ -694,6 +723,9 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         /// <summary>
@@ -803,5 +835,12 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBrake(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

@@ -62,7 +62,7 @@ public class DialogueController : Singleton<DialogueController>
         if (_nodeMap.TryGetValue(id, out DialogueNode nextNode))
         {
             _currentNode = nextNode;
-        
+
             if (_currentNode.EventTrigger != null)
             {
                 _currentNode.EventTrigger.Raise();

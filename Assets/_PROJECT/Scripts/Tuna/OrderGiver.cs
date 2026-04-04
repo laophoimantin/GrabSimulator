@@ -4,7 +4,7 @@ public class OrderGiver : MonoBehaviour
 {
     [SerializeField] private OrderInfoSO _orderToGive;
 
-        // Add to button later
+    // Todo: Put this into a button
     public void OnDeliveryAccepted()
     {
         DeliveryManager.Instance.AcceptOrder(_orderToGive);

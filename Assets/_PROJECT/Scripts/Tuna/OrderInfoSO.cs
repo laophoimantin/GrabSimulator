@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new order", menuName = "delivery/order")]
+[CreateAssetMenu(fileName = "New OrderInfo", menuName = "Delivery System/Order Info")]
 
 public class OrderInfoSO : ScriptableObject
 {
@@ -11,8 +11,8 @@ public class OrderInfoSO : ScriptableObject
     [SerializeField] private string _orderName;
     [SerializeField] private string _clientName;
 
-    [SerializeField] private LocationID _pickupLoc;
-    [SerializeField] private LocationID _dropLoc;
+    [SerializeField] private LocationID _pickupLocationID;
+    [SerializeField] private LocationID _dropLocationID;
 
     [Header("Special Instructions")]
     [SerializeField] private string _description;
@@ -26,8 +26,8 @@ public class OrderInfoSO : ScriptableObject
     // Public Fields
     public string OrderName => _orderName;
     public string ClientName => _clientName;
-    public LocationID PickupLoc => _pickupLoc;
-    public LocationID DropLoc => _dropLoc;
+    public LocationID PickupLocationID => _pickupLocationID;
+    public LocationID DropLocationID => _dropLocationID;
     public string Description => _description;
     public int CashPayment => _cashPayment;
     public GameObject OrderObject => _orderObject;
