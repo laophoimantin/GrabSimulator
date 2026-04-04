@@ -1,14 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum DeliveryState
-{
-    Pending,
-    Accepted,
-    CarryingPackage
-}
-
 public class DeliveryStates
 {
     private DeliveryState _currentDeliveryState;

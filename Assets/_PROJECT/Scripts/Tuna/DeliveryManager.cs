@@ -72,7 +72,7 @@ public class DeliveryManager : Singleton<DeliveryManager>
         if (_deliveryStates.TryDeliver())
         {
             _currentOrder = null;
-        }
+        } 
     }
 }
 
