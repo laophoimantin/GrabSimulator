@@ -335,6 +335,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "UI",
+            "id": "27e811b3-d45a-4981-87dd-82046a6d6e7f",
+            "actions": [
+                {
+                    "name": "TogglePanel",
+                    "type": "Button",
+                    "id": "ec03ede9-e60a-40fe-a882-f730b373eee0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2458c4d0-a03a-4077-946d-498941ab7eb3",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TogglePanel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

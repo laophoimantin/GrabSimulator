@@ -3,13 +3,6 @@ using UnityEngine.InputSystem;
 
 public class MotorbikeInput : MonoBehaviour
 {
-    public float MoveInput { get; private set; }
-    public bool IsReversing => MoveInput < 0;
-    public float SteerInput { get; private set; }
-    public bool IsBraking { get; private set; }
-
-    public bool CanControl { get; private set; } = true;
-
     private InputAction _moveAction;
     private InputAction _brakeAction;
 
@@ -21,52 +14,34 @@ public class MotorbikeInput : MonoBehaviour
             
             _moveAction = onBikeMap.Move;
             _brakeAction = onBikeMap.Brake;
-
-            _brakeAction.started += OnBrakeStarted;
-            _brakeAction.canceled += OnBrakeCanceled;
+        }
+    }
+    public float MoveInput 
+    {
+        get 
+        {
+            if (InputLocker.IsLocked(InputActionType.BikeMove)) return 0f;
+            return _moveAction != null ? _moveAction.ReadValue<Vector2>().y : 0f;
         }
     }
 
-    private void OnDestroy()
+    public float SteerInput 
     {
-        if (_brakeAction != null)
+        get 
         {
-            _brakeAction.started -= OnBrakeStarted;
-            _brakeAction.canceled -= OnBrakeCanceled;
+            if (InputLocker.IsLocked(InputActionType.BikeMove)) return 0f;
+            return _moveAction != null ? _moveAction.ReadValue<Vector2>().x : 0f;
         }
     }
 
-    private void OnBrakeStarted(InputAction.CallbackContext ctx) => IsBraking = true;
-    private void OnBrakeCanceled(InputAction.CallbackContext ctx) => IsBraking = false;
+    public bool IsReversing => MoveInput < 0;
 
-    void Update()
+    public bool IsBraking 
     {
-        if (!CanControl)
+        get 
         {
-            MoveInput = 0f;
-            SteerInput = 0f;
-            IsBraking = false;
-            return;
-        }
-
-        if (_moveAction != null)
-        {
-            Vector2 inputDir = _moveAction.ReadValue<Vector2>();
-            MoveInput = inputDir.y;
-            SteerInput = inputDir.x;
-        }
-    }
-    
-    public void LockMovement() => SetMovementLock(true);
-    public void UnlockMovement() => SetMovementLock(false);
-    
-    private void SetMovementLock(bool isLocked)
-    {
-        CanControl = !isLocked;
-
-        if (isLocked)
-        {
-            IsBraking = false;
+            if (InputLocker.IsLocked(InputActionType.BikeBrake)) return false;
+            return _brakeAction != null && _brakeAction.IsPressed();
         }
     }
 }

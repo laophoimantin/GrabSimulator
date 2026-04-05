@@ -9,14 +9,16 @@ public enum DeliveryState
     CarryingPackage
 }
 
-public class DeliveryStates
+public class DeliveryStateMachine
 {
     private DeliveryState _currentDeliveryState;
+    public DeliveryState CurrentState => _currentDeliveryState;
 
-    public DeliveryStates()
+    public DeliveryStateMachine()
     {
         _currentDeliveryState = DeliveryState.Pending;
     }
+
     // Centralized state change
     private void ChangeState(DeliveryState newState)
     {
@@ -47,18 +49,14 @@ public class DeliveryStates
             ChangeState(DeliveryState.Accepted);
     }
 
-    public bool TryPickupPackage()
+    public void TryPickupPackage()
     {
-        if (_currentDeliveryState != DeliveryState.Accepted)
-            return false;
-
-        ChangeState(DeliveryState.CarryingPackage);
-        return true;
+        if (_currentDeliveryState == DeliveryState.Accepted)
+            ChangeState(DeliveryState.CarryingPackage);
     }
 
     public bool TryDeliver()
     {
-        Debug.Log(_currentDeliveryState);
         if (_currentDeliveryState != DeliveryState.CarryingPackage)
             return false;
 

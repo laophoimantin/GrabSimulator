@@ -7,14 +7,16 @@ public class DialogueController : Singleton<DialogueController>
     // Events for the UI 
     public event Action<DialogueNode> OnNodeStart;
     public event Action OnDialogueEnd;
-    public event Action<string> OnCustomEventTriggered;
+    private Action _onDialogueFinishedCallback;
 
     private Dictionary<string, DialogueNode> _nodeMap;
     private DialogueNode _currentNode;
     private bool _isDialogueActive;
 
-    public void StartDialogue(DialogueDataSO data, string startNodeID = "Start")
+    public void StartDialogue(DialogueDataSO data, Action onFinishedEvent = null)
     {
+        string startNodeID = DefaultNodeIDs.StartNodeID;
+        _onDialogueFinishedCallback = onFinishedEvent;
         _nodeMap = new Dictionary<string, DialogueNode>();
         foreach (var node in data.Nodes)
         {
@@ -83,5 +85,8 @@ public class DialogueController : Singleton<DialogueController>
         _isDialogueActive = false;
         _currentNode = null;
         OnDialogueEnd?.Invoke();
+        
+        _onDialogueFinishedCallback?.Invoke();
+        _onDialogueFinishedCallback = null;
     }
 }

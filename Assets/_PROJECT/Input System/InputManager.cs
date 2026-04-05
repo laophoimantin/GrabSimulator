@@ -5,8 +5,6 @@ public class InputManager : Singleton<InputManager>
 {
 	private MainInputMaps _inputActions;
 	public MainInputMaps InputActions => _inputActions;
-	public Vector2 OnGroundMoveInput {get; private set;}
-	public Vector2 OnBikeMoveInput {get; private set;} 
 
 
 	protected override void Awake()

@@ -17,17 +17,14 @@ public class BikeController : MonoBehaviour
 
         HideDummyModel();
         
-        LockMovement();
         LockBike();
         HideDummyModel();
     }
-    public void LockMovement() => _input.LockMovement();
-    public void UnlockMovement() => _input.UnlockMovement();
 
     public void HideDummyModel() => _visuals.SetDummyModelState(false);
 
     public void ShowDummyModel() => _visuals.SetDummyModelState(true);
 
     public void LockBike() => _physics.LockPhysics(true);
-    public void UnlockBike() => _physics.LockPhysics(false);
+    public void UnlockPhysic() => _physics.LockPhysics(false);
 }

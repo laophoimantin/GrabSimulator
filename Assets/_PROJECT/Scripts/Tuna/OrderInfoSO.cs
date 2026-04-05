@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New OrderInfo", menuName = "Delivery System/Order Info")]
-
+// TODO: DELETE THIS
 public class OrderInfoSO : ScriptableObject
 {
     // Private Fields

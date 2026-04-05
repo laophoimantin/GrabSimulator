@@ -11,6 +11,11 @@ public class CursorManager : Singleton<CursorManager>
         {
             if (IsCursorActive) HideCursor();
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ShowCursor();
+        }
     }
     
     public void ShowCursor()
