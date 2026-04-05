@@ -40,4 +40,11 @@ public static class InputLocker
     {
         return _locks[type].Count > 0;
     }
+    public static void ForceClearAll()
+    {
+        foreach (var hashSet in _locks.Values)
+        {
+            hashSet.Clear();
+        }
+    }
 }

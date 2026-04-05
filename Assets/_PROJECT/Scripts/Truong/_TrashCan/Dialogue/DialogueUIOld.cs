@@ -115,7 +115,7 @@ public class DialogueUIOld : Singleton<DialogueUIOld>
         IsOpen = false;
         _dialogueBox.SetActive(false);
         _textLabel.text = string.Empty;
-        CursorManager.Instance.HideCursor();
+        //CursorManager.Instance.HideCursor();
         
     }
 }

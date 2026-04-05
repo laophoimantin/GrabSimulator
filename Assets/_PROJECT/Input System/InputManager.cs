@@ -15,7 +15,9 @@ public class InputManager : Singleton<InputManager>
 
 	private void Start()
 	{
-		SetPlayerMode();
+		SetPlayerInputState();
+		_inputActions.UI.Enable();
+		_inputActions.MouseInput.Enable();
 	}
 
 	private void OnDisable()
@@ -23,15 +25,21 @@ public class InputManager : Singleton<InputManager>
 		_inputActions.Disable();
 	}
 
-	public void SetPlayerMode()
+	public void SetPlayerInputState()
 	{
 		_inputActions.OnBike.Disable();
 		_inputActions.OnGround.Enable();
 	}
 
-	public void SetMotorcycleMode()
+	public void DisablePlayerInputState()
+	{
+		_inputActions.OnGround.Disable();
+	}
+
+	public void SetMotorcycleInputState()
 	{
 		_inputActions.OnGround.Disable();
 		_inputActions.OnBike.Enable();
 	}
+	
 }

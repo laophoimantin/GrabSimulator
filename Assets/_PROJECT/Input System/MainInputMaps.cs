@@ -449,6 +449,34 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MouseInput"",
+            ""id"": ""90ac23d3-510d-4fc8-a455-937fe3d4921c"",
+            ""actions"": [
+                {
+                    ""name"": ""MouseLook"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""906a30cf-38ed-412b-b886-2624d71015ee"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2ae1a9b5-9252-4181-bc49-056edb79562a"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseLook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -477,6 +505,9 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_TogglePanel = m_UI.FindAction("TogglePanel", throwIfNotFound: true);
+        // MouseInput
+        m_MouseInput = asset.FindActionMap("MouseInput", throwIfNotFound: true);
+        m_MouseInput_MouseLook = m_MouseInput.FindAction("MouseLook", throwIfNotFound: true);
     }
 
     ~@MainInputMaps()
@@ -484,6 +515,7 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_OnGround.enabled, "This will cause a leak and performance issues, MainInputMaps.OnGround.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_OnBike.enabled, "This will cause a leak and performance issues, MainInputMaps.OnBike.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, MainInputMaps.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_MouseInput.enabled, "This will cause a leak and performance issues, MainInputMaps.MouseInput.Disable() has not been called.");
     }
 
     /// <summary>
@@ -887,6 +919,102 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="UIActions" /> instance referencing this action map.
     /// </summary>
     public UIActions @UI => new UIActions(this);
+
+    // MouseInput
+    private readonly InputActionMap m_MouseInput;
+    private List<IMouseInputActions> m_MouseInputActionsCallbackInterfaces = new List<IMouseInputActions>();
+    private readonly InputAction m_MouseInput_MouseLook;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "MouseInput".
+    /// </summary>
+    public struct MouseInputActions
+    {
+        private @MainInputMaps m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public MouseInputActions(@MainInputMaps wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "MouseInput/MouseLook".
+        /// </summary>
+        public InputAction @MouseLook => m_Wrapper.m_MouseInput_MouseLook;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_MouseInput; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="MouseInputActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(MouseInputActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="MouseInputActions" />
+        public void AddCallbacks(IMouseInputActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MouseInputActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MouseInputActionsCallbackInterfaces.Add(instance);
+            @MouseLook.started += instance.OnMouseLook;
+            @MouseLook.performed += instance.OnMouseLook;
+            @MouseLook.canceled += instance.OnMouseLook;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="MouseInputActions" />
+        private void UnregisterCallbacks(IMouseInputActions instance)
+        {
+            @MouseLook.started -= instance.OnMouseLook;
+            @MouseLook.performed -= instance.OnMouseLook;
+            @MouseLook.canceled -= instance.OnMouseLook;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="MouseInputActions.UnregisterCallbacks(IMouseInputActions)" />.
+        /// </summary>
+        /// <seealso cref="MouseInputActions.UnregisterCallbacks(IMouseInputActions)" />
+        public void RemoveCallbacks(IMouseInputActions instance)
+        {
+            if (m_Wrapper.m_MouseInputActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="MouseInputActions.AddCallbacks(IMouseInputActions)" />
+        /// <seealso cref="MouseInputActions.RemoveCallbacks(IMouseInputActions)" />
+        /// <seealso cref="MouseInputActions.UnregisterCallbacks(IMouseInputActions)" />
+        public void SetCallbacks(IMouseInputActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MouseInputActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MouseInputActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="MouseInputActions" /> instance referencing this action map.
+    /// </summary>
+    public MouseInputActions @MouseInput => new MouseInputActions(this);
     private int m_KeyboardSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -985,5 +1113,20 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTogglePanel(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "MouseInput" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="MouseInputActions.AddCallbacks(IMouseInputActions)" />
+    /// <seealso cref="MouseInputActions.RemoveCallbacks(IMouseInputActions)" />
+    public interface IMouseInputActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "MouseLook" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMouseLook(InputAction.CallbackContext context);
     }
 }

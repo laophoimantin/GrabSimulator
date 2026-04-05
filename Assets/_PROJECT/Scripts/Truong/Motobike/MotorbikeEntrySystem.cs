@@ -18,12 +18,6 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _bikeCam.SetActive(false);
     }
 
-    void Start()
-    {
-        InputLocker.Lock(InputActionType.BikeMove, this);
-        InputLocker.Lock(InputActionType.BikeBrake, this);
-    }
-    
     private void OnEnable()
     {
         if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
@@ -59,21 +53,21 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     private void EnterVehicle(PlayerController driver)
     {
         _state = VehicleState.Occupied;
-        InputManager.Instance.SetMotorcycleMode();
+        InputManager.Instance.SetMotorcycleInputState();
 
         _driver = driver;
 
-        InputLocker.Lock(InputActionType.Move, this);
-        InputLocker.Lock(InputActionType.Jump, this);
-        InputLocker.Lock(InputActionType.Interact, this);
+        //InputLocker.Lock(InputActionType.Move, this);
+        //InputLocker.Lock(InputActionType.Jump, this);
+        //InputLocker.Lock(InputActionType.Interact, this);
 
         _driver.transform.SetParent(_controller.transform);
         _driver.HideModel();
         _controller.ShowDummyModel();
         
         
-        InputLocker.Unlock(InputActionType.BikeMove, this);
-        InputLocker.Unlock(InputActionType.BikeBrake, this);
+        //InputLocker.Unlock(InputActionType.BikeMove, this);
+        //InputLocker.Unlock(InputActionType.BikeBrake, this);
         _controller.UnlockPhysic();
         
         _bikeCam.SetActive(true);
@@ -85,15 +79,15 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
             return;
 
         _state = VehicleState.Empty;
-        InputManager.Instance.SetPlayerMode();
+        InputManager.Instance.SetPlayerInputState();
 
-        InputLocker.Lock(InputActionType.BikeMove, this);
-        InputLocker.Lock(InputActionType.BikeBrake, this);
+        //InputLocker.Lock(InputActionType.BikeMove, this);
+        //InputLocker.Lock(InputActionType.BikeBrake, this);
         _controller.UnlockPhysic();
 
-        InputLocker.Unlock(InputActionType.Move, this);
-        InputLocker.Unlock(InputActionType.Jump, this);
-        InputLocker.Unlock(InputActionType.Interact, this);
+        //InputLocker.Unlock(InputActionType.Move, this);
+        //InputLocker.Unlock(InputActionType.Jump, this);
+        //InputLocker.Unlock(InputActionType.Interact, this);
 
         _controller.HideDummyModel();
         _driver.ShowModel();

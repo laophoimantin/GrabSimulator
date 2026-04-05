@@ -27,7 +27,7 @@ public class DialogueController : Singleton<DialogueController>
         }
 
         _isDialogueActive = true;
-        CursorManager.Instance.ShowCursor();
+        CursorLocker.RequestCursor(this);
         JumpToNode(startNodeID);
     }
 
@@ -81,7 +81,7 @@ public class DialogueController : Singleton<DialogueController>
 
     private void EndDialogue()
     {
-        CursorManager.Instance.HideCursor();
+        CursorLocker.ReleaseCursor(this);
         _isDialogueActive = false;
         _currentNode = null;
         OnDialogueEnd?.Invoke();

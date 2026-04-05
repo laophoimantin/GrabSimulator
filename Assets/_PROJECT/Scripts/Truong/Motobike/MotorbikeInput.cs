@@ -20,7 +20,10 @@ public class MotorbikeInput : MonoBehaviour
     {
         get 
         {
-            if (InputLocker.IsLocked(InputActionType.BikeMove)) return 0f;
+            if (InputLocker.IsLocked(InputActionType.BikeMove))
+            {
+                return 0f;
+            }
             return _moveAction != null ? _moveAction.ReadValue<Vector2>().y : 0f;
         }
     }
@@ -29,7 +32,10 @@ public class MotorbikeInput : MonoBehaviour
     {
         get 
         {
-            if (InputLocker.IsLocked(InputActionType.BikeMove)) return 0f;
+            if (InputLocker.IsLocked(InputActionType.BikeMove)) 
+            {
+                return 0f;
+            }
             return _moveAction != null ? _moveAction.ReadValue<Vector2>().x : 0f;
         }
     }
@@ -40,7 +46,9 @@ public class MotorbikeInput : MonoBehaviour
     {
         get 
         {
-            if (InputLocker.IsLocked(InputActionType.BikeBrake)) return false;
+            if (InputLocker.IsLocked(InputActionType.BikeBrake))  {
+                return false;
+            }
             return _brakeAction != null && _brakeAction.IsPressed();
         }
     }

@@ -49,11 +49,11 @@ public class DeliveryStateMachine
             ChangeState(DeliveryState.Accepted);
     }
 
-    public void TryPickupPackage()
-    {
-        if (_currentDeliveryState == DeliveryState.Accepted)
-            ChangeState(DeliveryState.CarryingPackage);
-    }
+        public void TryPickupPackage()
+        {
+            if (_currentDeliveryState == DeliveryState.Accepted)
+                ChangeState(DeliveryState.CarryingPackage);
+        }
 
     public bool TryDeliver()
     {

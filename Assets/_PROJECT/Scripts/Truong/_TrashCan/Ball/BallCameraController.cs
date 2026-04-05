@@ -19,7 +19,7 @@ public class BallCameraController : MonoBehaviour
     
     void Start()
     {
-        CursorManager.Instance.HideCursor();
+        //CursorManager.Instance.HideCursor();
     }
 
     void Update()

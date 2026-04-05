@@ -31,7 +31,7 @@ public class DialogueActivatorOld : MonoBehaviour, IInteractable
     {
         if (DialogueUIOld.Instance.IsOpen) return;
 
-        CursorManager.Instance.ShowCursor();
+        //CursorManager.Instance.ShowCursor();
         CinemachineManager.Instance.SetNewCamera(_cinemachineObj);
         
 ;        AddDialogueResponseEvents();

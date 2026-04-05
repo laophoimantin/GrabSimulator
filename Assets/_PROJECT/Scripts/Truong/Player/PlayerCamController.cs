@@ -8,6 +8,8 @@ public class PlayerCamController : MonoBehaviour
     [SerializeField] private Transform _mainCamera;
     [SerializeField] private GameObject _cinemachineObj;
 
+    [SerializeField] private PlayerInputController _inputController;
+    
     [Header("Settings")]
     [SerializeField] private float _rotationSpeed;
 
@@ -17,38 +19,60 @@ public class PlayerCamController : MonoBehaviour
 
     void Start()
     {
-        CursorManager.Instance.HideCursor();
-
-        if (_mainCamera == null)
-            if (Camera.main != null)
-                _mainCamera = Camera.main.transform;
+        if (_mainCamera == null && Camera.main != null)
+            _mainCamera = Camera.main.transform;
     }
 
     void Update()
     {
-        if (CursorManager.Instance.IsCursorActive)
-            return;
-
-        MyInput();
-
-        // Rotate orientation 
+        // 1. Rotate orientation 
         Vector3 viewDir = _playerObj.position - _mainCamera.position;
         viewDir.y = 0;
         _orientation.forward = viewDir.normalized;
 
-        // Rotate the player object
+        // 2. Rotate the player object
         RotateModel();
+        
+        Vector2 mouseDelta = InputManager.Instance.InputActions.MouseInput.MouseLook.ReadValue<Vector2>();
+        Debug.Log(mouseDelta);
     }
 
     private void RotateModel()
     {
+        float h = _inputController.HorizontalInput;
+        float v = _inputController.VerticalInput;
+
         // Calculate direction relative to camera orientation
-        Vector3 inputDir = _orientation.forward * _verticalInput + _orientation.right * _horizontalInput;
+        Vector3 inputDir = _orientation.forward * v + _orientation.right * h;
+        
         if (inputDir != Vector3.zero)
         {
             _playerObj.forward = Vector3.Slerp(_playerObj.forward, inputDir.normalized, _rotationSpeed * Time.deltaTime);
         }
     }
+    
+    // void Update()
+    // {
+    //     MyInput();
+    //
+    //     // Rotate orientation 
+    //     Vector3 viewDir = _playerObj.position - _mainCamera.position;
+    //     viewDir.y = 0;
+    //     _orientation.forward = viewDir.normalized;
+    //
+    //     // Rotate the player object
+    //     RotateModel();
+    // }
+    //
+    // private void RotateModel()
+    // {
+    //     // Calculate direction relative to camera orientation
+    //     Vector3 inputDir = _orientation.forward * _verticalInput + _orientation.right * _horizontalInput;
+    //     if (inputDir != Vector3.zero)
+    //     {
+    //         _playerObj.forward = Vector3.Slerp(_playerObj.forward, inputDir.normalized, _rotationSpeed * Time.deltaTime);
+    //     }
+    // }
     
     private void MyInput()
     {
