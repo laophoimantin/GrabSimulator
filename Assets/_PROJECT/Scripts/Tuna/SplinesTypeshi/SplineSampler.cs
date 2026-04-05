@@ -3,15 +3,16 @@ using UnityEngine;
 using UnityEngine.Splines;
 
 using UnityEditor;
+using System.Collections.Generic;
 
 [ExecuteInEditMode]
 public class SplineSampler : MonoBehaviour
 {
     [SerializeField] private SplineContainer _splineContainer;
     [SerializeField] private int _splineIndex;
-    [SerializeField, Range(0f, 1f)] private float _timeRange;
     [SerializeField] private float speed = 0.1f;
     [SerializeField] private float time;
+    private float _timeRange = 1;
 
     [SerializeField] private float width = 0.5f;
 
@@ -21,43 +22,89 @@ public class SplineSampler : MonoBehaviour
     float3 p1;
     float3 p2;
 
+    private List<Vector3> _vertsP1;
+    private List<Vector3> _vertsP2;
+
+    [SerializeField] int resolution;
+
     private void Update()
     {
-        if (_splineContainer == null) return;
-        if (Application.isPlaying)
+        //if (_splineContainer == null) return;
+        //if (Application.isPlaying)
+        //{
+        //    time += Time.deltaTime * speed;
+        //    if (time > _timeRange) time = 0f;
+        //}
+
+        //_splineContainer.Evaluate(_splineIndex, time, out _position, out _forward, out _upVector);
+
+        //Debug.Log($"{time} Position: {_position}, Forward: {_forward}, Up: {_upVector}");
+        //float3 right = math.normalize(math.cross(_forward, _upVector));
+
+        //p1 = _position + (right * width);
+        //p2 = _position + (-right * width);
+
+        GetVerts();
+    }
+    private void BuildMesh()
+    {
+        Mesh m = new Mesh();
+        List<Vector3> verts = new List<Vector3>();
+        List<int> tris = new List<int>();
+        int offset = 0;
+        int length = _vertsP2.Count;
+    }
+
+    private void GetVerts()
+    {
+        _vertsP1 = new List<Vector3>();
+        _vertsP2 = new List<Vector3>();
+
+        float step = 1f / (float)resolution;
+
+        for (int i = 0; i < resolution; i++)
         {
-            time += Time.deltaTime * speed;
-            if (time > _timeRange) time = 0f;
+            float t = step * i;
+            SampleSplineWidth(t, out Vector3 p1, out Vector3 p2);
+
+            _vertsP1.Add(p1);
+            _vertsP2.Add(p2);
         }
+    }
 
-        _splineContainer.Evaluate(_splineIndex, time, out _position, out _forward, out _upVector);
-
-        Debug.Log($"{time} Position: {_position}, Forward: {_forward}, Up: {_upVector}");
+    public bool SampleSplineWidth(float t, out Vector3 p1, out Vector3 p2)
+    {
+        if (_splineContainer == null)
+        {
+            p1 = Vector3.zero;
+            p2 = Vector3.zero;
+            return false;
+        }
+        _splineContainer.Evaluate(_splineIndex, t, out _position, out _forward, out _upVector);
         float3 right = math.normalize(math.cross(_forward, _upVector));
-
         p1 = _position + (right * width);
         p2 = _position + (-right * width);
-
+        return true;
     }
+
     private void OnDrawGizmos()
     {
         if (_splineContainer == null) return;
+        if (_vertsP1 == null || _vertsP2 == null) return;
 
         Handles.matrix = transform.localToWorldMatrix;
 
-        Handles.color = Color.green;
-        Handles.SphereHandleCap(0, _position, Quaternion.identity, 0.2f, EventType.Repaint);
+    //    Gizmos.DrawSphere(p1, (float) 0.1);
+    //    Gizmos.DrawSphere(p2, (float) 0.1);
 
-        Handles.color = Color.red;
-        Handles.SphereHandleCap(0, p1, Quaternion.identity, 0.1f, EventType.Repaint);
-        Handles.SphereHandleCap(0, p2, Quaternion.identity, 0.1f, EventType.Repaint);
-
-        Handles.color = Color.white;
-        Handles.DrawLine(_position, p1);
-        Handles.DrawLine(_position, p2);
-
-        Gizmos.DrawSphere(_position, 1);
-        Gizmos.DrawSphere(_position, 1);
+        foreach (var vert in _vertsP1)
+        {
+            Gizmos.DrawSphere(vert, (float)0.1);
+        }
+        foreach (var vert in _vertsP2)
+        {
+            Gizmos.DrawSphere(vert, (float)0.1);
+        }
     }
 }
 //using Unity.Mathematics;
