@@ -25,10 +25,6 @@ public class MotorbikeInput : MonoBehaviour
             _brakeAction.started += OnBrakeStarted;
             _brakeAction.canceled += OnBrakeCanceled;
         }
-        else
-        {
-            Debug.LogError("Mất tích InputManager! Check lại Script Execution Order đi.");
-        }
     }
 
     private void OnDestroy()

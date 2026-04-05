@@ -20,6 +20,7 @@ public class PlayerInputController : MonoBehaviour
 
     void Update()
     {
+        
         if (_moveAction != null)
         {
             MoveInput = _moveAction.ReadValue<Vector2>();

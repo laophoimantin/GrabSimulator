@@ -49,8 +49,6 @@ public class PlayerCamController : MonoBehaviour
             _playerObj.forward = Vector3.Slerp(_playerObj.forward, inputDir.normalized, _rotationSpeed * Time.deltaTime);
         }
     }
-
-    
     
     private void MyInput()
     {

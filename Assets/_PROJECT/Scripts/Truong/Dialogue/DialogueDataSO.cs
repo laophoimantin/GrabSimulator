@@ -40,4 +40,11 @@ public struct DialogueChoice
 {
     public string ChoiceText;
     public string TargetNodeID;
+    public DialogueChoiceType ChoiceType;
+}
+public enum DialogueChoiceType
+{
+    NormalBranching,
+    AcceptOrder, 
+    DeclineOrder 
 }
