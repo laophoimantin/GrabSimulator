@@ -57,17 +57,11 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
 
         _driver = driver;
 
-        //InputLocker.Lock(InputActionType.Move, this);
-        //InputLocker.Lock(InputActionType.Jump, this);
-        //InputLocker.Lock(InputActionType.Interact, this);
-
         _driver.transform.SetParent(_controller.transform);
         _driver.HideModel();
         _controller.ShowDummyModel();
         
         
-        //InputLocker.Unlock(InputActionType.BikeMove, this);
-        //InputLocker.Unlock(InputActionType.BikeBrake, this);
         _controller.UnlockPhysic();
         
         _bikeCam.SetActive(true);
@@ -81,13 +75,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _state = VehicleState.Empty;
         InputManager.Instance.SetPlayerInputState();
 
-        //InputLocker.Lock(InputActionType.BikeMove, this);
-        //InputLocker.Lock(InputActionType.BikeBrake, this);
         _controller.UnlockPhysic();
-
-        //InputLocker.Unlock(InputActionType.Move, this);
-        //InputLocker.Unlock(InputActionType.Jump, this);
-        //InputLocker.Unlock(InputActionType.Interact, this);
 
         _controller.HideDummyModel();
         _driver.ShowModel();

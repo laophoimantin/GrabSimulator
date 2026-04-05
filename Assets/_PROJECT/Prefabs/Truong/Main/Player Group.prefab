@@ -77,10 +77,10 @@ MonoBehaviour:
   m_LegacyBlendHint: 0
   m_YAxis:
     Value: 1
-    m_SpeedMode: 0
-    m_MaxSpeed: 2
-    m_AccelTime: 0.2
-    m_DecelTime: 0.1
+    m_SpeedMode: 1
+    m_MaxSpeed: 0.002
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
     m_InvertInput: 1
@@ -101,10 +101,10 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_SpeedMode: 0
-    m_MaxSpeed: 300
-    m_AccelTime: 0.1
-    m_DecelTime: 0.1
+    m_SpeedMode: 1
+    m_MaxSpeed: 0.15
+    m_AccelTime: 0
+    m_DecelTime: 0
     m_InputAxisName: Mouse X
     m_InputAxisValue: 0
     m_InvertInput: 0
@@ -453,6 +453,7 @@ MonoBehaviour:
   _playerObj: {fileID: 8454124240405817614}
   _mainCamera: {fileID: 8075262113499646447}
   _cinemachineObj: {fileID: 128099460758131138}
+  _inputController: {fileID: 1710223575133021121}
   _rotationSpeed: 7
 --- !u!1 &806825251283610323
 GameObject:

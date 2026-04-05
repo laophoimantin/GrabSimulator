@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Cargo Type", menuName = "Delivery/Cargo Type")]
-public class CargoTypeSO :ScriptableObject
+public class CargoTypeSO : ScriptableObject
 {
     public string CargoName;
     public CargoType CargoType;

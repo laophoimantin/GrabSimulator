@@ -5,7 +5,6 @@ public class OrderGenerator : Singleton<OrderGenerator>
 {
     [Header("Data Config")]
     [SerializeField] private List<CargoTypeSO> _availableCargos;
-    [SerializeField] private List<LocationID> _allLocations;
 
     [Header("Economy Config")]
     [SerializeField] private float _baseRatePerMeter = 10f;

@@ -32,9 +32,6 @@ public class PlayerCamController : MonoBehaviour
 
         // 2. Rotate the player object
         RotateModel();
-        
-        Vector2 mouseDelta = InputManager.Instance.InputActions.MouseInput.MouseLook.ReadValue<Vector2>();
-        Debug.Log(mouseDelta);
     }
 
     private void RotateModel()

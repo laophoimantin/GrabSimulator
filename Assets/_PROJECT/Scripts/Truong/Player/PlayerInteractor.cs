@@ -13,6 +13,8 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
 
     private bool _canInteract = true;
     private IInteractable _currentInteractable;
+    
+    private PhysicalCargo _heldCargo;
 
     private readonly Collider[] _colliders = new Collider[10];
 
@@ -34,11 +36,20 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
 
     private void OnInteractInput(InputAction.CallbackContext context)
     {
-        if (!_canInteract || _currentInteractable == null) return;
+        if (!_canInteract) return;
 
-        _currentInteractable.Interact(this);
+        if (_heldCargo != null)
+        {
+            DropHeldCargo();
+            return; 
+        }
+
+        if (_currentInteractable != null)
+        {
+            _currentInteractable.Interact(this);
+        }
     }
-
+    
     void Update()
     {
         if (!_canInteract)
@@ -49,6 +60,18 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
 
         DetectInteractable();
     }
+    
+    public void HoldCargo(PhysicalCargo cargo)
+    {
+        _heldCargo = cargo;
+    }
+
+    private void DropHeldCargo()
+    {
+        _heldCargo.DropFromHands();
+        _heldCargo = null;     
+    }
+
 
     private void DetectInteractable()
     {
