@@ -103,10 +103,10 @@ public class MotorbikePhysics : MonoBehaviour
         // Hàm này sẽ trả lời câu hỏi: "So với CÁI XE, thì nó đang trượt ngang bao nhiêu, tiến tới bao nhiêu?"
         Vector3 localVel = _rbBikeBody.transform.InverseTransformDirection(_rbBikeBody.velocity);
 
-        //Chia cho _maxSpeed để normalize: 1.0 = full speed tiến, -1.0 = full speed lùi
+        //  Chia cho _maxSpeed để normalize: 1.0 = full speed tiến, -1.0 = full speed lùi
         // Không clamp để Rotate() vẫn hoạt động khi lùi (giá trị âm đảo chiều lái)
-        // Nói chung là xem xe đang chạy bao nhiêu phần trăm so với max speed, dm
-        //CurrentVelocityOffset = Mathf.Clamp01(localVel.z / _maxSpeed);
+        // Nói chung là xem xe đang chạy bao nhiêu phần trăm so với max speed
+        //  CurrentVelocityOffset = Mathf.Clamp01(localVel.z / _maxSpeed);
         CurrentVelocityOffset = localVel.z / _maxSpeed;
         // Trục X: Trái/Phải. Nếu số này to tức là xe đang bị văng đít về đâu (Drift). Nói chung là để xong xe có đang drift không
         //Trục X local: dương = văng sang phải, âm = văng sang trái
