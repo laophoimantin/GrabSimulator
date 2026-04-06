@@ -21,7 +21,6 @@ public class MotorbikeGroundCheck : MonoBehaviour
     private void FixedUpdate()
     {
         IsGrounded = CheckGround();
-        print(IsGrounded);
     }
 
     private bool CheckGround()
@@ -31,7 +30,7 @@ public class MotorbikeGroundCheck : MonoBehaviour
         RaycastHit hit;
 
         // Quét một cục cầu từ trên xuống dưới (SphereCast).
-        if (Physics.SphereCast(origin, radius + 0.02f, -transform.up, out hit, _rayLength, _groundLayer))
+        if (Physics.SphereCast(origin, radius + 0.1f, -transform.up, out hit, _rayLength, _groundLayer))
         {
             HitInfo = hit;
             return true;

@@ -8,12 +8,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerMovement _movement;
     [SerializeField] private PlayerInteractor _interactor;
     [SerializeField] private PlayerVisualController _visualController;
+    [SerializeField] private Transform _handPos;
 
-
-
-
-
-
+    public Transform HandPos => _handPos;
     public void LockInteraction()
     {
         _interactor.LockInteraction();

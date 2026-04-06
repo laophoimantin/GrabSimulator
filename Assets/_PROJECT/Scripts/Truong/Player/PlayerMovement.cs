@@ -6,12 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
-    private enum PlayerState
-    {
-        Idle,
-        Walking,
-        Falling
-    }
+    [Header("References")]
+    [SerializeField] private PlayerInputController _inputController;
 
     private PlayerState _playerState;
 
@@ -22,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _groundDrag = 5f;
     [SerializeField] private float _slopeDrag = 7f;
     [SerializeField] private float _airMultiplier = 0.4f;
-    
+
     private bool _canMove = true;
 
     [Header("Ground Check")]
@@ -30,8 +26,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _groundMask;
     [SerializeField] private Transform _orientation;
 
-    private float _horizontalInput;
-    private float _verticalInput;
     private Vector3 _moveDirection;
 
     // Slope Handling
@@ -49,8 +43,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_canMove)
         {
-            _horizontalInput = 0;
-            _verticalInput = 0;
             return;
         }
 
@@ -58,7 +50,6 @@ public class PlayerMovement : MonoBehaviour
         StateHandler();
 
 
-        GetInput();
         SpeedControl();
 
         if (_isOnSlope)
@@ -79,16 +70,12 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer();
     }
 
-    private void GetInput()
-    {
-        _horizontalInput = Input.GetAxisRaw("Horizontal");
-        _verticalInput = Input.GetAxisRaw("Vertical");
-    }
+ 
 
     private void MovePlayer()
     {
         // Calculate move direction
-        _moveDirection = _orientation.forward * _verticalInput + _orientation.right * _horizontalInput;
+        _moveDirection = _orientation.forward * _inputController.VerticalInput + _orientation.right * _inputController.HorizontalInput;
 
         // Slope
         if (_isOnSlope)
@@ -145,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
+
     public void SetMovementLock(bool isLocked)
     {
         _canMove = !isLocked;
@@ -189,4 +176,11 @@ public class PlayerMovement : MonoBehaviour
 #endif
 
     #endregion
+}
+
+public enum PlayerState
+{
+    Idle,
+    Walking,
+    Falling
 }
