@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum DeliveryState
 {
 	Pending,
@@ -10,12 +9,12 @@ public enum DeliveryState
 	CarryingPackage
 }
 
-public class DeliveryStates
+public class DeliveryStateMachine
 {
 	private DeliveryState _currentDeliveryState;
 	public DeliveryState CurrentState => _currentDeliveryState;
 
-	public DeliveryStates()
+	public DeliveryStateMachine()
 	{
 		_currentDeliveryState = DeliveryState.Pending;
 	}
@@ -66,5 +65,4 @@ public class DeliveryStates
 		ChangeState(DeliveryState.Pending);
 		return true;
 	}
-
 }

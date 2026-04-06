@@ -6,7 +6,7 @@ using UnityEngine;
 public class DeliveryManager : Singleton<DeliveryManager>
 {
 	private Order _currentOrder;
-	private DeliveryStates _deliveryStateMachine = new();
+	private DeliveryStateMachine _deliveryStateMachine = new();
 	public DeliveryState GetCurrentState() => _deliveryStateMachine.CurrentState;
 	private Dictionary<LocationID, LocationNode> _locationNodes = new();
 

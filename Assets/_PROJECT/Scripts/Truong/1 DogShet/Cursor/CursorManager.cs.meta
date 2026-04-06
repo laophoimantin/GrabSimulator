@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/_PROJECT/Scripts/Truong/1 DogShet/Cursor/CursorManager.cs.meta
 guid: ec0f405fc52f4404eb764e1426d6195d
+========
+guid: 3fc903bbb6be5fd46b1ab9473cd770c9
+>>>>>>>> Stashed changes:Assets/_PROJECT/Scripts/Tuna/DeliveryStateMachine.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
