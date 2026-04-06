@@ -57,6 +57,7 @@ public class DeliveryManager : Singleton<DeliveryManager>
 
         if (_deliveryStates.TryPickupPackage())
         {
+            SoundManager.Instance.PlaySound2D(DeliverySoundType.Item_Pick_Up, volume: 0.5f);
             Debug.Log("Package picked up");
         }
     }

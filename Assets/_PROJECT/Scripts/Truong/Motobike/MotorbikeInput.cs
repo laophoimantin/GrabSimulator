@@ -10,6 +10,7 @@ public class MotorbikeInput : MonoBehaviour
 	public float MoveInput { get; private set; }
 	public float SteerInput { get; private set; }
 	public bool IsBraking { get; private set; }
+	public bool IsHonking { get; private set; }
 
 	public bool CanControl { get; private set; } = true;
 
@@ -17,6 +18,9 @@ public class MotorbikeInput : MonoBehaviour
     {
 		InputManager.Instance.InputActions.OnBike.Brake.started += OnBrakeStarted;
 		InputManager.Instance.InputActions.OnBike.Brake.canceled += OnBrakeCanceled;
+
+		InputManager.Instance.InputActions.OnBike.Honk.started += OnHonkStarted;
+		InputManager.Instance.InputActions.OnBike.Honk.canceled += OnHonkCancelled;
 	}
 
     private void OnDisable()
@@ -25,10 +29,16 @@ public class MotorbikeInput : MonoBehaviour
 		    return;
 		InputManager.Instance.InputActions.OnBike.Brake.started -= OnBrakeStarted;
 		InputManager.Instance.InputActions.OnBike.Brake.canceled -= OnBrakeCanceled;
-	}
+
+        InputManager.Instance.InputActions.OnBike.Honk.started -= OnHonkStarted;
+        InputManager.Instance.InputActions.OnBike.Honk.canceled -= OnHonkCancelled;
+    }
 
 	private void OnBrakeStarted(InputAction.CallbackContext ctx) => IsBraking = true;
 	private void OnBrakeCanceled(InputAction.CallbackContext ctx) => IsBraking = false;
+
+	private void OnHonkStarted(InputAction.CallbackContext ctx) => IsHonking = true;
+	private void OnHonkCancelled(InputAction.CallbackContext ctx) => IsHonking = false;
 
 	void Update()
 	{

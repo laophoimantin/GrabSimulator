@@ -15,5 +15,8 @@ public class MotorbikeSoundSO : ScriptableObject
     [Range(-10, 10)] public float MaxPitch;
 
     public float MaxEngineStartVolume;
+
+    [Space]
+    public float MinEngineRunVolume;
     public float MaxEngineRunVolume;
 }

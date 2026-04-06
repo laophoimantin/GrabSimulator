@@ -11,7 +11,13 @@ public class Global
         public static float MinimumCollisionForce { get; } = 4f;
         #endregion
 
+
+        #region LANDING VARIABLE
+        public static float MinimumLandingForce { get; } = 2f;
+        public static float MaximumLandingSpeed { get; } = 50f; // Change this later
+        #endregion
     }
+
 
     public class Dialogue
     {
@@ -65,7 +71,25 @@ public struct MotorbikeGameplaySoundList
 
 
 [Serializable]
-public struct EnvironmentSoundList
+public struct DeliverySoundList
+{
+    public AudioClip[] Sounds { get => sounds; }
+    [HideInInspector] public string name;
+    [SerializeField] private AudioClip[] sounds;
+}
+
+
+[Serializable]
+public struct AmbienceSoundList
+{
+    public AudioClip[] Sounds { get => sounds; }
+    [HideInInspector] public string name;
+    [SerializeField] private AudioClip[] sounds;
+}
+
+
+[Serializable]
+public struct OccasionalSoundList
 {
     public AudioClip[] Sounds { get => sounds; }
     [HideInInspector] public string name;

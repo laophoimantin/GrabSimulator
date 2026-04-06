@@ -22,6 +22,8 @@ public class MotorbikeSoundController : MonoBehaviour
     [Header("Gameplay Audio Sources")]
     [SerializeField] private AudioSource driftAudioSource;
     [SerializeField] private AudioSource collisionAudioSource;
+    [SerializeField] private AudioSource landingAudioSource;
+    [SerializeField] private AudioSource honkingAudioSource;
 
 
     [Header("Sound of what motorcycle?")]
@@ -35,6 +37,8 @@ public class MotorbikeSoundController : MonoBehaviour
     // Drifting Sound References
     private AudioClip driftAudio;
     private AudioClip collisionAudio;
+    private AudioClip landingAudio;
+    private AudioClip honkingAudio;
 
 
     // Drift Volume
@@ -52,8 +56,22 @@ public class MotorbikeSoundController : MonoBehaviour
     private float maxCollisionPitch;
 
 
+    // Landing Volume
+    private float minLandingVolume;
+    private float maxLandingVolume;
+
+
+    // Landing Pitch
+    private float minLandingPitch;
+    private float maxLandingPitch;
+
+
     // Sound Variable
     private float currentDisengageTime;
+
+
+    // Honking Sound
+    private float honkFadeSpeed = 25f;
 
 
     // Variable
@@ -72,17 +90,19 @@ public class MotorbikeSoundController : MonoBehaviour
     }
     private void Initialization()
     {
-
         if (motorbikeSoundSO == null) 
         { 
             Debug.Log("Assign Motorbike SO");
             return;
         }
 
+
         if (engineToggleAudioSource != null) engineToggleAudioSource.playOnAwake = false;
         if (engineRunAudioSource != null) engineRunAudioSource.playOnAwake = false;
         if (collisionAudioSource != null) collisionAudioSource.playOnAwake = false;
         if (driftAudioSource != null) driftAudioSource.playOnAwake = false;
+        if (landingAudioSource != null) landingAudioSource.playOnAwake = false;
+        if (honkingAudioSource != null) honkingAudioSource.playOnAwake = false;
 
 
         minDriftVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinDriftVolume;
@@ -93,6 +113,12 @@ public class MotorbikeSoundController : MonoBehaviour
 
         minCollisionPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinCollisionPitch;
         maxCollisionPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxCollisionPitch;
+
+        minLandingVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinLandingVolume;
+        maxLandingVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxLandingVolume;
+
+        minLandingPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinLandingPitch;
+        maxLandingPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxLandingPitch;
 
 
         driftAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Drift_Sound);
@@ -114,6 +140,27 @@ public class MotorbikeSoundController : MonoBehaviour
             collisionAudioSource.volume = 0f;
         }
 
+
+        landingAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Landing_Sound);
+        if (landingAudio == null) Debug.Log("Assign Landing_Sound in SoundManager");
+        else
+        {
+            landingAudioSource.clip = landingAudio;
+            landingAudioSource.loop = false;
+            landingAudioSource.volume = 0f;
+        }
+
+
+        honkingAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Honking_Sound);
+        if (honkingAudio == null) Debug.Log("Assign Honking_Sound in SoundManager");
+        else
+        {
+            honkingAudioSource.clip = honkingAudio;
+            honkingAudioSource.loop = true;
+            honkingAudioSource.volume = 0f;
+        }
+
+
         keyturnAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Key_Turn_Sound);
         if (keyturnAudio == null) Debug.Log("Assign Key_Turn_Sound in SoundManager");
     }
@@ -133,6 +180,11 @@ public class MotorbikeSoundController : MonoBehaviour
             else DriftSound(motorPhysics.BikeRB.velocity.magnitude, motorPhysics.MaxSpeed, isDrifting: false);
         }
         else DriftSound(motorPhysics.BikeRB.velocity.magnitude, motorPhysics.MaxSpeed, isDrifting: false);
+
+        if (motorInput.IsHonking) Debug.Log("Honking");
+        else Debug.Log("Not Honking");
+
+        HonkingSound();
     }
 
 
@@ -220,20 +272,15 @@ public class MotorbikeSoundController : MonoBehaviour
         float clampedVelosityOffset = Mathf.Max(0f, velocityOffset);
         float speedMain = Mathf.Lerp(motorbikeSoundSO.MinPitch, motorbikeSoundSO.MaxPitch, clampedVelosityOffset);
 
+        float volumeMain = Mathf.Lerp(motorbikeSoundSO.MinEngineRunVolume, motorbikeSoundSO.MaxEngineRunVolume, clampedVelosityOffset);
+
         engineRunAudioSource.pitch = speedMain;
 
         float fadeSpeed = 3f;
-        float targetVolume = isGrounded ? motorbikeSoundSO.MaxEngineRunVolume : motorbikeSoundSO.MaxEngineRunVolume / 2f;
+        float targetVolume = isGrounded ? volumeMain : volumeMain / 2f;
 
-        if (!Mathf.Approximately(engineRunAudioSource.volume, targetVolume))
-        {
-            float tempVolume = Mathf.MoveTowards(engineRunAudioSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
-            engineRunAudioSource.volume = tempVolume;
-        }
-        else
-        {
-            engineRunAudioSource.volume = targetVolume;
-        }
+        float tempVolume = Mathf.MoveTowards(engineRunAudioSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
+        engineRunAudioSource.volume = tempVolume;
     }
     #endregion
 
@@ -261,6 +308,12 @@ public class MotorbikeSoundController : MonoBehaviour
 
         float fadeSpeed = 3f;
         driftAudioSource.volume = Mathf.MoveTowards(driftAudioSource.volume, targetVolume, fadeSpeed * Time.deltaTime);
+
+        if (driftAudioSource.isPlaying && driftAudioSource.volume <= 0.01f)
+        {
+            driftAudioSource.Pause();
+            driftAudioSource.volume = 0f;
+        }
     }
     #endregion
 
@@ -280,6 +333,48 @@ public class MotorbikeSoundController : MonoBehaviour
         collisionAudioSource.pitch = targetPitch;
         collisionAudioSource.volume = targetVolume;
         collisionAudioSource.PlayOneShot(collisionAudio);
+    }
+    #endregion
+
+
+
+    #region LANDING SOUND
+    public void LandingSound(float impactSpeed, float maxSpeed)
+    {
+        Debug.Log("Goddamn");
+
+        if (collisionAudioSource == null) return;
+
+        float crashSeverityPercentage = Mathf.Clamp01(impactSpeed / maxSpeed);
+        float targetVolume = Mathf.Lerp(minLandingVolume, maxLandingVolume, crashSeverityPercentage);
+        float targetPitch = Mathf.Lerp(maxLandingPitch, minLandingPitch, crashSeverityPercentage);
+
+        landingAudioSource.pitch = targetPitch;
+        landingAudioSource.volume = targetVolume;
+        landingAudioSource.PlayOneShot(landingAudio);
+    }
+
+    #endregion
+
+
+
+    #region HONKING SOUND - Sunshine Contribution
+    private void HonkingSound()
+    {
+        if (motorInput.IsHonking && !honkingAudioSource.isPlaying)
+        {
+            honkingAudioSource.Play();
+        }
+
+        float targetVolume = motorInput.IsHonking ? 0.4f : 0f;
+        float tempVolume = Mathf.Lerp(honkingAudioSource.volume, targetVolume, honkFadeSpeed * Time.deltaTime);
+        honkingAudioSource.volume = tempVolume;
+
+        if (!motorInput.IsHonking && honkingAudioSource.isPlaying && honkingAudioSource.volume <= 0.01f)
+        {
+            honkingAudioSource.Pause();
+            honkingAudioSource.volume = 0f; 
+        }
     }
     #endregion
 

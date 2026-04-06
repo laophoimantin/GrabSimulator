@@ -18,4 +18,5 @@ MonoBehaviour:
   MinPitch: 0.5
   MaxPitch: 1
   MaxEngineStartVolume: 0.35
-  MaxEngineRunVolume: 1
+  MinEngineRunVolume: 0.4
+  MaxEngineRunVolume: 0.75

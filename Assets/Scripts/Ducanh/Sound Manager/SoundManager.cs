@@ -14,13 +14,29 @@ public enum MotorbikeGameplaySoundType
     // FOR MOTORBIKE
     Drift_Sound, 
     Collision_Sound,
+    Landing_Sound,
     Key_Turn_Sound,
+    Honking_Sound
 }
 
-public enum EnvironmentSoundType
+public enum DeliverySoundType
+{
+    // FOR ITEM INTERACTION
+    Item_Pick_Up,
+    Item_Drop_Off
+}
+
+public enum AmbienceSoundType
 {
     // FOR ENVIRONMENT
-    City // temp
+    Wind 
+}
+
+public enum OccasionalSoundType
+{
+    // FOR ENVIRONMENT
+    None,
+    Bird_Chirping
 }
 
 public enum DialogueSoundType
@@ -79,8 +95,16 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private MotorbikeGameplaySoundList[] motorbikeGameplaySoundList;
 
     [Space]
-    [Header("Environment")]
-    [SerializeField] private EnvironmentSoundList[] environmentSoundList;
+    [Header("Delivery Gameplay")]
+    [SerializeField] private DeliverySoundList[] deliverySoundList;
+
+    [Space]
+    [Header("Ambience")]
+    [SerializeField] private AmbienceSoundList[] ambienceSoundList;
+
+    [Space]
+    [Header("Occassional")]
+    [SerializeField] private OccasionalSoundList[] occasionalSoundList;
 
     [Space]
     [Header("Dialogue")]
@@ -102,32 +126,43 @@ public class SoundManager : MonoBehaviour
     [Serializable]
     public class MotorcycleUniversalVolumeSettings
     {
+        [Header("KEY SOUND\n" +
+                "---------")]
+
         [Header("Key Turn Volume")]
         [SerializeField] private float _keyturnVolume;
         public float KeyturnVolume { get => _keyturnVolume; }
         [Space]
+        [Space]
+        [Space]
 
+
+        [Header("DRIFT SOUND\n" +
+                "-----------")]
 
         [Header("Drift Volume")]
         [SerializeField] private float _minDriftVolume;
         [SerializeField] private float _maxDriftVolume;
         public float MinDriftVolume { get => _minDriftVolume; }
         public float MaxDriftVolume { get => _maxDriftVolume; }
-        [Space]
 
 
         [Header("Drift Volume Interpolation")]
         [SerializeField] private AnimationCurve _driftVolumeCurve;
         public AnimationCurve DriftVolumeCurve { get => _driftVolumeCurve; }
         [Space]
+        [Space]
+        [Space]
 
+
+        [Header("COLLISION SOUND\n" +
+                "---------------")]
 
         [Header("Collision Volume")]
         [SerializeField] private float _minCollisionVolume;
         [SerializeField] private float _maxCollisionVolume;
         public float MinCollisionVolume { get => _minCollisionVolume; }
         public float MaxCollisionVolume { get => _maxCollisionVolume; }
-        [Space]
 
 
         [Header("Collision Pitch Values")]
@@ -135,6 +170,26 @@ public class SoundManager : MonoBehaviour
         [SerializeField] private float _maxCollisionPitch; // For cases of light collision
         public float MinCollisionPitch { get => _minCollisionPitch; }
         public float MaxCollisionPitch { get => _maxCollisionPitch; }
+        [Space]
+        [Space]
+        [Space]
+
+
+        [Header("LANDING SOUND\n" +
+                "-------------")]
+
+        [Header("Landing Volume")]
+        [SerializeField] private float _minLandingVolume;
+        [SerializeField] private float _maxLandingVolume;
+        public float MinLandingVolume => _minLandingVolume;
+        public float MaxLandingVolume => _maxLandingVolume;
+
+
+        [Header("Landing Pitch Values")]
+        [SerializeField] private float _minLandingPitch;
+        [SerializeField] private float _maxLandingPitch;
+        public float MinLandingPitch => _minLandingPitch;
+        public float MaxLandingPitch => _maxLandingPitch;   
 
     }
 
@@ -163,6 +218,19 @@ public class SoundManager : MonoBehaviour
     private Dictionary<string, AudioClip[]> masterSoundDictionary = new Dictionary<string, AudioClip[]>();
 
 
+
+    private class ActiveZoneData
+    {
+        public AmbienceZone ZoneScript;
+        public Enum Sound;
+        public float Volume;
+        public int Priority;
+    }
+
+    private List<ActiveZoneData> overlappingZones = new List<ActiveZoneData>();
+    private AmbienceZone[] allZonesInScene;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -185,13 +253,21 @@ public class SoundManager : MonoBehaviour
         {
             masterSoundDictionary.Add(motorbikeGameplaySound.name, motorbikeGameplaySound.Sounds);
         }
+        foreach (var deliverySound in deliverySoundList)
+        {
+            masterSoundDictionary.Add(deliverySound.name, deliverySound.Sounds);
+        }
         foreach (var dialogueSound in dialogueSoundList)
         {
             masterSoundDictionary.Add(dialogueSound.name, dialogueSound.Sounds);
         }
-        foreach (var environmentSound in environmentSoundList)
+        foreach (var environmentSound in ambienceSoundList)
         {
             masterSoundDictionary.Add(environmentSound.name, environmentSound.Sounds);
+        }
+        foreach (var occasionalSound in occasionalSoundList)
+        {
+            masterSoundDictionary.Add(occasionalSound.name, occasionalSound.Sounds);
         }
 
     }
@@ -201,6 +277,8 @@ public class SoundManager : MonoBehaviour
     {
         main2DSource = GetComponent<AudioSource>();
         main2DSource.spatialBlend = 0f;
+
+        allZonesInScene = FindObjectsOfType<AmbienceZone>();
     }
 
 
@@ -208,15 +286,27 @@ public class SoundManager : MonoBehaviour
     {
 
         // Initializing GAMEPLAY-related sounds
-        string[] gameplaySoundNames = Enum.GetNames(typeof(MotorbikeGameplaySoundType));
-        Array.Resize(ref motorbikeGameplaySoundList, gameplaySoundNames.Length);
-        for (int i = 0; i < motorbikeGameplaySoundList.Length; i++) motorbikeGameplaySoundList[i].name = gameplaySoundNames[i];
+        string[] motorbikeGameplaySoundNames = Enum.GetNames(typeof(MotorbikeGameplaySoundType));
+        Array.Resize(ref motorbikeGameplaySoundList, motorbikeGameplaySoundNames.Length);
+        for (int i = 0; i < motorbikeGameplaySoundList.Length; i++) motorbikeGameplaySoundList[i].name = motorbikeGameplaySoundNames[i];
 
 
-        // Initializing ENVIRONMENT-related sounds
-        string[] environmentSoundNames = Enum.GetNames(typeof(EnvironmentSoundType));
-        Array.Resize(ref environmentSoundList, environmentSoundNames.Length);
-        for (int i = 0; i < environmentSoundList.Length; i++) environmentSoundList[i].name = environmentSoundNames[i];
+        // Initializing DELIVERY-related sounds
+        string[] deliverySoundNames = Enum.GetNames(typeof(DeliverySoundType));
+        Array.Resize(ref deliverySoundList, deliverySoundNames.Length);
+        for (int i = 0; i < deliverySoundList.Length; i++) deliverySoundList[i].name = deliverySoundNames[i];
+
+
+        // Initializing AMBIENCE-related sounds
+        string[] ambienceSoundNames = Enum.GetNames(typeof(AmbienceSoundType));
+        Array.Resize(ref ambienceSoundList, ambienceSoundNames.Length);
+        for (int i = 0; i < ambienceSoundList.Length; i++) ambienceSoundList[i].name = ambienceSoundNames[i];
+
+
+        // Initializing OCCASSIONAL-related sounds
+        string[] occassionalSoundNames = Enum.GetNames(typeof(OccasionalSoundType));
+        Array.Resize(ref occasionalSoundList, occassionalSoundNames.Length);
+        for (int i = 0; i < occasionalSoundList.Length; i++) occasionalSoundList[i].name = occassionalSoundNames[i];
 
 
         // Initializing DIALOGUE-related sounds
@@ -327,7 +417,17 @@ public class SoundManager : MonoBehaviour
     {
         if (currentAmbienceSources.ContainsKey(sound))
         {
-            // Optional: You could fade the volume here if you wanted to update it!
+            return;
+        }
+
+        AudioSource audio = CreateAudioObject(sound, transform, volume, true, false);
+        currentAmbienceSources.Add(sound, audio);
+    }
+
+    public void PlayCustomAudioSourceAmbience<T>(T sound, AudioSource audioSource, float volume = 1) where T : Enum
+    {
+        if (currentAmbienceSources.ContainsKey(sound))
+        {
             return;
         }
 
@@ -339,7 +439,7 @@ public class SoundManager : MonoBehaviour
     {
         if (!currentAmbienceSources.TryGetValue(sound, out AudioSource audioSource))
         {
-            return; // Nothing to stop
+            return; 
         }
 
         if (audioSource != null)
@@ -350,6 +450,55 @@ public class SoundManager : MonoBehaviour
         currentAmbienceSources.Remove(sound);
     }
 
+    #endregion
+
+
+    #region Volumetric Zone Ambience Logic (The Conductor)
+    public void RegisterZone(AmbienceZone zone, int priority)
+    {
+        if (!overlappingZones.Exists(z => z.ZoneScript == zone))
+        {
+            overlappingZones.Add(new ActiveZoneData { ZoneScript = zone, Priority = priority });
+        }
+        EvaluateOverlappingZones();
+    }
+
+    public void UnregisterZone(AmbienceZone zone)
+    {
+        overlappingZones.RemoveAll(z => z.ZoneScript == zone);
+        EvaluateOverlappingZones();
+    }
+
+    private void EvaluateOverlappingZones()
+    {
+        if (overlappingZones.Count == 0)
+        {
+            if (allZonesInScene != null)
+            {
+                foreach (var z in allZonesInScene)
+                {
+                    if (z != null) z.SetZoneState(false);
+                }
+            }
+
+            return;
+        }
+
+        overlappingZones.Sort((a, b) => b.Priority.CompareTo(a.Priority));
+
+        int highestPriority = overlappingZones[0].Priority;
+
+        foreach (var z in overlappingZones)
+        {
+            bool isBoss = (z.Priority == highestPriority);
+            z.ZoneScript.SetZoneState(isBoss);
+        }
+    }
+
+    public AudioClip GetAmbienceClip(AmbienceSoundType sound)
+    {
+        return GetRandomClip(sound); // Repurposing your existing private method!
+    }
     #endregion
 
 
