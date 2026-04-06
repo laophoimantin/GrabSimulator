@@ -11,10 +11,13 @@ public class MotorbikePhysics : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody _rbSphere;
     [SerializeField] private Rigidbody _rbBikeBody;
+    [SerializeField] private FuelSystem _fuelSystem;
 
     [Header("Movement")]
-    [SerializeField] private float _maxSpeed = 30f; 
+    [SerializeField] private float _maxSpeed = 30f;
+    [SerializeField] private float _reverseSpeed = 10f;
     [SerializeField] private float _acceleration = 5f;
+    [SerializeField] private float _lowFuelSpeedMultiplier = 0.5f;
 
     [Header("Steering")]
     [SerializeField] private float _steerStrength = 15f;
@@ -29,35 +32,35 @@ public class MotorbikePhysics : MonoBehaviour
     [SerializeField] private float _brakingFactor = 5f;
     [SerializeField] private float _driftDrag = 5f;
     [SerializeField] private float _normalDrag = 1f;
+    [SerializeField] private float _stopDrag = 100f;
 
     [Header("Ground")]
-    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private MotorbikeGroundCheck _groundCheck;
     [SerializeField] private float _gravity = 20f;
 
     [Header("Arcade Magic")] // cailongiday
     [SerializeField] private float _downforce = 50f; // để xe bám đường hơn
     [SerializeField] private float _fallGravityMultiplier = 3f; // 
-    
+
+    private bool _isLocked = false;
 
     public float LateralVelocity { get; private set; }
     public float CurrentVelocityOffset { get; private set; }
     public Rigidbody BikeRB { get => _rbBikeBody; }
     public float MaxSpeed { get => _maxSpeed; }
     public bool IsGrounded { get; private set; }
-    public RaycastHit GroundHit { get; private set; }
 
     private MotorbikeInput _input;
-    private float _sphereRadius;
-    private RaycastHit _hit;
 
 
     private void Awake()
     {
         _input = GetComponent<MotorbikeInput>();
-        _sphereRadius = _rbSphere.GetComponent<SphereCollider>().radius;
+        _rbSphere.useGravity = false;
 
         //_rbSphere.transform.parent = null;
-        _rbBikeBody.transform.parent = null;
+        //_rbBikeBody.transform.parent = null;
+        _rbBikeBody.transform.localPosition = _rbSphere.transform.localPosition;
     }
 
     void Update()
@@ -67,11 +70,17 @@ public class MotorbikePhysics : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_isLocked)
+        {
+            ApplyGravity();
+            return;
+        }
+
         // 1. Tính xem xe đang trôi dạt (drift) hay đang đi thẳng
         UpdateVelocityOffset();
 
-        IsGrounded = CheckGrounded();
-        GroundHit = _hit;
+
+        IsGrounded = _groundCheck.IsGrounded;
 
         if (IsGrounded)
         {
@@ -80,7 +89,8 @@ public class MotorbikePhysics : MonoBehaviour
 
             Rotate();
             Brake();
-            _rbSphere.AddForce(-transform.up * (_downforce * Mathf.Abs(CurrentVelocityOffset)), ForceMode.Acceleration); // Bám đường hơn chắc .
+            _rbSphere.AddForce(-transform.up * _downforce, ForceMode.Acceleration);
+            //_rbSphere.AddForce(-transform.up * (_downforce * Mathf.Abs(CurrentVelocityOffset)), ForceMode.Acceleration); // Bám đường hơn chắc thế.
         }
         else
         {
@@ -102,10 +112,10 @@ public class MotorbikePhysics : MonoBehaviour
         // Hàm này sẽ trả lời câu hỏi: "So với CÁI XE, thì nó đang trượt ngang bao nhiêu, tiến tới bao nhiêu?"
         Vector3 localVel = _rbBikeBody.transform.InverseTransformDirection(_rbBikeBody.velocity);
 
-        //Chia cho _maxSpeed để normalize: 1.0 = full speed tiến, -1.0 = full speed lùi
+        //  Chia cho _maxSpeed để normalize: 1.0 = full speed tiến, -1.0 = full speed lùi
         // Không clamp để Rotate() vẫn hoạt động khi lùi (giá trị âm đảo chiều lái)
-        // Nói chung là xem xe đang chạy bao nhiêu phần trăm so với max speed, dm
-        //CurrentVelocityOffset = Mathf.Clamp01(localVel.z / _maxSpeed);
+        // Nói chung là xem xe đang chạy bao nhiêu phần trăm so với max speed
+        //  CurrentVelocityOffset = Mathf.Clamp01(localVel.z / _maxSpeed);
         CurrentVelocityOffset = localVel.z / _maxSpeed;
         // Trục X: Trái/Phải. Nếu số này to tức là xe đang bị văng đít về đâu (Drift). Nói chung là để xong xe có đang drift không
         //Trục X local: dương = văng sang phải, âm = văng sang trái
@@ -131,19 +141,27 @@ public class MotorbikePhysics : MonoBehaviour
     private void Accelerate()
     {
         //Nếu chưa có raycast hit nào ( RaycastHit mặc định, normal = zero) thì fallback về Vector3.up — coi như mặt đất phẳng
-        Vector3 groundNormal = GroundHit.normal != Vector3.zero ? GroundHit.normal : Vector3.up;
+        Vector3 groundNormal = _groundCheck.HitNormal;
 
         // ÉP HƯỚNG ĐI TRƯỢT THEO MẶT DỐC
         // Mũi xe trỏ đi đâu, ép nó nằm song song với mặt đất dưới lốp xe bấy nhiêu. 
         // Nếu không dùng, leo dốc sẽ khó khăn hơn
         // Nói chung là bẻ cái forward của thằng transform song song với mặt phẳng, hỏi chat đi dm
-        // Đm giả dụ cái trục forward nó cắm vào dốc, mà dốc thì nghiêng thì nếu nghiêng thì cùng một độ dài nhưng mà lúc nghiêng thì nó 
+        //  giả dụ cái trục forward nó cắm vào dốc, mà dốc thì nghiêng thì nếu nghiêng thì cùng một độ dài nhưng mà lúc nghiêng thì nó 
         // có x với y khác nhau, và ở phần tính velo cuối cùng thì nó bỏ y đi vì tránh ovveride trọng lực, thế nên x lúc leo dốc phải ít hơn 
-        // khi đang chạy trên mặt phẳng bình thường, thì làm leo dốc nó "thực hơn', chậm hơn cho giống đời thực, chắc thế đcm 
+        // khi đang chạy trên mặt phẳng bình thường, thì làm leo dốc nó "thực hơn', chậm hơn cho giống đời thực, chắc thế
         Vector3 moveDirection = Vector3.ProjectOnPlane(transform.forward, groundNormal).normalized;
 
         // Vận tốc mục tiêu: Hướng chuẩn x Ga x Tốc độ tối đa.
-        Vector3 targetVelocity = moveDirection * (_input.MoveInput * _maxSpeed);
+
+        float totalForwardSpeed = _maxSpeed;
+
+        if (_fuelSystem.IsOutOfFuel)
+            totalForwardSpeed *= _lowFuelSpeedMultiplier;
+
+        float speed = _input.IsReversing ? _reverseSpeed : totalForwardSpeed;
+
+        Vector3 targetVelocity = moveDirection * (_input.MoveInput * speed);
 
         // Vận tốc hiện tại của cục Sphere.
         Vector3 currentVelocity = _rbSphere.velocity;
@@ -159,6 +177,8 @@ public class MotorbikePhysics : MonoBehaviour
 
         // không ảnh hưởng đến y hiện tại
         _rbSphere.velocity = new Vector3(horizontalVelocity.x, currentVelocity.y, horizontalVelocity.z);
+        if (_input.MoveInput != 0)
+            _fuelSystem.ConsumeFuel(_fuelSystem.GetConsumptionThisFrame());
     }
 
     private void Rotate()
@@ -198,18 +218,9 @@ public class MotorbikePhysics : MonoBehaviour
         }
     }
 
-    private bool CheckGrounded()
-    {
-        // Quét một cục cầu từ trên xuống dưới (SphereCast).
-        float radius = _sphereRadius - 0.02f;
-        Vector3 origin = _rbSphere.position + radius * Vector3.up;
-        return Physics.SphereCast(origin, radius + 0.02f, -transform.up, out _hit, _sphereRadius + 1f, _groundLayer);
-        //return Physics.SphereCast(origin, radius + 0.02f, Vector3.down, out _hit, _sphereRadius, _groundLayer);
-    }
-
     private void ApplyGravity()
     {
-        // cái gravity của thằng Unity bị lỏ, phải tự custom dcm
+        // cái gravity của thằng Unity bị lỏ, phải tự custom
         Vector3 extraGravity = _gravity * _fallGravityMultiplier * Vector3.down;
         _rbSphere.AddForce(extraGravity, ForceMode.Acceleration);
     }
@@ -219,7 +230,7 @@ public class MotorbikePhysics : MonoBehaviour
         // 1. NGHIÊNG THEO ĐỘ DỐC (Pitch - Trục X)
         // FromToRotation tính ra góc cần xoay để trục Up (trục hướng lên đỉnh đầu) của xe 
         // khớp với Normal (trục vuông góc với mặt đường - _hit.normal). Lên dốc thì ngóc đầu, xuống dốc thì cắm mỏ.
-        float xRot = (Quaternion.FromToRotation(_rbBikeBody.transform.up, _hit.normal) * _rbBikeBody.transform.rotation).eulerAngles.x;
+        float xRot = (Quaternion.FromToRotation(_rbBikeBody.transform.up, _groundCheck.HitNormal) * _rbBikeBody.transform.rotation).eulerAngles.x;
 
         // 2. NGHIÊNG KHI VÀO CUA (Roll - Trục Z)
         // Lái sang trái (_input) * Tốc độ hiện tại. Chạy càng nhanh bẻ lái thì úp cua càng gắt (như MotoGP).
@@ -239,5 +250,11 @@ public class MotorbikePhysics : MonoBehaviour
 
         // Cuối cùng là áp nó vào cái Body của xe.
         _rbBikeBody.MoveRotation(Quaternion.Euler(targetRot.eulerAngles.x, transform.eulerAngles.y, targetRot.eulerAngles.z));
+    }
+
+    public void LockPhysics(bool state)
+    {
+        _isLocked = state;
+        _rbBikeBody.drag = state ? _stopDrag : _normalDrag;
     }
 }

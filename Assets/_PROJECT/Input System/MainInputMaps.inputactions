@@ -181,9 +181,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Honk",
+                    "name": "Interact",
                     "type": "Button",
-                    "id": "fa3e8d7c-8aa0-47fa-89b7-59f8737c14be",
+                    "id": "e062919e-7336-45a6-ae03-81f2d29f01b5",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -325,12 +325,68 @@
                 },
                 {
                     "name": "",
-                    "id": "bfdf7c92-fcdc-4669-89a3-7899b8707518",
-                    "path": "<Mouse>/leftButton",
+                    "id": "478cfe90-564e-4b16-ac14-baadabb2ba0a",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Honk",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "27e811b3-d45a-4981-87dd-82046a6d6e7f",
+            "actions": [
+                {
+                    "name": "TogglePanel",
+                    "type": "Button",
+                    "id": "ec03ede9-e60a-40fe-a882-f730b373eee0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2458c4d0-a03a-4077-946d-498941ab7eb3",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TogglePanel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "MouseInput",
+            "id": "90ac23d3-510d-4fc8-a455-937fe3d4921c",
+            "actions": [
+                {
+                    "name": "MouseLook",
+                    "type": "PassThrough",
+                    "id": "906a30cf-38ed-412b-b886-2624d71015ee",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2ae1a9b5-9252-4181-bc49-056edb79562a",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseLook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

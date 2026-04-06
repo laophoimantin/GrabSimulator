@@ -1,79 +1,123 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DeliveryManager : Singleton<DeliveryManager>
 {
-    private OrderInfoSO _currentOrder;
-    private DeliveryStates _deliveryStates = new();
-    private Dictionary<LocationID, PickupLoc> _pickupMap = new();
-    
-    public void Register(LocationID id, PickupLoc loc)
-    {
-        _pickupMap[id] = loc;
-    }
+	private Order _currentOrder;
+	private DeliveryStateMachine _deliveryStateMachine = new();
+	public DeliveryState GetCurrentState() => _deliveryStateMachine.CurrentState;
+	private Dictionary<LocationID, LocationNode> _locationNodes = new();
 
-    public void Unregister(LocationID id)
-    {
-        _pickupMap.Remove(id);
-    }
+	public Order GetCurrentOrder() => _currentOrder;
+	public bool IsOrderAccepted => _deliveryStateMachine.CurrentState == DeliveryState.Accepted;
 
-    void OnEnable()
-    {
-        PickupLoc.OnPickupEntered += PickupPackage;
-        DropLoc.OnDropEntered += DeliverPackage;
-    }
-    void OnDisable()
-    {
-        PickupLoc.OnPickupEntered -= PickupPackage;
-        DropLoc.OnDropEntered -= DeliverPackage;
-    }
-    
-    public void AcceptOrder(OrderInfoSO order)
-    {
-        if (_currentOrder != null)
-        {
-            Debug.LogWarning("Already have an active delivery. Finish it before starting a new one.");
-            return;
-        }
-        Debug.Log("Accepted order");
-        _currentOrder = order;
-        
-        if (_pickupMap.TryGetValue(order.PickupLoc, out var loc))
-        {
-            loc.SpawnPackage(order.OrderObject);
-        }
-        
-        _deliveryStates.AcceptOrder();
-    }
-    
-    private void PickupPackage(LocationID id)
-    {
-        if (_currentOrder == null)
-            return;
+	public static Action OnDeliveryUpdated;
 
-        if (_currentOrder.PickupLoc != id)
-            return;
+	public bool IsPickupLocation(LocationID loc)
+	{
+		return IsOrderAccepted && _currentOrder != null && _currentOrder.PickupLocID == loc;
+	}
 
-        if (_deliveryStates.TryPickupPackage())
-        {
-            SoundManager.Instance.PlaySound2D(DeliverySoundType.Item_Pick_Up, volume: 0.5f);
-            Debug.Log("Package picked up");
-        }
-    }
 
-    private void DeliverPackage(LocationID id)
-    {
-        if (_currentOrder == null)
-            return;
-        
-        if (_currentOrder.DropLoc != id)
-            return;
+	public void RegisterStation(LocationID id, LocationNode location)
+	{
+		_locationNodes[id] = location;
+	}
 
-        if (_deliveryStates.TryDeliver())
-        {
-            _currentOrder = null;
-        }
-    }
+	public void UnregisterStation(LocationID id)
+	{
+		_locationNodes.Remove(id);
+	}
+
+	public List<LocationID> GetAvailablePickupLocations()
+	{
+		return new List<LocationID>(_locationNodes.Keys);
+	}
+
+	public List<LocationID> GetAvailableDropLocations()
+	{
+		return new List<LocationID>(_locationNodes.Keys);
+	}
+
+	public Vector3 GetLocationPosition(LocationID id)
+	{
+		if (_locationNodes.TryGetValue(id, out var pickup))
+			return pickup.transform.position;
+		return Vector3.zero;
+	}
+
+
+	public List<LocationID> GetLocationsInArea(AreaID targetArea)
+	{
+		List<LocationID> validLoc = new List<LocationID>();
+
+		foreach (var loc in _locationNodes)
+		{
+			if (loc.Value.Area == targetArea)
+			{
+				validLoc.Add(loc.Key);
+			}
+		}
+
+		return validLoc;
+	}
+
+	public AreaID GetAreaOfLocation(LocationID pickupID)
+	{
+		if (_locationNodes.TryGetValue(pickupID, out var pickupLoc))
+		{
+			return pickupLoc.Area;
+		}
+
+		return AreaID.HaNoi;
+	}
+
+
+	public void AcceptOrder(Order order)
+	{
+		if (_deliveryStateMachine.CurrentState == DeliveryState.CarryingPackage)
+		{
+			return;
+		}
+
+		Debug.Log($"Accepted order: {order.OrderID}");
+		_currentOrder = order;
+		_deliveryStateMachine.AcceptOrder();
+		OnDeliveryUpdated?.Invoke();
+	}
+
+	public bool PickupPackage(LocationID id)
+	{
+		if (_currentOrder == null || _currentOrder.PickupLocID != id)
+			return false;
+
+		if (_deliveryStateMachine.TryPickupPackage())
+		{
+			JobBoardManager.Instance.RemoveJob(_currentOrder);
+			OnDeliveryUpdated?.Invoke();
+			return true;
+		}
+
+		return _currentOrder.PickupLocID == id;
+	}
+
+	public bool DeliverPackage(LocationID id)
+	{
+		if (_currentOrder == null || _currentOrder.DropLocID != id)
+			return false;
+
+		if (_deliveryStateMachine.TryDeliver())
+		{
+			WalletSystem.Instance.AddCoins(_currentOrder.Reward);
+			_currentOrder = null;
+
+			JobBoardManager.Instance.TickTurn();
+			OnDeliveryUpdated?.Invoke();
+			return true;
+		}
+
+		return false;
+	}
 }
-

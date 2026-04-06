@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "New OrderInfo", menuName = "Delivery System/Order Info")]
+// TODO: DELETE THIS
+public class OrderInfoSO : ScriptableObject
+{
+    // Private Fields
+    [Header("Order Details")]
+    [SerializeField] private string _orderName;
+    [SerializeField] private string _clientName;
+
+    [SerializeField] private LocationID _pickupLocationID;
+    [SerializeField] private LocationID _dropLocationID;
+
+    [Header("Special Instructions")]
+    [SerializeField] private string _description;
+
+    [Header("Payment")]
+    [SerializeField] private int _cashPayment;
+    
+    [Header("Goods")]
+    [SerializeField] private GameObject _orderObject;
+
+    // Public Fields
+    public string OrderName => _orderName;
+    public string ClientName => _clientName;
+    public LocationID PickupLocationID => _pickupLocationID;
+    public LocationID DropLocationID => _dropLocationID;
+    public string Description => _description;
+    public int CashPayment => _cashPayment;
+    public GameObject OrderObject => _orderObject;
+}
+

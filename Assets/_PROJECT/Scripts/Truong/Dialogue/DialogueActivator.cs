@@ -1,11 +1,29 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class DialogueActivator : MonoBehaviour, IInteractable
+public class DialogueActivator : MonoBehaviour
 {
-    [SerializeField] private DialogueDataSO _dialogueData;
-    public void Interact(IInteractor interactor)
+    [SerializeField] private DialogueDataSO[] _idleDialogues;
+    [SerializeField] private DialogueDataSO[] _pickupDialogues;
+
+    public void PlayIdleDialogue()
     {
-        Debug.Log("Interacting with DialogueActivator");
-        DialogueController.Instance.StartDialogue(_dialogueData);
+        DialogueDataSO diag = _idleDialogues[Random.Range(0, _idleDialogues.Length)];
+        PlayDialogue(diag);
+    }
+    
+    public void PlayPickupDialogue(Action onFinishedCallback)
+    {
+        DialogueDataSO diag = _pickupDialogues[Random.Range(0, _pickupDialogues.Length)];
+        PlayDialogue(diag, onFinishedCallback);
+    }
+    
+    private void PlayDialogue(DialogueDataSO data, Action onFinishedCallback = null)
+    {
+        if (data == null)
+            return;
+        
+        DialogueController.Instance.StartDialogue(data, onFinishedCallback);
     }
 }

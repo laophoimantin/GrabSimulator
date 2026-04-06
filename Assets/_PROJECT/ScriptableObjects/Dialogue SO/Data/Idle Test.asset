@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Idle Test
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Player
+    Text: "Hey Nig, I\u2019m looking for some extra work. Got any deliveries that
+      need a driver?"
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Nig
+    Text: "Look who finally decided to be productive. Yeah, I\u2019ve got a stack
+      of pepperoni disks getting cold. They need to go to BUV immediately."
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Player
+    Text: "BUV? That\u2019s a bit of a trek. Is the tip at least worth the gas money?"
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Nig
+    Text: The tip? These are hungry university students, not philanthropists. You'll
+      get your standard delivery fee and maybe a 'thank you' if they aren't buried
+      in textbooks
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Player
+    Text: Whatever, I need the credits. Is there anything specific I should know
+      about the drop-off?
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 5
+    EventTrigger: {fileID: 0}
+  - NodeID: 5
+    SpeakerName: Nig
+    Text: "Don't get distracted by the fancy campus architecture. Go straight to
+      the security gate, call the customer, and for the love of crust, do not drop
+      the box. It\u2019s pizza, not a frisbee."
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 6
+    EventTrigger: {fileID: 0}
+  - NodeID: 6
+    SpeakerName: Player
+    Text: I've handled worse. Just give me the insulated bag and the address..
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 7
+    EventTrigger: {fileID: 0}
+  - NodeID: 7
+    SpeakerName: Nig
+    Text: Here's the manifest. The customer is starving and likely losing their mind
+      over a Finance exam. Are you going to step up, or should I give this job to
+      the guy outside on the unicycle?
+    VoiceLine: {fileID: 0}
+    Choices:
+    - ChoiceText: '[Accept]'
+      TargetNodeID: Accept
+    - ChoiceText: '[Decline]'
+      TargetNodeID: Decline
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}
+  - NodeID: Accept
+    SpeakerName: Nig
+    Text: Here's the manifest. The customer is starving and likely losing their mind
+      over a Finance exam. Are you going to step up, or should I give this job to
+      the guy outside on the unicycle?
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 11400000, guid: 6a831882b60458d43875734684fe31fd, type: 2}
+  - NodeID: Decline
+    SpeakerName: Nig
+    Text: Here's the manifest. The customer is starving and likely losing their mind
+      over a Finance exam. Are you going to step up, or should I give this job to
+      the guy outside on the unicycle?
+    VoiceLine: {fileID: 0}
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 11400000, guid: 482509b7fca87ed4dafe324d1b8ecaa1, type: 2}

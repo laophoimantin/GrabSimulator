@@ -13,7 +13,7 @@ public class DialogueNode
 {
     [Header("Node ID")]
     [Tooltip("Unique ID for this node")]
-    public string NodeID;
+    public string NodeID = DefaultNodeIDs.StartNodeID;
     
     [Header("Content")]
     public string SpeakerName;
@@ -40,4 +40,9 @@ public struct DialogueChoice
 {
     public string ChoiceText;
     public string TargetNodeID;
+}
+
+public struct DefaultNodeIDs
+{
+    public static string StartNodeID = "Start";
 }
