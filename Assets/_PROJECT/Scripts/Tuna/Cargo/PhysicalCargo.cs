@@ -2,21 +2,24 @@ using UnityEngine;
 
 public class PhysicalCargo : MonoBehaviour, IInteractable
 {
-    [Header("Data")]
+    [Header("Delivery Data")]
     private LocationID _pickupLocID; 
     private LocationID _targetDropID;
+    
     private Rigidbody _rb;
     private Collider _collider;
+    private string _cargoDefaultTag;
 
     private bool _isDelivered = false;
     public bool IsHeld { get; private set; }
-    
     public LocationID TargetDropID => _targetDropID;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
+        
+        _cargoDefaultTag = gameObject.tag; 
     }
 
     public void Initialize(LocationID pickup, LocationID drop)
@@ -27,50 +30,55 @@ public class PhysicalCargo : MonoBehaviour, IInteractable
 
     public void Interact(IInteractor interactor)
     {
-        if (_isDelivered)
-        {
-            return;
-        }
+        if (_isDelivered) return;
 
         bool canPickup = DeliveryManager.Instance.PickupPackage(_pickupLocID);
-        if (!canPickup)
-        {
-            return; 
-        }
+        if (!canPickup) return; 
+
+        IsHeld = true;
         
-        _rb.isKinematic = true; 
-        _collider.isTrigger = true;
-        transform.SetParent(interactor.GetPlayer().HandPos);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
-        
+        SetPhysicsState(isKinematic: true, isTrigger: true, newTag: "Untagged");
+
+        AttachToTransform(interactor.GetPlayer().HandPos);
+
         if (interactor is PlayerInteractor playerInteractor)
         {
             playerInteractor.HoldCargo(this);
         }
-
-        IsHeld = true;
     }
 
     public void DropFromHands()
     {
-        transform.SetParent(null);
-        _collider.isTrigger = false;
-        _rb.isKinematic = false;
         IsHeld = false;
+        transform.SetParent(null);
+        
+        SetPhysicsState(isKinematic: false, isTrigger: false, newTag: _cargoDefaultTag);
     }
+
+    public void SnapTo(Transform snapPoint)
+    {
+        SetPhysicsState(isKinematic: true, isTrigger: true, newTag: "Untagged");
+        
+        AttachToTransform(snapPoint);
+    }
+
     public void MarkAsDelivered()
     {
         _isDelivered = true;
         gameObject.tag = "Untagged"; 
     }
-    public void SnapTo(Transform snapPoint)
+
+    private void SetPhysicsState(bool isKinematic, bool isTrigger, string newTag)
     {
-        _rb.isKinematic = true; 
-        
-        transform.SetParent(snapPoint);
-        _collider.isTrigger = true;
+        _rb.isKinematic = isKinematic;
+        _collider.isTrigger = isTrigger;
+        gameObject.tag = newTag;
+    }
+
+    private void AttachToTransform(Transform target)
+    {
+        transform.SetParent(target);
         transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity; 
+        transform.localRotation = Quaternion.identity;
     }
 }

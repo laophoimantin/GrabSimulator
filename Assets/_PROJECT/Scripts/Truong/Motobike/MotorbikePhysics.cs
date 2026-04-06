@@ -6,11 +6,13 @@ public class MotorbikePhysics : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody _rbSphere;
     [SerializeField] private Rigidbody _rbBikeBody;
+    [SerializeField] private FuelSystem _fuelSystem;
 
     [Header("Movement")]
     [SerializeField] private float _maxSpeed = 30f;
     [SerializeField] private float _reverseSpeed = 10f;
     [SerializeField] private float _acceleration = 5f;
+    [SerializeField] private float _lowFuelSpeedMultiplier = 0.5f;
 
     [Header("Steering")]
     [SerializeField] private float _steerStrength = 15f;
@@ -136,16 +138,22 @@ public class MotorbikePhysics : MonoBehaviour
         // Mũi xe trỏ đi đâu, ép nó nằm song song với mặt đất dưới lốp xe bấy nhiêu. 
         // Nếu không dùng, leo dốc sẽ khó khăn hơn
         // Nói chung là bẻ cái forward của thằng transform song song với mặt phẳng, hỏi chat đi dm
-        // Đm giả dụ cái trục forward nó cắm vào dốc, mà dốc thì nghiêng thì nếu nghiêng thì cùng một độ dài nhưng mà lúc nghiêng thì nó 
+        //  giả dụ cái trục forward nó cắm vào dốc, mà dốc thì nghiêng thì nếu nghiêng thì cùng một độ dài nhưng mà lúc nghiêng thì nó 
         // có x với y khác nhau, và ở phần tính velo cuối cùng thì nó bỏ y đi vì tránh ovveride trọng lực, thế nên x lúc leo dốc phải ít hơn 
-        // khi đang chạy trên mặt phẳng bình thường, thì làm leo dốc nó "thực hơn', chậm hơn cho giống đời thực, chắc thế đcm 
+        // khi đang chạy trên mặt phẳng bình thường, thì làm leo dốc nó "thực hơn', chậm hơn cho giống đời thực, chắc thế
         Vector3 moveDirection = Vector3.ProjectOnPlane(transform.forward, groundNormal).normalized;
 
         // Vận tốc mục tiêu: Hướng chuẩn x Ga x Tốc độ tối đa.
 
-        float speed = _input.IsReversing ? _reverseSpeed : _maxSpeed;
+        float totalForwardSpeed = _maxSpeed;
+
+        if (_fuelSystem.IsOutOfFuel)
+            totalForwardSpeed *= _lowFuelSpeedMultiplier;
+
+        float speed = _input.IsReversing ? _reverseSpeed : totalForwardSpeed;
+
         Vector3 targetVelocity = moveDirection * (_input.MoveInput * speed);
-        
+
         // Vận tốc hiện tại của cục Sphere.
         Vector3 currentVelocity = _rbSphere.velocity;
 
@@ -160,6 +168,8 @@ public class MotorbikePhysics : MonoBehaviour
 
         // không ảnh hưởng đến y hiện tại
         _rbSphere.velocity = new Vector3(horizontalVelocity.x, currentVelocity.y, horizontalVelocity.z);
+        if (_input.MoveInput != 0)
+            _fuelSystem.ConsumeFuel(_fuelSystem.GetConsumptionThisFrame());
     }
 
     private void Rotate()
@@ -201,7 +211,7 @@ public class MotorbikePhysics : MonoBehaviour
 
     private void ApplyGravity()
     {
-        // cái gravity của thằng Unity bị lỏ, phải tự custom dcm
+        // cái gravity của thằng Unity bị lỏ, phải tự custom
         Vector3 extraGravity = _gravity * _fallGravityMultiplier * Vector3.down;
         _rbSphere.AddForce(extraGravity, ForceMode.Acceleration);
     }

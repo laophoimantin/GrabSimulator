@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 3515708017266728198}
   m_Layer: 15
   m_Name: Cargo Stacked boxes
-  m_TagString: Untagged
+  m_TagString: Cargo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

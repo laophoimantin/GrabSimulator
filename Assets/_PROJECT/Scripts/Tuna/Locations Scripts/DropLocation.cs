@@ -8,6 +8,8 @@ public class DropLocation : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("Player")) return;
+        
         PhysicalCargo cargo = other.GetComponent<PhysicalCargo>();
         if (cargo != null)
         {

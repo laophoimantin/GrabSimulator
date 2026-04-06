@@ -150,6 +150,73 @@ Transform:
   - {fileID: 5158160155606099997}
   m_Father: {fileID: 8650949461698311308}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &826172667897495774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6897048202589254078}
+  - component: {fileID: 6983963864163354322}
+  - component: {fileID: 6424416417835274219}
+  m_Layer: 0
+  m_Name: Rack Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6897048202589254078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826172667897495774}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.281, z: -1.195}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8729832909435203056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6983963864163354322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826172667897495774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0040ac2b3f0e48449f61f0f4c49f06eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _snapPoint: {fileID: 6897048202589254078}
+--- !u!65 &6424416417835274219
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826172667897495774}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1035729997449872446
 GameObject:
   m_ObjectHideFlags: 0
@@ -5186,7 +5253,7 @@ MonoBehaviour:
   _followSpeed: 5
   _instantSnap: 0
   _upTravelLimit: 0.1
-  _downTravelLimit: 0.5
+  _downTravelLimit: 0.2
 --- !u!1 &1777060401180964133
 GameObject:
   m_ObjectHideFlags: 0
@@ -7701,8 +7768,8 @@ MonoBehaviour:
     m_Bits: 16384
   _followSpeed: 5
   _instantSnap: 0
-  _upTravelLimit: 0.01
-  _downTravelLimit: 0.5
+  _upTravelLimit: 0.1
+  _downTravelLimit: 0.2
 --- !u!1 &7148390871272473428
 GameObject:
   m_ObjectHideFlags: 0
@@ -7974,6 +8041,7 @@ GameObject:
   - component: {fileID: 2415740519555390379}
   - component: {fileID: 436390559703599506}
   - component: {fileID: 8366181396815112204}
+  - component: {fileID: 1097539110155831340}
   m_Layer: 15
   m_Name: Xemay Controller
   m_TagString: Untagged
@@ -7998,6 +8066,7 @@ Transform:
   - {fileID: 8719881626475300542}
   - {fileID: 315090402146947202}
   - {fileID: 1749786774388939718}
+  - {fileID: 6897048202589254078}
   m_Father: {fileID: 695765015985541275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6379830509835791268
@@ -8027,9 +8096,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rbSphere: {fileID: 6415605700151946173}
   _rbBikeBody: {fileID: 2204275349831498159}
+  _fuelSystem: {fileID: 1097539110155831340}
   _maxSpeed: 50
   _reverseSpeed: 30
   _acceleration: 5
+  _lowFuelSpeedMultiplier: 0.5
   _steerStrength: 300
   _turningCurve:
     serializedVersion: 2
@@ -8115,6 +8186,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f90a4b3c991e52489090f9b8a424ba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1097539110155831340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8758760474157443225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 543e4d39376e45f783009a003b3cc465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxFuel: 100
+  _fuelConsumptionRate: 1
 --- !u!1 &9020457001924872781
 GameObject:
   m_ObjectHideFlags: 0

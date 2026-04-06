@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,13 @@ public class DeliveryManager : Singleton<DeliveryManager>
 {
     private Order _currentOrder;
     private DeliveryStateMachine _deliveryStateMachine = new();
-
+    public DeliveryState GetCurrentState() => _deliveryStateMachine.CurrentState;
     private Dictionary<LocationID, LocationNode> _locationNodes = new();
 
     public Order GetCurrentOrder() => _currentOrder;
     public bool IsOrderAccepted => _deliveryStateMachine.CurrentState == DeliveryState.Accepted;
+
+    public static Action OnDeliveryUpdated;
 
     public bool IsPickupLocation(LocationID loc)
     {
@@ -77,9 +80,11 @@ public class DeliveryManager : Singleton<DeliveryManager>
         {
             return;
         }
+
         Debug.Log($"Accepted order: {order.OrderID}");
         _currentOrder = order;
         _deliveryStateMachine.AcceptOrder();
+        OnDeliveryUpdated?.Invoke();
     }
 
     public bool PickupPackage(LocationID id)
@@ -87,9 +92,14 @@ public class DeliveryManager : Singleton<DeliveryManager>
         if (_currentOrder == null || _currentOrder.PickupLocID != id)
             return false;
 
-        JobBoardManager.Instance.RemoveJob(_currentOrder);
-        _deliveryStateMachine.TryPickupPackage();
-        return true;
+        if (_deliveryStateMachine.TryPickupPackage())
+        {
+            JobBoardManager.Instance.RemoveJob(_currentOrder);
+            OnDeliveryUpdated?.Invoke();
+            return true;
+        }
+
+        return _currentOrder.PickupLocID == id;
     }
 
     public bool DeliverPackage(LocationID id)
@@ -99,8 +109,10 @@ public class DeliveryManager : Singleton<DeliveryManager>
 
         if (_deliveryStateMachine.TryDeliver())
         {
+            WalletSystem.Instance.AddCoins(_currentOrder.Reward);
             _currentOrder = null;
             JobBoardManager.Instance.TickTurn();
+            OnDeliveryUpdated?.Invoke();
             return true;
         }
 
