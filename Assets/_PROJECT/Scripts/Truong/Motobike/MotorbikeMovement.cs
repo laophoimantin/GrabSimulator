@@ -1,11 +1,10 @@
 
 using UnityEngine;
 /// <summary>
-/// Prototype
+/// Prototype, Delete later!
 /// </summary>
 public class MotorbikeMovement : MonoBehaviour
 {
-
     private bool _canControl = false;
     
     RaycastHit _hit;

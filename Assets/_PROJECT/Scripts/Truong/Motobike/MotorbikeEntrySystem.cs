@@ -62,9 +62,11 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _controller.ShowDummyModel();
         
         
-        _controller.UnlockPhysic();
+        _controller.UnlockPhysics();
         
         _bikeCam.SetActive(true);
+        
+        GameEvents.OnPlayerVehicleChanged?.Invoke(_controller.FuelSystem);
     }
 
     private void ExitVehicle()
@@ -75,7 +77,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _state = VehicleState.Empty;
         InputManager.Instance.SetPlayerInputState();
 
-        _controller.UnlockPhysic();
+        _controller.UnlockPhysics();
 
         _controller.HideDummyModel();
         _driver.ShowModel();
@@ -86,6 +88,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _driver = null;
 
         _bikeCam.SetActive(false);
+        GameEvents.OnPlayerVehicleChanged?.Invoke(null);
     }
 }
 
