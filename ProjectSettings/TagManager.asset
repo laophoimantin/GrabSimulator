@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Bike
+  - Cargo
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Bikebody
@@ -22,7 +23,7 @@ TagManager:
   - 
   - Ground
   - Interactable
-  - 
+  - Drop Location
   - 
   - 
   - 

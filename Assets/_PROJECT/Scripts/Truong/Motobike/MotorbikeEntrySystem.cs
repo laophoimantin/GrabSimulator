@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.InputSystem;
 
 public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
 {
@@ -10,23 +7,36 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     private VehicleState _state = VehicleState.Empty;
 
     [Header("References")]
-    //[SerializeField] private MotorbikeController _controller;
-[SerializeField] private BikeMovement _controller;
-    
+    [SerializeField] private BikeController _controller;
+
     [SerializeField] private GameObject _bikeCam;
     [SerializeField] private Transform _exitPoint;
 
-    [Header("Settings")]
-    private readonly KeyCode _exitKey = KeyCode.E;
 
-    void Start()
+    void Awake()
     {
         _bikeCam.SetActive(false);
     }
 
-    void Update()
+    private void OnEnable()
     {
-        if (_state == VehicleState.Occupied && Input.GetKeyDown(_exitKey))
+        if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
+        {
+            InputManager.Instance.InputActions.OnBike.Interact.performed += OnExitInput;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
+        {
+            InputManager.Instance.InputActions.OnBike.Interact.performed -= OnExitInput;
+        }
+    }
+
+    private void OnExitInput(InputAction.CallbackContext context)
+    {
+        if (_state == VehicleState.Occupied)
         {
             ExitVehicle();
         }
@@ -43,18 +53,17 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     private void EnterVehicle(PlayerController driver)
     {
         _state = VehicleState.Occupied;
-        InputManager.Instance.SetMotorcycleMode();
+        InputManager.Instance.SetMotorcycleInputState();
 
         _driver = driver;
 
         _driver.transform.SetParent(_controller.transform);
-        _driver.LockInteraction();
-        _driver.LockMovement();
         _driver.HideModel();
-
-
         _controller.ShowDummyModel();
-        _controller.UnlockMovement();
+        
+        
+        _controller.UnlockPhysic();
+        
         _bikeCam.SetActive(true);
     }
 
@@ -62,17 +71,15 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     {
         if (_state != VehicleState.Occupied)
             return;
+
         _state = VehicleState.Empty;
-        InputManager.Instance.SetPlayerMode();
+        InputManager.Instance.SetPlayerInputState();
 
-		_controller.HideDummyModel();
-        _controller.LockMovement();
+        _controller.UnlockPhysic();
 
-
+        _controller.HideDummyModel();
         _driver.ShowModel();
-        _driver.UnlockInteraction();
-        _driver.UnlockMovement();
-
+        
         _driver.transform.position = _exitPoint.position;
         _driver.transform.rotation = _exitPoint.rotation;
         _driver.transform.SetParent(null);

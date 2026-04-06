@@ -11,8 +11,13 @@ public class CursorManager : Singleton<CursorManager>
         {
             if (IsCursorActive) HideCursor();
         }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+           ShowCursor();
+        }
     }
-    
+
     public void ShowCursor()
     {
         Cursor.lockState = CursorLockMode.None;
