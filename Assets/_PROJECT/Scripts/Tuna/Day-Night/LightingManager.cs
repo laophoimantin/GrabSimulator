@@ -7,20 +7,21 @@ public class LightingManager : MonoBehaviour
 {
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPresets Preset;
+    private const float TIME_SPEED = 0.01f;
 
-    [SerializeField, Range(0, 74)] private float TimeofDay;
+    [SerializeField, Range(0, 72)] private float TimeofDay;
 
     private void FixedUpdate()
     {
         if (!GameRule.TICK) { return; }
 
-        TimeofDay += 0.01f;
+        TimeofDay += TIME_SPEED;
 
-        if (TimeofDay >= 74f)
+        if (TimeofDay >= 72f)
         {
             TimeofDay = 0f;
         }
-        UpdateLighting(TimeofDay / 74f);
+        UpdateLighting(TimeofDay / 72f);
     }
 
     private void UpdateLighting(float TimePercent)
