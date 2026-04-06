@@ -31,6 +31,14 @@ public class Suspension : MonoBehaviour
         _maxLocalY = _restingLocalPos.y + _upTravelLimit;
     }
 
+    void Update()
+    {
+        #if UNITY_EDITOR
+        _minLocalY = _restingLocalPos.y - _downTravelLimit;
+        _maxLocalY = _restingLocalPos.y + _upTravelLimit;
+        #endif
+    }
+
     void FixedUpdate()
     {
         Vector3 targetLocalPos = _suspension.localPosition;

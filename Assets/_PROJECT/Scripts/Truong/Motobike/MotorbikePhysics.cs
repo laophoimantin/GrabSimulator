@@ -11,8 +11,9 @@ public class MotorbikePhysics : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody _rbSphere;
     [SerializeField] private Rigidbody _rbBikeBody;
-    [SerializeField] private FuelSystem _fuelSystem;
-
+    
+    public float PowerMultiplier { get; set; } = 1f;
+    
     [Header("Movement")]
     [SerializeField] private float _maxSpeed = 30f;
     [SerializeField] private float _reverseSpeed = 10f;
@@ -154,11 +155,7 @@ public class MotorbikePhysics : MonoBehaviour
 
         // Vận tốc mục tiêu: Hướng chuẩn x Ga x Tốc độ tối đa.
 
-        float totalForwardSpeed = _maxSpeed;
-
-        if (_fuelSystem.IsOutOfFuel)
-            totalForwardSpeed *= _lowFuelSpeedMultiplier;
-
+        float totalForwardSpeed = _maxSpeed * PowerMultiplier;
         float speed = _input.IsReversing ? _reverseSpeed : totalForwardSpeed;
 
         Vector3 targetVelocity = moveDirection * (_input.MoveInput * speed);
@@ -177,8 +174,6 @@ public class MotorbikePhysics : MonoBehaviour
 
         // không ảnh hưởng đến y hiện tại
         _rbSphere.velocity = new Vector3(horizontalVelocity.x, currentVelocity.y, horizontalVelocity.z);
-        if (_input.MoveInput != 0)
-            _fuelSystem.ConsumeFuel(_fuelSystem.GetConsumptionThisFrame());
     }
 
     private void Rotate()
