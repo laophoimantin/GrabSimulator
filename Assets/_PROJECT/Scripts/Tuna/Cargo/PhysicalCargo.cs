@@ -31,11 +31,15 @@ public class PhysicalCargo : MonoBehaviour, IInteractable
         {
             return;
         }
-        
-        DeliveryManager.Instance.PickupPackage(_pickupLocID);
+
+        bool canPickup = DeliveryManager.Instance.PickupPackage(_pickupLocID);
+        if (!canPickup)
+        {
+            return; 
+        }
         
         _rb.isKinematic = true; 
-        _collider.enabled = false;
+        _collider.isTrigger = true;
         transform.SetParent(interactor.GetPlayer().HandPos);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
@@ -51,10 +55,9 @@ public class PhysicalCargo : MonoBehaviour, IInteractable
     public void DropFromHands()
     {
         transform.SetParent(null);
-        _collider.enabled = true;
+        _collider.isTrigger = false;
         _rb.isKinematic = false;
         IsHeld = false;
-        // _rb.AddForce(transform.forward * 2f, ForceMode.Impulse); 
     }
     public void MarkAsDelivered()
     {
@@ -66,7 +69,7 @@ public class PhysicalCargo : MonoBehaviour, IInteractable
         _rb.isKinematic = true; 
         
         transform.SetParent(snapPoint);
-        
+        _collider.isTrigger = true;
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity; 
     }

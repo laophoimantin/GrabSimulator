@@ -82,13 +82,14 @@ public class DeliveryManager : Singleton<DeliveryManager>
         _deliveryStateMachine.AcceptOrder();
     }
 
-    public void PickupPackage(LocationID id)
+    public bool PickupPackage(LocationID id)
     {
         if (_currentOrder == null || _currentOrder.PickupLocID != id)
-            return;
+            return false;
 
         JobBoardManager.Instance.RemoveJob(_currentOrder);
         _deliveryStateMachine.TryPickupPackage();
+        return true;
     }
 
     public bool DeliverPackage(LocationID id)
