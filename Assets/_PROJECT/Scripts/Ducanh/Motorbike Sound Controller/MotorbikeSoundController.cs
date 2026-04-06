@@ -10,6 +10,7 @@ public class MotorbikeSoundController : MonoBehaviour
 
 
     [Header("References")]
+    [SerializeField] private MotorbikeEntrySystem motorbikeEntrySystem;
     [SerializeField] private MotorbikePhysics motorPhysics;
     [SerializeField] private MotorbikeInput motorInput;
 
@@ -28,6 +29,8 @@ public class MotorbikeSoundController : MonoBehaviour
 
     [Header("Sound of what motorcycle?")]
     [SerializeField] private MotorbikeType motorcycleSoundType;
+
+
 
 
     // Key Turn Sound References
@@ -66,12 +69,17 @@ public class MotorbikeSoundController : MonoBehaviour
     private float maxLandingPitch;
 
 
+    // Honking Volume
+    private float minHonkingVolume;
+    private float maxHonkingVolume;
+
+
     // Sound Variable
     private float currentDisengageTime;
 
 
     // Honking Sound
-    private float honkFadeSpeed = 25f;
+    private readonly float honkFadeSpeed = 10f;
 
 
     // Variable
@@ -119,6 +127,9 @@ public class MotorbikeSoundController : MonoBehaviour
 
         minLandingPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinLandingPitch;
         maxLandingPitch = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxLandingPitch;
+
+        minHonkingVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MinHonkingVolume;
+        maxHonkingVolume = SoundManager.Instance.MotorcycleUniversalVolumeStats.MaxHonkingVolume;
 
 
         driftAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Drift_Sound);
@@ -181,9 +192,6 @@ public class MotorbikeSoundController : MonoBehaviour
         }
         else DriftSound(motorPhysics.BikeRB.velocity.magnitude, motorPhysics.MaxSpeed, isDrifting: false);
 
-        if (motorInput.IsHonking) Debug.Log("Honking");
-        else Debug.Log("Not Honking");
-
         HonkingSound();
     }
 
@@ -194,14 +202,9 @@ public class MotorbikeSoundController : MonoBehaviour
         // Moving (forward / backward)
         if (motorPhysics.CurrentVelocityOffset > 0.01f)
         {
-            if (HasInput())
+            if (HasInput() && !engineStarted)
             {
-                if (!engineStarted)
-                {
-                    engineStarted = true;
-                    StartEngineSound();
-                }
-
+                StartEngineSound();
                 currentDisengageTime = motorPhysics.MotorbikeStatsSO.TimeTillEngineDisengage;
             }
         }
@@ -218,9 +221,12 @@ public class MotorbikeSoundController : MonoBehaviour
                 if (currentDisengageTime > 0) currentDisengageTime -= Time.deltaTime;
                 else
                 {
-                    engineStarted = false;
-                    DisengageEngineSound();
-                }                       
+                    if (motorbikeEntrySystem?.State == VehicleState.Empty)
+                    {
+                        DisengageEngineSound();
+                    }
+
+                }   
             }
             
         }
@@ -236,6 +242,8 @@ public class MotorbikeSoundController : MonoBehaviour
     #region ENGINE START AUDIO
     private void StartEngineSound() // Once the player starts moving, this plays.
     {
+        engineStarted = true;
+
         if (startEngineCoroutine != null)
         {
             StopCoroutine(startEngineCoroutine);
@@ -367,13 +375,12 @@ public class MotorbikeSoundController : MonoBehaviour
         }
 
         float targetVolume = motorInput.IsHonking ? 0.4f : 0f;
-        float tempVolume = Mathf.Lerp(honkingAudioSource.volume, targetVolume, honkFadeSpeed * Time.deltaTime);
-        honkingAudioSource.volume = tempVolume;
 
-        if (!motorInput.IsHonking && honkingAudioSource.isPlaying && honkingAudioSource.volume <= 0.01f)
+        honkingAudioSource.volume = Mathf.MoveTowards(honkingAudioSource.volume, targetVolume, honkFadeSpeed * Time.deltaTime);
+
+        if (!motorInput.IsHonking && honkingAudioSource.isPlaying && honkingAudioSource.volume == 0f)
         {
             honkingAudioSource.Pause();
-            honkingAudioSource.volume = 0f; 
         }
     }
     #endregion
@@ -444,8 +451,10 @@ public class MotorbikeSoundController : MonoBehaviour
     }
 
 
-    private void DisengageEngineSound() // If players stand still for too long, turn engine off.
+    public void DisengageEngineSound() // If players stand still for too long, turn engine off.
     {
+        engineStarted = false;
+
         FadeEngineSound(FadeOption.FadeOut);
         engineToggleAudioSource.PlayOneShot(keyturnAudio, SoundManager.Instance.MotorcycleUniversalVolumeStats.KeyturnVolume);
     }

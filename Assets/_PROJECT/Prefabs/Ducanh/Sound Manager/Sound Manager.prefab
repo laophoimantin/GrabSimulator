@@ -155,11 +155,21 @@ MonoBehaviour:
   - name: Key_Turn_Sound
     sounds:
     - {fileID: 8300000, guid: 540ba818d72c0794f813656d41f5ef07, type: 3}
+  - name: Honking_Sound
+    sounds:
+    - {fileID: 8300000, guid: f2297f54ea9a64148a8f1a9b1b51f121, type: 3}
+  deliverySoundList:
+  - name: Item_Pick_Up
+    sounds:
+    - {fileID: 8300000, guid: 320d0c319ba6be34da443c167f4c39c0, type: 3}
+  - name: Item_Drop_Off
+    sounds:
+    - {fileID: 8300000, guid: f21dd86a447bcb74f927a5821184d8f7, type: 3}
   ambienceSoundList:
   - name: Wind
     sounds:
     - {fileID: 8300000, guid: 2353939b582e5114ea26305b084c3345, type: 3}
-  occassionalSoundList:
+  occasionalSoundList:
   - name: None
     sounds: []
   - name: Bird_Chirping
@@ -284,3 +294,9 @@ MonoBehaviour:
     _maxCollisionVolume: 1
     _minCollisionPitch: 1
     _maxCollisionPitch: 1.5
+    _minLandingVolume: 0
+    _maxLandingVolume: 1
+    _minLandingPitch: 1
+    _maxLandingPitch: 1.5
+    _minHonkingVolume: 0
+    _maxHonkingVolume: 0.35

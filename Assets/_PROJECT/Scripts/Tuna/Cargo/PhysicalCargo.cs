@@ -43,6 +43,7 @@ public class PhysicalCargo : MonoBehaviour, IInteractable
 
         if (interactor is PlayerInteractor playerInteractor)
         {
+            SoundManager.Instance.PlaySound2D(DeliverySoundType.Item_Pick_Up, 0.15f);
             playerInteractor.HoldCargo(this);
         }
     }
@@ -81,4 +82,5 @@ public class PhysicalCargo : MonoBehaviour, IInteractable
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
     }
+
 }

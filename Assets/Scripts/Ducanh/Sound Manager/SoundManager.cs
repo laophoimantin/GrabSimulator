@@ -189,7 +189,20 @@ public class SoundManager : MonoBehaviour
         [SerializeField] private float _minLandingPitch;
         [SerializeField] private float _maxLandingPitch;
         public float MinLandingPitch => _minLandingPitch;
-        public float MaxLandingPitch => _maxLandingPitch;   
+        public float MaxLandingPitch => _maxLandingPitch;
+        [Space]
+        [Space]
+        [Space]
+
+
+        [Header("HONKING SOUND\n" +
+                "-------------")]
+
+        [Header("Honking Volume")]
+        [SerializeField] private float _minHonkingVolume;
+        [SerializeField] private float _maxHonkingVolume;
+        public float MinHonkingVolume => _minHonkingVolume;
+        public float MaxHonkingVolume => _maxHonkingVolume;
 
     }
 
@@ -340,13 +353,13 @@ public class SoundManager : MonoBehaviour
         Button[] buttons = GameObject.FindObjectsOfType<Button>(true);
         Debug.Log($"Found {buttons.Length} buttons. Injecting sound chips...");
 
-        foreach (Button btn in buttons)
-        {
-            if (btn.gameObject.GetComponent<ButtonSoundInject>() == null)
-            {
-                btn.gameObject.AddComponent<ButtonSoundInject>();
-            }
-        }
+        //foreach (Button btn in buttons)
+        //{
+        //    if (btn.gameObject.GetComponent<ButtonSoundInject>() == null)
+        //    {
+        //        btn.gameObject.AddComponent<ButtonSoundInject>();
+        //    }
+        //}
     }
 
     private void StopAllSceneLoops()
@@ -701,35 +714,35 @@ public class SoundManager : MonoBehaviour
 }
 
 
-#region UI BUTTON SOUND INJECTION
-//-------------------------------
+//#region UI BUTTON SOUND INJECTION
+////-------------------------------
 
-public class ButtonSoundInject : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
-{
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Button btn = GetComponent<Button>();
-        if (btn != null && btn.interactable)
-        {
-            if (btn.gameObject.layer == LayerMask.NameToLayer("UI"))
-            {
-                SoundManager.Instance.PlaySound2D(UISoundType.Button_Hover, 1f);  // Used to be 0.5
-            }
-        }
-    }
+//public class ButtonSoundInject : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
+//{
+//    public void OnPointerEnter(PointerEventData eventData)
+//    {
+//        Button btn = GetComponent<Button>();
+//        if (btn != null && btn.interactable)
+//        {
+//            if (btn.gameObject.layer == LayerMask.NameToLayer("UI"))
+//            {
+//                SoundManager.Instance.PlaySound2D(UISoundType.Button_Hover, 1f);  // Used to be 0.5
+//            }
+//        }
+//    }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Button btn = GetComponent<Button>();
-        if (btn != null && btn.interactable)
-        {
-            if (btn.gameObject.layer == LayerMask.NameToLayer("UI"))
-            {
-                SoundManager.Instance.PlaySound2D(UISoundType.Button_Selection, 0.7f); // Used  to be 0.2
-            }
-        }
-    }
-}
+//    public void OnPointerClick(PointerEventData eventData)
+//    {
+//        Button btn = GetComponent<Button>();
+//        if (btn != null && btn.interactable)
+//        {
+//            if (btn.gameObject.layer == LayerMask.NameToLayer("UI"))
+//            {
+//                SoundManager.Instance.PlaySound2D(UISoundType.Button_Selection, 0.7f); // Used  to be 0.2
+//            }
+//        }
+//    }
+//}
 
-//--------
-#endregion
+////--------
+//#endregion

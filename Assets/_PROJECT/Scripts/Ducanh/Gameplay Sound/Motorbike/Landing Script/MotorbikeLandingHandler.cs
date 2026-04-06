@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MotorbikeCollisionHandler : MonoBehaviour
+public class MotorbikeLandingHandler : MonoBehaviour
 {
     [Header("Motorbike Script Reference")]
     [SerializeField] private MotorbikeSoundController soundController;
@@ -18,18 +20,6 @@ public class MotorbikeCollisionHandler : MonoBehaviour
     {
         if (soundController == null || motorbikePhysics == null) return;
 
-        // 1. OBSTACLE COLLISION (Crashing into walls/cars)
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
-        {
-            float impactSpeed = collision.relativeVelocity.magnitude;
-
-            if (impactSpeed > Global.Motorcycle.MinimumCollisionForce)
-            {
-                soundController.CollisionSound(impactSpeed, motorbikePhysics.MaxSpeed);
-            }
-        }
-
-        // 2. GROUND COLLISION (Landing jumps)
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             Vector3 contactNormal = collision.GetContact(0).normal;

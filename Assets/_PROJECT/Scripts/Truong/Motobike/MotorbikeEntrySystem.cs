@@ -5,6 +5,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
 {
     private PlayerController _driver;
     private VehicleState _state = VehicleState.Empty;
+    public VehicleState State { get { return _state; } }
 
     [Header("References")]
 
@@ -12,6 +13,9 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     [SerializeField] private GameObject _bikeCam;
     [SerializeField] private Transform _exitPoint;
 
+    [Header("Motorbike Sound Controller")]
+
+    [SerializeField] private MotorbikeSoundController _soundController;
 
     void Awake()
     {
@@ -38,6 +42,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     {
         if (_state == VehicleState.Occupied)
         {
+            _soundController?.DisengageEngineSound();
             ExitVehicle();
         }
     }
