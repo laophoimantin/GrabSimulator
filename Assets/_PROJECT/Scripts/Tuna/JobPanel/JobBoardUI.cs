@@ -37,8 +37,9 @@ public class JobBoardUI : MonoBehaviour
     private void RefreshUI()
     {
         List<Order> jobs = JobBoardManager.Instance.GetAllJobs();
-
         int maxCount = Mathf.Max(jobs.Count, _spawnedButtons.Count);
+
+        Order activeOrder = DeliveryManager.Instance.GetCurrentOrder(); 
 
         for (int i = 0; i < maxCount; i++)
         {
@@ -52,6 +53,16 @@ public class JobBoardUI : MonoBehaviour
 
                 _spawnedButtons[i].gameObject.SetActive(true);
                 _spawnedButtons[i].Init(jobs[i], this); 
+
+                if (activeOrder != null && jobs[i] == activeOrder)
+                {
+                    _spawnedButtons[i].SetSelected(true); 
+                    _currentSelectedButton = _spawnedButtons[i]; 
+                }
+                else
+                {
+                    _spawnedButtons[i].SetSelected(false);
+                }
             }
             else
             {
@@ -59,8 +70,7 @@ public class JobBoardUI : MonoBehaviour
             }
         }
 
-        _currentSelectedButton = null;
-        _btnConfirmTakeJob.interactable = false;
+        _btnConfirmTakeJob.interactable = false; 
     }
 
     public void SelectJob(JobUIButton selectedButton)

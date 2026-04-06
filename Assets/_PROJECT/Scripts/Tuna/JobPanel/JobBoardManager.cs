@@ -10,7 +10,7 @@ public class JobBoardManager : Singleton<JobBoardManager>
     [SerializeField] private int _minLifespan = 1;
     [SerializeField] private int _maxLifespan = 4;
 
-    private List<Order> _availableJobs = new List<Order>();
+    private List<Order> _availableJobs = new();
     public List<Order> GetAllJobs() => _availableJobs;
 
     public static Action OnBoardUpdated;
@@ -48,7 +48,7 @@ public class JobBoardManager : Singleton<JobBoardManager>
             }
         }
 
-        int newOrdersCount = Random.Range(1, 4); 
+        int newOrdersCount = Random.Range(3, 8); 
         for (int i = 0; i < newOrdersCount; i++)
         {
             AddNewRandomOrder();
@@ -59,8 +59,16 @@ public class JobBoardManager : Singleton<JobBoardManager>
 
     public void TakeJob(Order order)
     {
-        _availableJobs.Remove(order);
         DeliveryManager.Instance.AcceptOrder(order);
         OnBoardUpdated?.Invoke();
+    }
+    
+    public void RemoveJob(Order order)
+    {
+        if (_availableJobs.Contains(order))
+        {
+            _availableJobs.Remove(order);
+            OnBoardUpdated?.Invoke();
+        }
     }
 }

@@ -19,9 +19,6 @@ public class DialogueActivator : MonoBehaviour
         PlayDialogue(diag, onFinishedCallback);
     }
     
-    
-    
-    
     private void PlayDialogue(DialogueDataSO data, Action onFinishedCallback = null)
     {
         if (data == null)

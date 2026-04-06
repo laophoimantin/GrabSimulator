@@ -9,7 +9,6 @@ public class DropLocation : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         PhysicalCargo cargo = other.GetComponent<PhysicalCargo>();
-        
         if (cargo != null)
         {
             if (cargo.TargetDropID == _owner.ID)
@@ -18,7 +17,8 @@ public class DropLocation : MonoBehaviour
                 
                 if (isDelivered)
                 {
-                    Destroy(cargo.gameObject);
+                    cargo.MarkAsDelivered();
+                    Destroy(cargo.gameObject, 10);
                 }
             }
         }

@@ -8,7 +8,6 @@ public class NPCAgent : MonoBehaviour, IInteractable
 
     public void Interact(IInteractor interactor)
     {
-
         if (DeliveryManager.Instance.IsPickupLocation(_myLocation.ID))
         {
             _myMouth.PlayPickupDialogue(OnPickupDialogueFinished);

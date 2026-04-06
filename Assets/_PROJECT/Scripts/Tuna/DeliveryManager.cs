@@ -73,6 +73,10 @@ public class DeliveryManager : Singleton<DeliveryManager>
 
     public void AcceptOrder(Order order)
     {
+        if (_deliveryStateMachine.CurrentState == DeliveryState.CarryingPackage)
+        {
+            return;
+        }
         Debug.Log($"Accepted order: {order.OrderID}");
         _currentOrder = order;
         _deliveryStateMachine.AcceptOrder();
@@ -83,6 +87,7 @@ public class DeliveryManager : Singleton<DeliveryManager>
         if (_currentOrder == null || _currentOrder.PickupLocID != id)
             return;
 
+        JobBoardManager.Instance.RemoveJob(_currentOrder);
         _deliveryStateMachine.TryPickupPackage();
     }
 
@@ -94,6 +99,7 @@ public class DeliveryManager : Singleton<DeliveryManager>
         if (_deliveryStateMachine.TryDeliver())
         {
             _currentOrder = null;
+            JobBoardManager.Instance.TickTurn();
             return true;
         }
 

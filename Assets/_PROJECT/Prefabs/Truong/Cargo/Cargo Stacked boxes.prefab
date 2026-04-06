@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 4308847557242858555}
   - component: {fileID: 5818865794458883967}
   - component: {fileID: 3515708017266728198}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cargo Stacked boxes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0

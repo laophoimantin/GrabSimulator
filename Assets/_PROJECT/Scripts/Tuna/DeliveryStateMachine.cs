@@ -45,7 +45,7 @@ public class DeliveryStateMachine
 
     public void AcceptOrder()
     {
-        if (_currentDeliveryState == DeliveryState.Pending)
+        if (_currentDeliveryState == DeliveryState.Pending || _currentDeliveryState == DeliveryState.Accepted)
             ChangeState(DeliveryState.Accepted);
     }
 
