@@ -8,8 +8,6 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 public class SplineSampler : MonoBehaviour
 {
-    public static SplineSampler instance;
-
     [SerializeField] private SplineContainer _splineContainer;
     [SerializeField] private int _splineIndex;
     [SerializeField] private float speed = 0.1f;
@@ -24,19 +22,37 @@ public class SplineSampler : MonoBehaviour
     float3 p1;
     float3 p2;
 
-    public List<Vector3> _vertsP1;
-    public List<Vector3> _vertsP2;
+    private List<Vector3> _vertsP1;
+    private List<Vector3> _vertsP2;
 
     [SerializeField] int resolution;
 
-    private void Awake()
-    {
-        instance = this;
-    }
-
     private void Update()
     {
+        //if (_splineContainer == null) return;
+        //if (Application.isPlaying)
+        //{
+        //    time += Time.deltaTime * speed;
+        //    if (time > _timeRange) time = 0f;
+        //}
+
+        //_splineContainer.Evaluate(_splineIndex, time, out _position, out _forward, out _upVector);
+
+        //Debug.Log($"{time} Position: {_position}, Forward: {_forward}, Up: {_upVector}");
+        //float3 right = math.normalize(math.cross(_forward, _upVector));
+
+        //p1 = _position + (right * width);
+        //p2 = _position + (-right * width);
+
         GetVerts();
+    }
+    private void BuildMesh()
+    {
+        Mesh m = new Mesh();
+        List<Vector3> verts = new List<Vector3>();
+        List<int> tris = new List<int>();
+        int offset = 0;
+        int length = _vertsP2.Count;
     }
 
     private void GetVerts()
@@ -91,7 +107,6 @@ public class SplineSampler : MonoBehaviour
         }
     }
 }
-#region debug shit
 //using Unity.Mathematics;
 //using UnityEditor;
 //using UnityEngine;
@@ -130,4 +145,3 @@ public class SplineSampler : MonoBehaviour
 //        Handles.SphereHandleCap(0, _position, Quaternion.identity, 1f, EventType.Repaint);
 //    }
 //}
-#endregion
