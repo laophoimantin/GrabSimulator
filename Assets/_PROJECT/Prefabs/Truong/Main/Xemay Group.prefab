@@ -5629,7 +5629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rayAnchor: {fileID: 3954679115469917157}
   _suspension: {fileID: 8325330345596557272}
-  _targetDistance: 0.27
+  _targetDistance: 0.25
   _maxDistance: 0.35
   _groundMask:
     serializedVersion: 2
@@ -5637,7 +5637,7 @@ MonoBehaviour:
   _followSpeed: 5
   _instantSnap: 0
   _upTravelLimit: 0.1
-  _downTravelLimit: 0.2
+  _downTravelLimit: 0.15
 --- !u!1 &1777060401180964133
 GameObject:
   m_ObjectHideFlags: 0
@@ -5825,8 +5825,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 20
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 8916066344517446928}
-  m_Follow: {fileID: 8729832909435203056}
+  m_LookAt: {fileID: 7228162050453673073}
+  m_Follow: {fileID: 522182884670158115}
   m_CommonLens: 1
   m_Lens:
     FieldOfView: 45
@@ -7375,6 +7375,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1625603991644423434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4954587692272439002
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 522182884670158115}
+  m_Layer: 15
+  m_Name: Look Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &522182884670158115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4954587692272439002}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.059, z: 0.983}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8729832909435203056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5029568412731224354
 GameObject:
   m_ObjectHideFlags: 0
@@ -8561,7 +8592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rayAnchor: {fileID: 3937251696173819468}
   _suspension: {fileID: 7150790525550455648}
-  _targetDistance: 0.27
+  _targetDistance: 0.25
   _maxDistance: 0.35
   _groundMask:
     serializedVersion: 2
@@ -8569,7 +8600,7 @@ MonoBehaviour:
   _followSpeed: 5
   _instantSnap: 0
   _upTravelLimit: 0.1
-  _downTravelLimit: 0.2
+  _downTravelLimit: 0.15
 --- !u!1 &7148390871272473428
 GameObject:
   m_ObjectHideFlags: 0
@@ -8928,6 +8959,7 @@ Transform:
   - {fileID: 315090402146947202}
   - {fileID: 1749786774388939718}
   - {fileID: 6897048202589254078}
+  - {fileID: 522182884670158115}
   m_Father: {fileID: 695765015985541275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6379830509835791268
@@ -8943,6 +8975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rbSphere: {fileID: 6415605700151946173}
+  _lowFuelSpeedMultiplier: 0.5
 --- !u!114 &5502110105009292907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8958,7 +8991,6 @@ MonoBehaviour:
   motorbikeStatsSO: {fileID: 11400000, guid: 1ff964e78cfa45b499965f75830710a0, type: 2}
   _rbSphere: {fileID: 6415605700151946173}
   _rbBikeBody: {fileID: 2204275349831498159}
-  _fuelSystem: {fileID: 1097539110155831340}
   _maxSpeed: 50
   _reverseSpeed: 30
   _acceleration: 5
