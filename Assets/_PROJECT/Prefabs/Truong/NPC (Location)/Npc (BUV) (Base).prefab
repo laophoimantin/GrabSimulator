@@ -815,6 +815,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myLocation: {fileID: 7542018673834634185}
+  _idleDialogues:
+  - {fileID: 11400000, guid: 934f8bd9c97e6154b9f51b7484392331, type: 2}
+  - {fileID: 11400000, guid: 0bc542aa8fd40824a9b73259f88d1543, type: 2}
+  _pickupDialogues:
+  - {fileID: 11400000, guid: fb03c543c885657449ed2994a15a2105, type: 2}
+  - {fileID: 11400000, guid: a7224b32e623c49499f2f5dd8fa93f11, type: 2}
   _myMouth: {fileID: 3978038206828632878}
 --- !u!114 &3978038206828632878
 MonoBehaviour:
@@ -828,12 +834,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2429073846dd4df2935a5ee138ce7b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleDialogues:
-  - {fileID: 11400000, guid: 934f8bd9c97e6154b9f51b7484392331, type: 2}
-  - {fileID: 11400000, guid: 0bc542aa8fd40824a9b73259f88d1543, type: 2}
-  _pickupDialogues:
-  - {fileID: 11400000, guid: fb03c543c885657449ed2994a15a2105, type: 2}
-  - {fileID: 11400000, guid: a7224b32e623c49499f2f5dd8fa93f11, type: 2}
 --- !u!114 &7542018673834634185
 MonoBehaviour:
   m_ObjectHideFlags: 0

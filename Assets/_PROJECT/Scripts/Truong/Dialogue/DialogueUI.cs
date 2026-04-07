@@ -23,7 +23,7 @@ public class DialogueUI : MonoBehaviour
     [Header("F#cking around with dialogue pitch")]
     [Range(1, 5)][SerializeField] private float dialoguePitchValue;
 
-    private List<Button> _activeButtons = new List<Button>();
+    private List<Button> _activeButtons = new();
     private Coroutine _typeRoutine;
     private bool _isTyping;
     
@@ -74,25 +74,6 @@ public class DialogueUI : MonoBehaviour
         }
     }
 
-    // private void Update()
-    // {
-    //     // Handle Input here. 
-    //     if (!_panel.activeSelf) return;
-    //
-    //     if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
-    //     {
-    //         if (_isTyping)
-    //         {
-    //             CompleteTextImmediately();
-    //         }
-    //         else
-    //         {
-    //             DialogueController.Instance.Next();
-    //         }
-    //     }
-    // }
-    //
-    //
     private void UpdateUI(DialogueNode node)
     {
         _panel.SetActive(true);

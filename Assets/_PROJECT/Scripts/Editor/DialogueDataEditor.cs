@@ -29,16 +29,17 @@ public class DialogueDataEditor : Editor
             var nodeID = element.FindPropertyRelative("NodeID");
             var speaker = element.FindPropertyRelative("SpeakerName");
             var text = element.FindPropertyRelative("Text");
-            var audio = element.FindPropertyRelative("VoiceLine");
             var choices = element.FindPropertyRelative("Choices");
             var defaultNext = element.FindPropertyRelative("DefaultNextNodeID");
             var evt = element.FindPropertyRelative("EventTrigger");
 
             // --- HEADER (Collapsed View) ---
-            string headerLabel = string.IsNullOrEmpty(nodeID.stringValue) ? "New Node" : $"{nodeID.stringValue} : {speaker.stringValue}";
+            string headerLabel = "========== " 
+                                 + (string.IsNullOrEmpty(nodeID.stringValue) ? "New Node" : $"{nodeID.stringValue} : {speaker.stringValue}" + $" to: {defaultNext.stringValue}") 
+                                 + " ==========";
             
             // Draw Foldout
-            rect.y += 2;
+            rect.y += 5;
             element.isExpanded = EditorGUI.Foldout(new Rect(rect.x, rect.y, 20, EditorGUIUtility.singleLineHeight), element.isExpanded, GUIContent.none);
             
             // Draw Label
@@ -63,7 +64,6 @@ public class DialogueDataEditor : Editor
                 DrawProp(nodeID);
                 DrawProp(speaker);
                 DrawProp(text);
-                DrawProp(audio);
                 
                 // Draw a separator line
                 currentY += 5;
@@ -91,7 +91,6 @@ public class DialogueDataEditor : Editor
             totalHeight += EditorGUI.GetPropertyHeight(element.FindPropertyRelative("NodeID")) + 2;
             totalHeight += EditorGUI.GetPropertyHeight(element.FindPropertyRelative("SpeakerName")) + 2;
             totalHeight += EditorGUI.GetPropertyHeight(element.FindPropertyRelative("Text"), true) + 2; // Text area is variable!
-            totalHeight += EditorGUI.GetPropertyHeight(element.FindPropertyRelative("VoiceLine")) + 2;
             
             // Flow Control Header Padding
             totalHeight += EditorGUIUtility.singleLineHeight + 5; 

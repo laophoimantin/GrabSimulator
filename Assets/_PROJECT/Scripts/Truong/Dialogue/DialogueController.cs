@@ -6,8 +6,10 @@ public class DialogueController : Singleton<DialogueController>
 {
     // Events for the UI 
     public event Action<DialogueNode> OnNodeStart;
-    public event Action OnDialogueEnd;
+    
     private Action _onDialogueFinishedCallback;
+    
+    public event Action OnDialogueEnd;
 
     private Dictionary<string, DialogueNode> _nodeMap;
     private DialogueNode _currentNode;
@@ -64,18 +66,45 @@ public class DialogueController : Singleton<DialogueController>
         }
     }
 
-    private void JumpToNode(string id)
+   private void JumpToNode(string id)
     {
         if (_nodeMap.TryGetValue(id, out DialogueNode nextNode))
         {
             _currentNode = nextNode;
+            
+            DialogueNode localNode = _currentNode;
 
-            if (_currentNode.EventTrigger != null)
+            bool isDeadEnd = string.IsNullOrWhiteSpace(localNode.Text) 
+                          && string.IsNullOrEmpty(localNode.DefaultNextNodeID) 
+                          && (localNode.Choices == null || localNode.Choices.Count == 0);
+
+            if (isDeadEnd)
             {
-                _currentNode.EventTrigger.Raise();
+                EndDialogue(); 
+                
+                if (localNode.EventTrigger != null)
+                {
+                    localNode.EventTrigger.Raise(); 
+                }
+                
+                return; 
             }
 
-            OnNodeStart?.Invoke(_currentNode); // Update UI
+            if (localNode.EventTrigger != null)
+            {
+                localNode.EventTrigger.Raise();
+            }
+
+            if (_currentNode != localNode) return; 
+
+            if (string.IsNullOrWhiteSpace(localNode.Text))
+            {
+                Next(); 
+            }
+            else
+            {
+                OnNodeStart?.Invoke(localNode); 
+            }
         }
         else
         {

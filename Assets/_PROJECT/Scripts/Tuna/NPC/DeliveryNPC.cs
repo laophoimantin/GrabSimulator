@@ -1,20 +1,24 @@
 using UnityEngine;
 
-public class NPCAgent : MonoBehaviour, IInteractable
+public class DeliveryNPC : MonoBehaviour, IInteractable
 {
-    [Header("Dialogues Config")]
     [SerializeField] private LocationNode _myLocation;
+    
+    [Header("Dialogues")]
+    [SerializeField] private DialogueDataSO[] _idleDialogues;
+    [SerializeField] private DialogueDataSO[] _pickupDialogues;
+    
     [SerializeField] private DialogueActivator _myMouth;
 
     public void Interact(IInteractor interactor)
     {
         if (DeliveryManager.Instance.IsPickupLocation(_myLocation.ID))
         {
-            _myMouth.PlayPickupDialogue(OnPickupDialogueFinished);
+            _myMouth.SpeakRandom(_pickupDialogues, _myLocation.SpawnPackage);
         }
         else
         {
-            _myMouth.PlayIdleDialogue();
+            _myMouth.SpeakRandom(_idleDialogues);
         }
     }
 

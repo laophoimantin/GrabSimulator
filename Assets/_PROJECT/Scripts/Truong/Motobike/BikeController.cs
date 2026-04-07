@@ -5,20 +5,14 @@ public class BikeController : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject _bikeCam;
 
-    private MotorbikeInput _input;
-    private MotorbikePhysics _physics;
-    private MotorbikeVisuals _visuals;
-    private FuelSystem _fuel;
-    public FuelSystem FuelSystem => _fuel;
+    [SerializeField]  private MotorbikeInput _input;
+    [SerializeField]   private MotorbikePhysics _physics;
+    [SerializeField]  private MotorbikeVisuals _visuals;
+    [SerializeField] private FuelSystem _fuel;
     [SerializeField] private float _lowFuelSpeedMultiplier = 0.5f;
     
     private void Awake()
     {
-        _input = GetComponent<MotorbikeInput>();
-        _physics = GetComponent<MotorbikePhysics>();
-        _visuals = GetComponent<MotorbikeVisuals>();
-        _fuel = GetComponent<FuelSystem>();
-
         LockPhysics();
         HideDummyModel();
         _bikeCam.SetActive(false);

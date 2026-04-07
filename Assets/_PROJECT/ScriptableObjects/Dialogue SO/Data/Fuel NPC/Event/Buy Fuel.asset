@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09ebb33b258140c3a79f5302a73dcc8f, type: 3}
-  m_Name: Decline Quest Test
+  m_Name: Buy Fuel
   m_EditorClassIdentifier: 

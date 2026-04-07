@@ -8005,6 +8005,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8916066344517446928}
   - component: {fileID: 3254225210478408570}
+  - component: {fileID: 8838072271238118810}
   - component: {fileID: 7278029083389837223}
   - component: {fileID: 2204275349831498159}
   - component: {fileID: 2179690614942257655}
@@ -8046,6 +8047,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundController: {fileID: 7875445105413023250}
   motorbikePhysics: {fileID: 5502110105009292907}
+--- !u!114 &8838072271238118810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6272703538821901064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71566a655a514e86903c58ecb1f8e9fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainFuelSystem: {fileID: 1097539110155831340}
 --- !u!65 &7278029083389837223
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8932,9 +8946,9 @@ GameObject:
   - component: {fileID: 436390559703599506}
   - component: {fileID: 8366181396815112204}
   - component: {fileID: 1097539110155831340}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: Xemay Controller
-  m_TagString: Untagged
+  m_TagString: Bike
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8974,6 +8988,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bikeCam: {fileID: 2088867169000702013}
+  _input: {fileID: 8366181396815112204}
+  _physics: {fileID: 5502110105009292907}
+  _visuals: {fileID: 436390559703599506}
+  _fuel: {fileID: 1097539110155831340}
   _lowFuelSpeedMultiplier: 0.5
 --- !u!114 &5502110105009292907
 MonoBehaviour:

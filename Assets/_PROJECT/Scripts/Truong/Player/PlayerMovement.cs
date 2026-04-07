@@ -73,7 +73,6 @@ public class PlayerMovement : MonoBehaviour
     {
         // Calculate move direction
         _moveDirection = _orientation.forward * _inputController.VerticalInput + _orientation.right * _inputController.HorizontalInput;
-Debug.Log(_moveDirection);
         // Slope
         if (_isOnSlope)
         {

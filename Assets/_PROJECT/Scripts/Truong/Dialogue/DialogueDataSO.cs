@@ -20,9 +20,6 @@ public class DialogueNode
     [TextArea(3, 10)]
     public string Text; // One string per node
 
-    [Header("Audio")]
-    public AudioClip VoiceLine; // Later
-
     [Header("Branching")]
     [Tooltip("If empty, dialogue ends here.")]
     public List<DialogueChoice> Choices; 

@@ -4,26 +4,15 @@ using Random = UnityEngine.Random;
 
 public class DialogueActivator : MonoBehaviour
 {
-    [SerializeField] private DialogueDataSO[] _idleDialogues;
-    [SerializeField] private DialogueDataSO[] _pickupDialogues;
-
-    public void PlayIdleDialogue()
+    public void SpeakRandom(DialogueDataSO[] dialogues, Action onFinishedCallback = null)
     {
-        DialogueDataSO diag = _idleDialogues[Random.Range(0, _idleDialogues.Length)];
-        PlayDialogue(diag);
-    }
-    
-    public void PlayPickupDialogue(Action onFinishedCallback)
-    {
-        DialogueDataSO diag = _pickupDialogues[Random.Range(0, _pickupDialogues.Length)];
-        PlayDialogue(diag, onFinishedCallback);
-    }
-    
-    private void PlayDialogue(DialogueDataSO data, Action onFinishedCallback = null)
-    {
-        if (data == null)
+        if (dialogues == null || dialogues.Length == 0)
+        {
+            onFinishedCallback?.Invoke();
             return;
-        
-        DialogueController.Instance.StartDialogue(data, onFinishedCallback);
+        }
+
+        DialogueDataSO diag = dialogues[Random.Range(0, dialogues.Length)];
+        DialogueController.Instance.StartDialogue(diag, onFinishedCallback);
     }
 }
