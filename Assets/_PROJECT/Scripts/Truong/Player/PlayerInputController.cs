@@ -1,13 +1,23 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Nhớ trò này không?
+using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour
 {
+    private InputAction _moveAction;
+
+    private void Start()
+    {
+        if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
+        {
+            var onGroundMap = InputManager.Instance.InputActions.OnGround;
+            _moveAction = onGroundMap.Move;
+        }
+    }
     public Vector2 MoveInput 
     { 
         get 
         {
-            if (InputLocker.IsLocked(InputActionType.Move))
+            if (InputLocker.IsLocked(InputActionType.OnGroundMove))
                 return Vector2.zero; 
                 
             return _moveAction != null ? _moveAction.ReadValue<Vector2>() : Vector2.zero;
@@ -17,13 +27,4 @@ public class PlayerInputController : MonoBehaviour
     public float HorizontalInput => MoveInput.x;
     public float VerticalInput => MoveInput.y;
 
-    private InputAction _moveAction;
-
-    private void Start()
-    {
-        if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
-        {
-            _moveAction = InputManager.Instance.InputActions.OnGround.Move;
-        }
-    }
 }

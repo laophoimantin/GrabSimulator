@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class DialogueUI : MonoBehaviour
@@ -27,6 +28,9 @@ public class DialogueUI : MonoBehaviour
     private bool _isTyping;
     
     private string _currentFullText;
+    
+    
+    private InputAction _skipDialogue;
 
     private void Start()
     {
@@ -34,6 +38,12 @@ public class DialogueUI : MonoBehaviour
         
         DialogueController.Instance.OnNodeStart += UpdateUI;
         DialogueController.Instance.OnDialogueEnd += CloseUI;
+        
+        if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
+        {
+            _skipDialogue = InputManager.Instance.InputActions.Dialogue.SkipDialogue;
+            _skipDialogue.performed += OnAdvanceInput;
+        }
     }
     
     private void OnDestroy()
@@ -43,26 +53,46 @@ public class DialogueUI : MonoBehaviour
             DialogueController.Instance.OnNodeStart -= UpdateUI;
             DialogueController.Instance.OnDialogueEnd -= CloseUI;
         }
+        
+        if (_skipDialogue != null)
+        {
+            _skipDialogue.performed -= OnAdvanceInput;
+        }
     }
-
-    private void Update()
+    
+    private void OnAdvanceInput(InputAction.CallbackContext ctx)
     {
-        // Handle Input here. 
         if (!_panel.activeSelf) return;
 
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        if (_isTyping)
         {
-            if (_isTyping)
-            {
-                CompleteTextImmediately();
-            }
-            else
-            {
-                DialogueController.Instance.Next();
-            }
+            CompleteTextImmediately();
+        }
+        else
+        {
+            DialogueController.Instance.Next();
         }
     }
 
+    // private void Update()
+    // {
+    //     // Handle Input here. 
+    //     if (!_panel.activeSelf) return;
+    //
+    //     if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+    //     {
+    //         if (_isTyping)
+    //         {
+    //             CompleteTextImmediately();
+    //         }
+    //         else
+    //         {
+    //             DialogueController.Instance.Next();
+    //         }
+    //     }
+    // }
+    //
+    //
     private void UpdateUI(DialogueNode node)
     {
         _panel.SetActive(true);
@@ -109,6 +139,7 @@ public class DialogueUI : MonoBehaviour
         foreach (char c in text)
         {
             _bodyText.text += c;
+            
             _dialogueSoundController.DialogueSoundGenerator(c, dialoguePitchValue, 0.5f);
 
             yield return new WaitForSeconds(_typeSpeed);

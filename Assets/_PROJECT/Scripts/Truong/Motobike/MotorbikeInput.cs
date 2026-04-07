@@ -42,7 +42,7 @@ public class MotorbikeInput : MonoBehaviour
     private void OnHonkStarted(InputAction.CallbackContext ctx) => IsHonking = true;
     private void OnHonkCancelled(InputAction.CallbackContext ctx) => IsHonking = false;
 
-    public float MoveInput 
+    public float ForwardInput 
     {
         get 
         {
@@ -67,7 +67,7 @@ public class MotorbikeInput : MonoBehaviour
     }
 
 
-    public bool IsReversing => MoveInput < 0;
+    public bool IsReversing => ForwardInput < 0;
 
     public bool IsBraking 
     {

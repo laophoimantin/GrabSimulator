@@ -3,7 +3,6 @@ using UnityEngine;
 /// <summary>
 /// Controls the _rb of the player.
 /// </summary>
-[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
@@ -70,13 +69,11 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer();
     }
 
- 
-
     private void MovePlayer()
     {
         // Calculate move direction
         _moveDirection = _orientation.forward * _inputController.VerticalInput + _orientation.right * _inputController.HorizontalInput;
-
+Debug.Log(_moveDirection);
         // Slope
         if (_isOnSlope)
         {

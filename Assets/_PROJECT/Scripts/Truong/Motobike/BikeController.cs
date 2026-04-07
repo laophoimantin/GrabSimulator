@@ -3,7 +3,7 @@ using UnityEngine;
 public class BikeController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Rigidbody _rbSphere;
+    [SerializeField] private GameObject _bikeCam;
 
     private MotorbikeInput _input;
     private MotorbikePhysics _physics;
@@ -19,10 +19,9 @@ public class BikeController : MonoBehaviour
         _visuals = GetComponent<MotorbikeVisuals>();
         _fuel = GetComponent<FuelSystem>();
 
-        HideDummyModel();
-        
         LockPhysics();
         HideDummyModel();
+        _bikeCam.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -36,13 +35,30 @@ public class BikeController : MonoBehaviour
             _physics.PowerMultiplier = 1f;
         }
 
-        if (Mathf.Abs(_input.MoveInput) > 0.01f)
+        if (Mathf.Abs(_input.ForwardInput) > 0.01f)
         {
-            _fuel.ConsumeFuel(_fuel.GetConsumptionThisFrame() * Mathf.Abs(_input.MoveInput));
+            _fuel.ConsumeFuel(_fuel.GetConsumptionThisFrame() * Mathf.Abs(_input.ForwardInput));
         }
     }
     
-    
+    public void AcceptRider()
+    {
+        ShowDummyModel();
+        UnlockPhysics(); 
+        _bikeCam.SetActive(true);
+        
+        GameEvents.OnPlayerVehicleChanged?.Invoke(_fuel);
+    }
+
+    public void EjectRider()
+    {
+        LockPhysics(); 
+        HideDummyModel();
+        
+        _bikeCam.SetActive(false);
+        
+        GameEvents.OnPlayerVehicleChanged?.Invoke(null); 
+    }
     
     public void HideDummyModel() => _visuals.SetDummyModelState(false);
 

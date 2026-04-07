@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 110572808150737807}
   - component: {fileID: 2517159582457100448}
   m_Layer: 5
-  m_Name: Choice Button
+  m_Name: Dialouge Choice Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

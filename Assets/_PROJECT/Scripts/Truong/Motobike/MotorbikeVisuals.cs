@@ -47,7 +47,7 @@ public class MotorbikeVisuals : MonoBehaviour
 	private void RotateWheels()
 	{
 		_frontWheel.Rotate(Vector3.forward, -_wheelRotSpeed * Time.deltaTime * _physics.CurrentVelocityOffset * 1.5f);
-		_rearWheel.Rotate(Vector3.forward, -_wheelRotSpeed * Time.deltaTime * _input.MoveInput);
+		_rearWheel.Rotate(Vector3.forward, -_wheelRotSpeed * Time.deltaTime * _input.ForwardInput);
 	}
 
 	private void RotateHandle()

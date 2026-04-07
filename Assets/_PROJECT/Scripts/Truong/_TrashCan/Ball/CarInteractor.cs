@@ -20,14 +20,14 @@ public class CarInteractor : MonoBehaviour, IInteractor
     {
         if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
         {
-            InputManager.Instance.InputActions.OnBike.Interact.performed += OnInteractInput;
+            InputManager.Instance.InputActions.OnBike.ExitBike.performed += OnInteractInput;
         }
     }
     private void OnDisable()
     {
         if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
         {
-            InputManager.Instance.InputActions.OnBike.Interact.performed -= OnInteractInput;
+            InputManager.Instance.InputActions.OnBike.ExitBike.performed -= OnInteractInput;
         }
     }
     private void OnInteractInput(InputAction.CallbackContext context)

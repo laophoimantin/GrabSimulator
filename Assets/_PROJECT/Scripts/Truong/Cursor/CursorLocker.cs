@@ -35,7 +35,7 @@ public static class CursorLocker
             return 0f;
 
         Vector2 mouseDelta = InputManager.Instance.InputActions.MouseInput.MouseLook.ReadValue<Vector2>();
-
+        InputManager.Instance.InputActions.MouseInput.Enable();
         if (axisName == "Mouse X") return mouseDelta.x;
         if (axisName == "Mouse Y") return mouseDelta.y;
 

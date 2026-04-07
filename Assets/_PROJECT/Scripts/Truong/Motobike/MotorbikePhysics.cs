@@ -18,7 +18,6 @@ public class MotorbikePhysics : MonoBehaviour
     [SerializeField] private float _maxSpeed = 30f;
     [SerializeField] private float _reverseSpeed = 10f;
     [SerializeField] private float _acceleration = 5f;
-    [SerializeField] private float _lowFuelSpeedMultiplier = 0.5f;
 
     [Header("Steering")]
     [SerializeField] private float _steerStrength = 15f;
@@ -129,11 +128,11 @@ public class MotorbikePhysics : MonoBehaviour
     // {
     //     // _rbSphere.velocity = Vector3.Lerp(
     //     //     _rbSphere.velocity,
-    //     //     _input.MoveInput * _maxSpeed * transform.forward,
+    //     //     _input.ForwardInput * _maxSpeed * transform.forward,
     //     //     _acceleration * Time.fixedDeltaTime
     //     // );
     //     Vector3 vel = _rbSphere.velocity; // cái bóng đang đi về hướng nào với tốc độ bao nhiêu
-    //     Vector3 target = _input.MoveInput * _maxSpeed * transform.forward; // mình đang muốn xe đi về đâu, (tến lên hay lùi) * (phía trước của xe) * (max tốc độ)
+    //     Vector3 target = _input.ForwardInput * _maxSpeed * transform.forward; // mình đang muốn xe đi về đâu, (tến lên hay lùi) * (phía trước của xe) * (max tốc độ)
     //     Vector3 horizontal = Vector3.Lerp(new Vector3(vel.x, 0, vel.z), target, _acceleration * Time.fixedDeltaTime); // hướng, lực để đẩy cái xe, không tính y
     //     
     //     _rbSphere.velocity = new Vector3(horizontal.x, vel.y, horizontal.z); // áp vào, không thay đổi lực y
@@ -158,7 +157,7 @@ public class MotorbikePhysics : MonoBehaviour
         float totalForwardSpeed = _maxSpeed * PowerMultiplier;
         float speed = _input.IsReversing ? _reverseSpeed : totalForwardSpeed;
 
-        Vector3 targetVelocity = moveDirection * (_input.MoveInput * speed);
+        Vector3 targetVelocity = moveDirection * (_input.ForwardInput * speed);
 
         // Vận tốc hiện tại của cục Sphere.
         Vector3 currentVelocity = _rbSphere.velocity;
@@ -179,7 +178,7 @@ public class MotorbikePhysics : MonoBehaviour
     private void Rotate()
     {
         // _input.SteerInput: Trái/phải ( -1 đến 1 )
-        // _input.MoveInput: Tiến/lùi ( -1 đến 1 ). Nhân cái này vào để khi lùi xe, trái phải bị đảo ngược cho đúng thực tế.
+        // _input.ForwardInput: Tiến/lùi ( -1 đến 1 ). Nhân cái này vào để khi lùi xe, trái phải bị đảo ngược cho đúng thực tế.
         // _turningCurve.Evaluate(Mathf.Abs(CurrentVelocityOffset)): ĐỒ THỊ BẺ LÁI.
         // Giúp cấm không cho bẻ lái khi xe đang đứng im (vận tốc = 0), hoặc giảm góc cua khi chạy quá nhanh (vận tốc = 1) để tránh lật xe.
         // CurrentVelocityOffset: -1 (Lùi hết ga)  1 (Tiến hết ga) 0.5 (Nửa ga )
@@ -188,7 +187,7 @@ public class MotorbikePhysics : MonoBehaviour
         // không di chuyển (offset = 0) không bẻ được lái
         // di chuyển một it (offset = 0.3 hay gì đó) bẻ một ít theo trục y của biểu đồ
         // di chuyển vai l (max speed) ôm cua hết cỡ
-        float turnAmount = _input.SteerInput * _input.MoveInput // đảo chiều bẻ lái lại khi lùi, tự làm toán đi lmao
+        float turnAmount = _input.SteerInput * _input.ForwardInput // đảo chiều bẻ lái lại khi lùi, tự làm toán đi lmao
                                              * _turningCurve.Evaluate(Mathf.Abs(CurrentVelocityOffset))
                                              * _steerStrength * Time.fixedDeltaTime; // bẻ lực bao nhiêu
 

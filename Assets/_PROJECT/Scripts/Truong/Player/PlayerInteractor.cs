@@ -10,8 +10,7 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
     [SerializeField] private Transform _interactionPoint;
     [SerializeField] private float _interactRadius = 0.5f;
     [SerializeField] private LayerMask _interactLayer;
-
-    private bool _canInteract = true;
+    
     private IInteractable _currentInteractable;
     
     private PhysicalCargo _heldCargo;
@@ -36,7 +35,7 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
 
     private void OnInteractInput(InputAction.CallbackContext context)
     {
-        if (!_canInteract) return;
+        if (InputLocker.IsLocked(InputActionType.Interact)) return;
 
         if (_heldCargo != null)
         {
@@ -52,7 +51,7 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
     
     void Update()
     {
-        if (!_canInteract)
+        if (InputLocker.IsLocked(InputActionType.Interact))
         {
             _currentInteractable = null;
             return;
@@ -103,10 +102,6 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
 
         _currentInteractable = nearestInteractable;
     }
-
-    // Lock 
-    public void LockInteraction() => _canInteract = false;
-    public void UnlockInteraction() => _canInteract = true;
 
 
 #if UNITY_EDITOR

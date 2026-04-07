@@ -1,11 +1,10 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
+using System;
 
 public class InputManager : Singleton<InputManager>
 {
 	private MainInputMaps _inputActions;
 	public MainInputMaps InputActions => _inputActions;
-
+	private Action _previousGameplayState;
 
 	protected override void Awake()
 	{
@@ -15,9 +14,10 @@ public class InputManager : Singleton<InputManager>
 
 	private void Start()
 	{
-		SetPlayerInputState();
 		_inputActions.UI.Enable();
 		_inputActions.MouseInput.Enable();
+		
+		SetPlayerInputState();
 	}
 
 	private void OnDisable()
@@ -28,18 +28,34 @@ public class InputManager : Singleton<InputManager>
 	public void SetPlayerInputState()
 	{
 		_inputActions.OnBike.Disable();
+		_inputActions.Dialogue.Disable();
+		
 		_inputActions.OnGround.Enable();
+		
+		_previousGameplayState = SetPlayerInputState;
 	}
 
-	public void DisablePlayerInputState()
-	{
-		_inputActions.OnGround.Disable();
-	}
 
 	public void SetMotorcycleInputState()
 	{
 		_inputActions.OnGround.Disable();
+		_inputActions.Dialogue.Disable();
+		
 		_inputActions.OnBike.Enable();
+		
+		_previousGameplayState = SetMotorcycleInputState;
+	}
+
+	public void SetDialogueStateMode()
+	{
+		_inputActions.OnGround.Disable();
+		_inputActions.OnBike.Disable();
+		
+		_inputActions.Dialogue.Enable();
 	}
 	
+	public void RestorePreviousGameplayState()
+	{
+		_previousGameplayState?.Invoke();
+	}
 }

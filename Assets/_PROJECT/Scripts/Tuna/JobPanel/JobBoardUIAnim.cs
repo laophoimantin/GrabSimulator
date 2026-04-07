@@ -53,9 +53,8 @@ public class JobBoardUIAnim : MonoBehaviour
         if (_isOpen)
         {
             _panelRect.gameObject.SetActive(true);
-
-            InputLocker.Lock(InputActionType.Interact, this);
             
+            InputLocker.Lock(InputActionType.Interact, this);
             CursorLocker.RequestCursor(this);
             
             _panelRect.DOAnchorPosY(_targetPosY, _slideDuration)
@@ -65,8 +64,7 @@ public class JobBoardUIAnim : MonoBehaviour
         else
         {
             
-            InputLocker.Lock(InputActionType.Interact, this);
-            
+            InputLocker.Unlock(InputActionType.Interact, this);
             CursorLocker.ReleaseCursor(this);
 
             _panelRect.DOAnchorPosY(_hiddenPosY, _slideDuration)

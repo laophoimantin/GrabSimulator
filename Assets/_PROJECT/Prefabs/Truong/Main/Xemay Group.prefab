@@ -7255,7 +7255,6 @@ Transform:
   - {fileID: 8729832909435203056}
   - {fileID: 7228162050453673073}
   - {fileID: 8916066344517446928}
-  - {fileID: 8614078135729329028}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4645205423076323132
@@ -7508,7 +7507,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 6379830509835791268}
-  _bikeCam: {fileID: 2088867169000702013}
   _exitPoint: {fileID: 7372840999913664686}
   _soundController: {fileID: 7875445105413023250}
 --- !u!1 &5551607174141706554
@@ -7832,7 +7830,7 @@ Transform:
   m_GameObject: {fileID: 5768667690235164986}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.4561406, z: -0, w: 0.8899078}
-  m_LocalPosition: {x: 1.289, y: 0.824, z: 0.134}
+  m_LocalPosition: {x: 1.693, y: 1.092, z: -0.428}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8658,8 +8656,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7389013611213041922}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.89, y: 0.02141688, z: -4.05}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8669,7 +8667,7 @@ Transform:
   - {fileID: 3941170477939175617}
   - {fileID: 3982943888036255603}
   - {fileID: 8442291503221068346}
-  m_Father: {fileID: 695765015985541275}
+  m_Father: {fileID: 8729832909435203056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7875445105413023250
 MonoBehaviour:
@@ -8960,6 +8958,7 @@ Transform:
   - {fileID: 1749786774388939718}
   - {fileID: 6897048202589254078}
   - {fileID: 522182884670158115}
+  - {fileID: 8614078135729329028}
   m_Father: {fileID: 695765015985541275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6379830509835791268
@@ -8974,7 +8973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e13bcc7255fa6014197f15967e77074d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rbSphere: {fileID: 6415605700151946173}
+  _bikeCam: {fileID: 2088867169000702013}
   _lowFuelSpeedMultiplier: 0.5
 --- !u!114 &5502110105009292907
 MonoBehaviour:
@@ -8994,7 +8993,6 @@ MonoBehaviour:
   _maxSpeed: 50
   _reverseSpeed: 30
   _acceleration: 5
-  _lowFuelSpeedMultiplier: 0.5
   _steerStrength: 300
   _turningCurve:
     serializedVersion: 2

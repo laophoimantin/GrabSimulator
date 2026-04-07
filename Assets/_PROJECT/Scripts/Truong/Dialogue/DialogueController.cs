@@ -15,6 +15,8 @@ public class DialogueController : Singleton<DialogueController>
 
     public void StartDialogue(DialogueDataSO data, Action onFinishedEvent = null)
     {
+        if (_isDialogueActive) return;
+        
         string startNodeID = DefaultNodeIDs.StartNodeID;
         _onDialogueFinishedCallback = onFinishedEvent;
         _nodeMap = new Dictionary<string, DialogueNode>();
@@ -28,6 +30,9 @@ public class DialogueController : Singleton<DialogueController>
 
         _isDialogueActive = true;
         CursorLocker.RequestCursor(this);
+        
+        InputManager.Instance.SetDialogueStateMode();
+        
         JumpToNode(startNodeID);
     }
 
@@ -82,6 +87,8 @@ public class DialogueController : Singleton<DialogueController>
     private void EndDialogue()
     {
         CursorLocker.ReleaseCursor(this);
+        InputManager.Instance.RestorePreviousGameplayState();
+        
         _isDialogueActive = false;
         _currentNode = null;
         OnDialogueEnd?.Invoke();

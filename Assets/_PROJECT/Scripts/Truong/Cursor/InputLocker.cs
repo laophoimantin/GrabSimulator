@@ -3,9 +3,8 @@ using UnityEngine;
 
 public enum InputActionType 
 {
-    Move,
-    Jump,
-    Attack,
+    OnGroundMove,
+    OnGroundRotate,
     Interact,
     
     BikeMove,

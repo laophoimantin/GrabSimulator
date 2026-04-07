@@ -235,7 +235,7 @@ public class MotorbikeSoundController : MonoBehaviour
 
     private bool HasInput()
     {
-        return motorInput.MoveInput != 0; // Check movement input
+        return motorInput.ForwardInput != 0; // Check movement input
     }
 
 

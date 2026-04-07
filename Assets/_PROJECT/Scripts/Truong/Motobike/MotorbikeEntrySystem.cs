@@ -10,23 +10,17 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     [Header("References")]
 
     [SerializeField] private BikeController _controller;
-    [SerializeField] private GameObject _bikeCam;
     [SerializeField] private Transform _exitPoint;
 
     [Header("Motorbike Sound Controller")]
 
     [SerializeField] private MotorbikeSoundController _soundController;
 
-    void Awake()
-    {
-        _bikeCam.SetActive(false);
-    }
-
     private void OnEnable()
     {
         if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
         {
-            InputManager.Instance.InputActions.OnBike.Interact.performed += OnExitInput;
+            InputManager.Instance.InputActions.OnBike.ExitBike.performed += OnExitInput;
         }
     }
 
@@ -34,7 +28,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     {
         if (InputManager.Instance != null && InputManager.Instance.InputActions != null)
         {
-            InputManager.Instance.InputActions.OnBike.Interact.performed -= OnExitInput;
+            InputManager.Instance.InputActions.OnBike.ExitBike.performed -= OnExitInput;
         }
     }
 
@@ -59,19 +53,11 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     {
         _state = VehicleState.Occupied;
         InputManager.Instance.SetMotorcycleInputState();
-
+            
         _driver = driver;
-
-        _driver.transform.SetParent(_controller.transform);
-        _driver.HideModel();
-        _controller.ShowDummyModel();
+        _driver.MountVehicle(_exitPoint);
         
-        
-        _controller.UnlockPhysics();
-        
-        _bikeCam.SetActive(true);
-        
-        GameEvents.OnPlayerVehicleChanged?.Invoke(_controller.FuelSystem);
+        _controller.AcceptRider();
     }
 
     private void ExitVehicle()
@@ -82,18 +68,10 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _state = VehicleState.Empty;
         InputManager.Instance.SetPlayerInputState();
 
-        _controller.UnlockPhysics();
-
-        _controller.HideDummyModel();
-        _driver.ShowModel();
+        _controller.EjectRider();
         
-        _driver.transform.position = _exitPoint.position;
-        _driver.transform.rotation = _exitPoint.rotation;
-        _driver.transform.SetParent(null);
+        _driver.DismountVehicle(_exitPoint);
         _driver = null;
-
-        _bikeCam.SetActive(false);
-        GameEvents.OnPlayerVehicleChanged?.Invoke(null);
     }
 }
 

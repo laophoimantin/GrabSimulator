@@ -5,12 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class DialogueSoundController : MonoBehaviour
 {
-
     // References
     private Dictionary<char, AudioClip> syllableAudioClipDictionary = new Dictionary<char, AudioClip>();
     private AudioSource audioSource;
 
-    
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -24,12 +23,10 @@ public class DialogueSoundController : MonoBehaviour
         syllableAudioClipDictionary = SoundManager.Instance.GetDialogueSoundDictionary();
     }
 
-
     public void DialogueSoundGenerator(char letter, float pitch, float volume)
     {
         volume = Mathf.Clamp01(volume);
         char convertedLetter = char.ToLower(letter);
-
 
         if (syllableAudioClipDictionary.TryGetValue(convertedLetter, out AudioClip syllableSound))
         {
@@ -44,5 +41,4 @@ public class DialogueSoundController : MonoBehaviour
             Debug.Log($"Dictionary doesn't contain \"{convertedLetter}\", please double check within SoundManager");
         }
     }
-
 }
