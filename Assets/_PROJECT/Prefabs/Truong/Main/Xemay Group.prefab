@@ -6216,6 +6216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8650949461698311308}
+  - component: {fileID: 6805349881178032274}
   m_Layer: 3
   m_Name: PlayerBase
   m_TagString: Untagged
@@ -6240,6 +6241,29 @@ Transform:
   - {fileID: 6675055607516893796}
   m_Father: {fileID: 3106519273727177261}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &6805349881178032274
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3010671381531310757}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.75
+  m_Direction: 1
+  m_Center: {x: -0, y: 0.75, z: -0.25}
 --- !u!1 &3050727116330064766
 GameObject:
   m_ObjectHideFlags: 0
@@ -7506,9 +7530,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cae7e2b26c06fbd489d759f7eda16689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerBaseCollider: {fileID: 6805349881178032274}
   _controller: {fileID: 6379830509835791268}
   _exitPoint: {fileID: 7372840999913664686}
-  _soundController: {fileID: 7875445105413023250}
+  _soundController: {fileID: 0}
 --- !u!1 &5551607174141706554
 GameObject:
   m_ObjectHideFlags: 0
@@ -8705,7 +8730,6 @@ MonoBehaviour:
   collisionAudioSource: {fileID: 1338906499376046724}
   landingAudioSource: {fileID: 2953953975971103281}
   honkingAudioSource: {fileID: 9190126186732519628}
-  motorcycleSoundType: 0
 --- !u!1 &7524873422567756644
 GameObject:
   m_ObjectHideFlags: 0

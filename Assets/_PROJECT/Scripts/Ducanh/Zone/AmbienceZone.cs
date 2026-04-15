@@ -36,13 +36,17 @@ public class AmbienceZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            Debug.Log("Enter Ambience");
             SoundManager.Instance.RegisterZone(this, zonePriority);
+        }
+        else Debug.Log($"{other.gameObject.name}");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             SoundManager.Instance.UnregisterZone(this);
     }
 

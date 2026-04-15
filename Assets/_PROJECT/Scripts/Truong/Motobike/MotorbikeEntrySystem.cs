@@ -3,17 +3,19 @@ using UnityEngine.InputSystem;
 
 public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
 {
+
     private PlayerController _driver;
     private VehicleState _state = VehicleState.Empty;
     public VehicleState State { get { return _state; } }
 
-    [Header("References")]
 
+    [Header("References")]
+    [SerializeField] private Collider _playerBaseCollider;
     [SerializeField] private BikeController _controller;
     [SerializeField] private Transform _exitPoint;
 
-    [Header("Motorbike Sound Controller")]
 
+    [Header("Motorbike Sound Controller")]
     [SerializeField] private MotorbikeSoundController _soundController;
 
     private void OnEnable()
@@ -58,6 +60,10 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _driver.MountVehicle(_exitPoint);
         
         _controller.AcceptRider();
+
+        _soundController.enabled = true;
+        _playerBaseCollider.enabled = true;
+
     }
 
     private void ExitVehicle()
@@ -72,6 +78,9 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         
         _driver.DismountVehicle(_exitPoint);
         _driver = null;
+
+        _soundController.enabled = false;
+        _playerBaseCollider.enabled = false;
     }
 }
 
