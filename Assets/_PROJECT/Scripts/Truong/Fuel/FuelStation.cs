@@ -4,7 +4,7 @@ public class FuelStation : MonoBehaviour
 {
     [SerializeField] private int _refuelCost = 50;
     private FuelSystem _bikeInPumpZone;
-    
+
     private void OnTriggerEnter(Collider other)
     {
         BikeProxy proxy = other.GetComponent<BikeProxy>();
@@ -25,14 +25,18 @@ public class FuelStation : MonoBehaviour
             }
         }
     }
-    
+
     public RefuelResult TryRefuel()
     {
-        if (_bikeInPumpZone == null) 
+        if (_bikeInPumpZone == null)
             return RefuelResult.NoBikeInZone;
 
-        if (_bikeInPumpZone.FuelPercent >= 90) 
+        if (_bikeInPumpZone.FuelPercent >= 0.9f)
+        {
             return RefuelResult.TankAlreadyFull;
+        }
+
+        Debug.Log(_bikeInPumpZone.FuelPercent);
 
         if (!WalletSystem.Instance.TrySpend(_refuelCost))
             return RefuelResult.NotEnoughMoney;
@@ -40,9 +44,8 @@ public class FuelStation : MonoBehaviour
         _bikeInPumpZone.Refuel();
         return RefuelResult.Success;
     }
-    
-    
 }
+
 public enum RefuelResult
 {
     Success,
