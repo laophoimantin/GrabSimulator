@@ -17,10 +17,11 @@ public class SceneController : MonoBehaviour
     [SerializeField] private bool _dontDestroyOnLoad = true;
 
     [Header("Loading Screen")]
-    [SerializeField] private GameObject _loadingScreen;
-    [SerializeField] private CanvasGroup _canvasGroup;
-    [SerializeField] private Slider _progressBar;
-    
+    [SerializeField] private Image _blockerPanel;
+    [SerializeField] private RectTransform _circle;
+    [SerializeField] private float _duration = 1f;
+    private Vector2 _originalSize;
+
     [Header("Whole canvas")]
     [SerializeField] private GameObject _canvas;
 
@@ -38,11 +39,16 @@ public class SceneController : MonoBehaviour
             return;
         }
 
-        _loadingScreen.SetActive(false);
-        _canvasGroup.gameObject.SetActive(false);
-        _canvas.SetActive(false);
+
     }
 
+    void Start()
+    {
+        if (_blockerPanel != null) _blockerPanel.raycastTarget = false;
+        _originalSize = _circle.sizeDelta;
+
+        _canvas.SetActive(false);
+    }
     #region Public API
 
     /// Standard Level Transition: Fades out, loads a new scene, fades in.
@@ -93,16 +99,15 @@ public class SceneController : MonoBehaviour
     private IEnumerator LoadSceneRoutine(string sceneName)
     {
         _canvas.SetActive(true);
-        
-        _canvasGroup.gameObject.SetActive(true);
-        _canvasGroup.blocksRaycasts = true;
+        if (_blockerPanel != null) _blockerPanel.raycastTarget = true;
 
         // PHASE 1: TRANSITION TO LOADING SCREEN
         // =============================================================================
-        yield return ScreenFader.FadeIn(_canvasGroup, _fadeDuration).WaitForCompletion();
-        if (_loadingScreen != null) _loadingScreen.SetActive(true);
-        yield return ScreenFader.FadeOut(_canvasGroup, _fadeDuration).WaitForCompletion();
 
+        yield return _circle.DOSizeDelta(Vector2.zero, _duration)
+            .SetEase(Ease.InOutSine)
+            .SetUpdate(true)
+            .WaitForCompletion();
 
         // PHASE 2: LOADING
         // =============================================================================
@@ -114,33 +119,25 @@ public class SceneController : MonoBehaviour
         while (operation.progress < 0.9f)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            if (_progressBar != null)
-                _progressBar.value = progress;
+            //if (_progressBar != null)
+            //_progressBar.value = progress;
             yield return null;
         }
-
-        if (_progressBar != null)
-            _progressBar.value = 1f;
 
         yield return new WaitForSecondsRealtime(0.5f);
 
         // PHASE 3: TRANSITION TO NEW SCENE
         // =============================================================================
-
-        yield return ScreenFader.FadeIn(_canvasGroup, _fadeDuration).WaitForCompletion();
-
         operation.allowSceneActivation = true;
         while (!operation.isDone)
             yield return null;
 
-        if (_loadingScreen != null)
-            _loadingScreen.SetActive(false);
+        yield return _circle.DOSizeDelta(_originalSize, _duration)
+            .SetEase(Ease.InOutSine)
+            .SetUpdate(true)
+            .WaitForCompletion();
 
-        yield return ScreenFader.FadeOut(_canvasGroup, _fadeDuration).WaitForCompletion();
-
-        _canvasGroup.blocksRaycasts = false;
-        _canvasGroup.gameObject.SetActive(false);
-        
+        if (_blockerPanel != null) _blockerPanel.raycastTarget = false;
         _isLoading = false;
         _canvas.SetActive(false);
     }
@@ -166,7 +163,7 @@ public static class ScreenFader
     {
         group.DOFade(0f, duration).OnComplete(() => callback?.Invoke());
     }
-	
+
     public static Tween FadeIn(CanvasGroup group, float duration)
         => group.DOFade(1f, duration);
 
