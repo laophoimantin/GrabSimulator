@@ -7,7 +7,7 @@ public class JobBoardUI : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform _container;
     [SerializeField] private JobUIButton _prefab;
-    [SerializeField] private Button _btnConfirmTakeJob; 
+    [SerializeField] private Button _btnConfirmTakeJob;
 
     private List<JobUIButton> _spawnedButtons = new();
     private JobUIButton _currentSelectedButton = null;
@@ -24,7 +24,7 @@ public class JobBoardUI : MonoBehaviour
     {
         JobBoardManager.OnBoardUpdated += RefreshUI;
         _btnConfirmTakeJob.onClick.AddListener(ConfirmSelection);
-        RefreshUI();
+
     }
 
     private void OnDisable()
@@ -35,11 +35,16 @@ public class JobBoardUI : MonoBehaviour
 
     private void RefreshUI()
     {
+        if (JobBoardManager.Instance == null) return;
+
         List<Order> jobs = JobBoardManager.Instance.GetAllJobs();
+
+        Order activeOrder = DeliveryManager.Instance != null ? DeliveryManager.Instance.GetCurrentOrder() : null;
+
+        _currentSelectedButton = null;
+        _btnConfirmTakeJob.interactable = false;
+
         int maxCount = Mathf.Max(jobs.Count, _spawnedButtons.Count);
-
-        Order activeOrder = DeliveryManager.Instance.GetCurrentOrder(); 
-
         for (int i = 0; i < maxCount; i++)
         {
             if (i < jobs.Count)
@@ -49,18 +54,16 @@ public class JobBoardUI : MonoBehaviour
                     JobUIButton newBtn = Instantiate(_prefab, _container);
                     _spawnedButtons.Add(newBtn);
                 }
+                JobUIButton btn = _spawnedButtons[i];
+                btn.gameObject.SetActive(true);
+                btn.Init(jobs[i], this);
 
-                _spawnedButtons[i].gameObject.SetActive(true);
-                _spawnedButtons[i].Init(jobs[i], this); 
+                btn.SetSelected(false);
 
                 if (activeOrder != null && jobs[i] == activeOrder)
                 {
-                    _spawnedButtons[i].SetSelected(true); 
-                    _currentSelectedButton = _spawnedButtons[i]; 
-                }
-                else
-                {
-                    _spawnedButtons[i].SetSelected(false);
+                    btn.SetSelected(true);
+                    _currentSelectedButton = btn;
                 }
             }
             else
@@ -69,7 +72,7 @@ public class JobBoardUI : MonoBehaviour
             }
         }
 
-        _btnConfirmTakeJob.interactable = false; 
+        _btnConfirmTakeJob.interactable = false;
     }
 
     public void SelectJob(JobUIButton selectedButton)

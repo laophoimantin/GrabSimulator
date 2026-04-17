@@ -109,6 +109,7 @@ public class SceneController : MonoBehaviour
             .SetUpdate(true)
             .WaitForCompletion();
 
+        InputLocker.ForceClearAll();
         // PHASE 2: LOADING
         // =============================================================================
 

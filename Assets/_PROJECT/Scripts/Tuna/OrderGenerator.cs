@@ -16,11 +16,21 @@ public class OrderGenerator : Singleton<OrderGenerator>
         List<LocationID> validPickups = DeliveryManager.Instance.GetAvailablePickupLocations();
         List<LocationID> validDrops = DeliveryManager.Instance.GetAvailableDropLocations();
 
-        if (validPickups.Count == 0 || validDrops.Count == 0)
+        if (validPickups.Count == 0)
+        {
+            Debug.Log("validPickups");
             return null;
+        }
+        if (validDrops.Count == 0)
+        {
+            Debug.Log("validDrops");
+            return null;
+        }
 
         if (_availableCargos.Count == 0)
+        {
             return null;
+        }
 
         LocationID pickup = validPickups[Random.Range(0, validPickups.Count)];
         LocationID drop;

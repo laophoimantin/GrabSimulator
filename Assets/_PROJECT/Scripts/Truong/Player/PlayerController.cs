@@ -17,6 +17,10 @@ public class PlayerController : MonoBehaviour
     
     public Transform HandPos => _handPos;
  
+    void Start()
+    {
+        QuestArrow.Instance.SetAnchor(transform);
+    }
     public void MountVehicle(Transform seat)
     {
         SetPhysicsActive(false); 

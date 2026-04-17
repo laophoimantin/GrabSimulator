@@ -2,31 +2,37 @@ using UnityEngine;
 
 public class QuestArrow : Singleton<QuestArrow>
 {
+    [Header("Model")]
+
+    [SerializeField] private GameObject _arrowModel;
+
     [Header("Settings")]
     [SerializeField] private float _heightOffset = 2.5f;
-    [SerializeField] private float _rotationSpeed = 10f; 
-    
-    [Header("State")]
-    [SerializeField] private Transform _anchor;
-    [SerializeField] private Transform _target;
+    [SerializeField] private float _rotationSpeed = 10f;
 
-    private void Start() 
+    private Transform _anchor;
+    private Transform _target;
+
+    private void Start()
     {
-        gameObject.SetActive(false);
+        _arrowModel.SetActive(false);
     }
 
-    void LateUpdate() 
+    void LateUpdate()
     {
-        if (_anchor == null || _target == null) return;
+        if (_anchor == null) return;
 
         // Hover above the anchor
         Vector3 desiredPos = _anchor.position + (Vector3.up * _heightOffset);
         transform.position = Vector3.Lerp(transform.position, desiredPos, Time.deltaTime * 15f);
-
+        if (_target == null)
+        {
+            return;
+        }
         // Look at the target
         Vector3 direction = _target.position - transform.position;
-        direction.y = 0;
-        
+        //direction.y = 0;
+
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
@@ -42,6 +48,6 @@ public class QuestArrow : Singleton<QuestArrow>
     public void SetObjective(Transform newTarget)
     {
         _target = newTarget;
-        gameObject.SetActive(_target != null);
+        _arrowModel.SetActive(_target != null);
     }
 }
