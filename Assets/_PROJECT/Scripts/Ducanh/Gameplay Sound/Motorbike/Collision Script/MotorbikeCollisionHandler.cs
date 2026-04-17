@@ -7,12 +7,6 @@ public class MotorbikeCollisionHandler : MonoBehaviour
     [SerializeField] private MotorbikePhysics motorbikePhysics;
 
 
-    private void Awake()
-    {
-        if (soundController == null) Debug.Log("Assign MotorbikeSoundController reference");
-        if (motorbikePhysics == null) Debug.Log("Assign MotorbikePhysics reference");
-    }
-
 
     private void OnCollisionEnter(Collision collision)
     {
