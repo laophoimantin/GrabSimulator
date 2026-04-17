@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Mission 1
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Lan (Street Food Vendor)
+    Text: "Finally! I\u2019ve been staring at my empty cash box waiting for this
+      delivery to move. What took you so long?"
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: Look, I don't have a supercar, this is all I got!
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Lan (Street Food Vendor)
+    Text: "Haha! If you moved your legs as fast as Tuan Anh moves when he hears his
+      dad\u2019s car, you\u2019d be done by now!"
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: Tuan Anh has the luxury of speed. I only have the luxury of sweat.
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Lan (Street Food Vendor)
+    Text: Whatever! Ok, so I will just give you the parcel, deliver it safe and sound
+      for me, take care!
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

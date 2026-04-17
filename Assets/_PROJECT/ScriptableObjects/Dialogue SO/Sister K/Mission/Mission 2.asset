@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Mission 2
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Sister K (Circle K Clerk)
+    Text: "There you are! You look like you\u2019ve been through a bit of a struggle
+      today."
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: The road is bumpy. Just trying to keep everything in one piece.
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Sister K (Circle K Clerk)
+    Text: I hear you. Take a breather before you head back out.
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Sister K (Circle K Clerk)
+    Text: Ok, so I will just give you the parcel, deliver it safe and sound for me,
+      take care!
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

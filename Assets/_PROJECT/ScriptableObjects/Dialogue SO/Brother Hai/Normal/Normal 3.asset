@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Normal 3
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: That rich woman from the "Paradise" place came by again. She offered me
+      a job as her private chef.
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: "Bro, that\u2019s the dream! Why are you still standing here in the steam?"
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: Nah, too much drama. I like it here. I can wear my flip-flops and talk
+      trash with you. You don't get that in "Paradise."
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: True. Silk shirts are overrated anyway.
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: Right? Give me my old tank top any day.
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

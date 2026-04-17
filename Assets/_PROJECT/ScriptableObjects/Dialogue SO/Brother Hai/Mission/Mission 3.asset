@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Mission 3
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: Finally! There you are! What took you so long?
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: Sorry, bro! I was just taking my time and enjoying the breeze.
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: "Can't blame you, it\u2019s a nice day to be out. I\u2019d join you if
+      I didn't have twenty liters of broth to watch."
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: "Next time, man. We\u2019ll go for a ride when the shop is closed."
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: Deal. For now, get this moving. Ok, so I will just give you the parcel,
+      deliver it safe and sound for me, take care
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Normal 1
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Ranger
+    Text: Hey! Stop that engine!
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Ranger
+    Text: You think this is a racing track? You scare all the birds away!
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Player
+    Text: "Sorry Ma\u2019am... I was just driving by.\r"
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Ranger
+    Text: Town people... always bring noise!
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Ranger
+    Text: Trees were sleeping until you come here with that metal mosquito!
+    Choices: []
+    DefaultNextNodeID: 5
+    EventTrigger: {fileID: 0}
+  - NodeID: 5
+    SpeakerName: Player
+    Text: I will try to be quieter next time.
+    Choices: []
+    DefaultNextNodeID: 6
+    EventTrigger: {fileID: 0}
+  - NodeID: 6
+    SpeakerName: Ranger
+    Text: Hmph! Better be!
+    Choices: []
+    DefaultNextNodeID: 7
+    EventTrigger: {fileID: 0}
+  - NodeID: 7
+    SpeakerName: Ranger
+    Text: Anyway, go away! My head hurts!
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

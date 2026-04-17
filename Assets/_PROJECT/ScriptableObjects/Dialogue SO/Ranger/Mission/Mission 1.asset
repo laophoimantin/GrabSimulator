@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Mission 1
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Ranger
+    Text: Finally, there you are! What took you so long?
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: Sorry, Ranger! The road was a bit bumpy today, so I had to be careful.
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Ranger
+    Text: Nature is never a smooth ride! You have to respect the terrain.
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: I'm learning that the hard way with this old bike.
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Ranger
+    Text: At least you made it. Ok, so I will just give you the parcel, deliver it
+      safe and sound for me, take care!
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

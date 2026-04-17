@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Normal 1
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Tuan Anh (Mayor's Son)
+    Text: "I\u2019ve been standing here since the sun came up. This is the life,
+      man. No boss, no work, just vibes."
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: "So... you\u2019re just a professional timer-waster?"
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Tuan Anh (Mayor's Son)
+    Text: "It\u2019s called \"enjoying youth,\" bro. You wouldn't get it, always
+      sweating on that rusty bike just to make a few coins."
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: At least my bike is actually moving, unlike you.
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Tuan Anh (Mayor's Son)
+    Text: "Whatever, man. I\u2019m living my best life while you\u2019re just a servant
+      for a parcel."
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

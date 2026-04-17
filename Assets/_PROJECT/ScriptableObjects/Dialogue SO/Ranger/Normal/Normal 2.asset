@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Normal 2
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Ranger
+    Text: Why you still here?
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Ranger
+    Text: You like looking at an old woman or something?
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Player
+    Text: Just enjoying the fresh air, honestly.
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Ranger
+    Text: Air is for breathing, not for standing around!
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Ranger
+    Text: I been here thirty years... the forest is my only friend.
+    Choices: []
+    DefaultNextNodeID: 5
+    EventTrigger: {fileID: 0}
+  - NodeID: 5
+    SpeakerName: Ranger
+    Text: Trees don't talk. Trees don't ask stupid questions!
+    Choices: []
+    DefaultNextNodeID: 6
+    EventTrigger: {fileID: 0}
+  - NodeID: 6
+    SpeakerName: Player
+    Text: Must be quiet out here at night.
+    Choices: []
+    DefaultNextNodeID: 7
+    EventTrigger: {fileID: 0}
+  - NodeID: 7
+    SpeakerName: Ranger
+    Text: Too quiet... sometimes...
+    Choices: []
+    DefaultNextNodeID: 8
+    EventTrigger: {fileID: 0}
+  - NodeID: 8
+    SpeakerName: Ranger
+    Text: Stop looking at me! Go away!
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

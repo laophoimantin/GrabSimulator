@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Mission 2
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: Finally! I was about to call you to see if you fell into a ditch. What
+      took you so long?
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: "The road is a bit bumpy today, Hai. I\u2019m trying to keep myself from
+      flying away!"
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: "Dang, that means those potholes must be growing bigger than my ph\u1EDF
+      bowls, huh~"
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: "Hey, it is what it is, at least the bike isn\u2019t falling to pieces...
+      yet."
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: Haha! Ok, so I will just give you the parcel, deliver it safe and sound
+      for me, take care!
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

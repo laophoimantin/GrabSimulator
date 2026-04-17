@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Normal 1
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: Bro, have you seen the new meme of Mr Gold on the internet? People are
+      calling him the "King of Dan Phuong."
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: "He\u2019s a legend, man. I\u2019m surprised you haven't charged people
+      for taking photos with him yet."
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: "I should, right? But I have to keep him in the back. Those kids on Exciters
+      look way too interested in him, and I\u2019m not losing my best friend for
+      a TikTok video."
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: Smart move. Protect the King at all costs.
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Brother Hai (Pho Seller)
+    Text: "Exactly. He\u2019s the real boss of this shop, I just make the broth."
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Normal 2
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Tuan Anh (Mayor's Son)
+    Text: "I\u2019m gonna get a red Exciter soon. I\u2019ll rev the engine so loud
+      the Forest Ranger will lose her mind."
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: "Saving up? With what money? You\u2019ve been standing on this corner for
+      three days."
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Tuan Anh (Mayor's Son)
+    Text: "Dang, you didn\u2019t know my dad\u2019s the mayor? Hell I can buy your
+      bike now if I really want to lol!"
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: "I\u2019ll make sure to have my camera ready when you hit a pothole."
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Tuan Anh (Mayor's Son)
+    Text: "You\u2019re just jealous because your bike sounds like a broken sewing
+      machine."
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Mission 3
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Lan (Street Food Vendor)
+    Text: Finally! Did you take a nap on the way, or are you just naturally this
+      slow? My time is literally money!
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: Sorry! I was just taking my time and enjoying the breeze.
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Lan (Street Food Vendor)
+    Text: Must be nice to have time for "breezes." Some of us have bills to pay and
+      customers to satisfy!
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: A little fresh air never hurt anyone, Lan. You should try it.
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Lan (Street Food Vendor)
+    Text: "I\u2019ll breathe when I\u2019m rich. Now take this! Ok, so I will just
+      give you the parcel, deliver it safe and sound for me, take care!"
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Normal 2
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Lan (Street Food Vendor)
+    Text: "If it wasn't for Tuan Anh slipping me some of his allowance, I\u2019d
+      have packed up this stall weeks ago."
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: So the "Mayor's Son" is actually your secret investor now?
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Lan (Street Food Vendor)
+    Text: "Call it what you want, but he\u2019s the only reason I can afford fresh
+      supplies. He\u2019s reckless, sure, but he has a big heart when the rent is
+      due."
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Player
+    Text: I guess having a boyfriend with a rich dad has its perks.
+    Choices: []
+    DefaultNextNodeID: 5
+    EventTrigger: {fileID: 0}
+  - NodeID: 5
+    SpeakerName: Lan (Street Food Vendor)
+    Text: "It\u2019s called survival, bro. He might be a handful, but he keeps the
+      lights on here."
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

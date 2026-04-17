@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Normal 3
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Ranger
+    Text: I see the town lights from here at night.
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Ranger
+    Text: Too many lights! People forget what the stars look like!
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Player
+    Text: Everyone is just living their lives, Ma'am.
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Ranger
+    Text: Living? They are just rushing!
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Ranger
+    Text: Like ants running from a fire... for what?
+    Choices: []
+    DefaultNextNodeID: 5
+    EventTrigger: {fileID: 0}
+  - NodeID: 5
+    SpeakerName: Ranger
+    Text: They forget this mountain was here before them. And it will be here after
+      they gone!
+    Choices: []
+    DefaultNextNodeID: 6
+    EventTrigger: {fileID: 0}
+  - NodeID: 6
+    SpeakerName: Player
+    Text: You have a point there.
+    Choices: []
+    DefaultNextNodeID: 7
+    EventTrigger: {fileID: 0}
+  - NodeID: 7
+    SpeakerName: Ranger
+    Text: Of course I have a point!
+    Choices: []
+    DefaultNextNodeID: 8
+    EventTrigger: {fileID: 0}
+  - NodeID: 8
+    SpeakerName: Ranger
+    Text: Now go! Your shoe trail is making my moss dusty!
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Normal 3
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Sister K (Circle K Clerk)
+    Text: You ever think about trading these dusty roads for the big city lights?
+      Or are you planning to stay here forever?
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: Sometimes. But the city is a whole different beast. I'm okay with these
+      roads for now.
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Sister K (Circle K Clerk)
+    Text: "I get it. The city looks shiny from far away, but it\u2019s a lot of pressure.
+      It\u2019s nice to have options, though."
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: Yeah, maybe one day. For now, I've got parcels to deliver and a bike to
+      keep alive.
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Sister K (Circle K Clerk)
+    Text: "Hehe, fair enough. Just make sure you\u2019re the one driving your life,
+      not the other way around!"
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}

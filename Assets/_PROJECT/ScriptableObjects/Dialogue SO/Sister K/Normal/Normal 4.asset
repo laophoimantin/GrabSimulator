@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
+  m_Name: Normal 4
+  m_EditorClassIdentifier: 
+  Nodes:
+  - NodeID: Start
+    SpeakerName: Sister K (Circle K Clerk)
+    Text: Everything is getting more expensive. I feel like my paycheck is shrinking
+      while the workload is growing.
+    Choices: []
+    DefaultNextNodeID: 1
+    EventTrigger: {fileID: 0}
+  - NodeID: 1
+    SpeakerName: Player
+    Text: "Tell me about it. I\u2019m pedaling twice as fast just to stay in the
+      same place financially."
+    Choices: []
+    DefaultNextNodeID: 2
+    EventTrigger: {fileID: 0}
+  - NodeID: 2
+    SpeakerName: Sister K (Circle K Clerk)
+    Text: "It\u2019s a struggle, kid. But hey, as long as we\u2019re still working,
+      we\u2019re still winning, right?"
+    Choices: []
+    DefaultNextNodeID: 3
+    EventTrigger: {fileID: 0}
+  - NodeID: 3
+    SpeakerName: Player
+    Text: Winning a very exhausting race, maybe.
+    Choices: []
+    DefaultNextNodeID: 4
+    EventTrigger: {fileID: 0}
+  - NodeID: 4
+    SpeakerName: Sister K (Circle K Clerk)
+    Text: Haha! Better than not being in the race at all. Stay strong!
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}
