@@ -27,7 +27,7 @@ public class SplinesSampler : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Handles.matrix = transform.localToWorldMatrix;
-        Handles.SphereHandleCap(0, position, Quaternion.identity, 1f, EventType.Repaint);
+        //Handles.matrix = transform.localToWorldMatrix;
+        //Handles.SphereHandleCap(0, position, Quaternion.identity, 1f, EventType.Repaint);
     }
 }

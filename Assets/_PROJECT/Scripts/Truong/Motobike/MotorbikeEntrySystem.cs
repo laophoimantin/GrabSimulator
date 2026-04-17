@@ -58,6 +58,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _driver.MountVehicle(_exitPoint);
         
         _controller.AcceptRider();
+        QuestArrow.Instance.SetAnchor(_controller.transform);
     }
 
     private void ExitVehicle()
@@ -71,6 +72,7 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         _controller.EjectRider();
         
         _driver.DismountVehicle(_exitPoint);
+        QuestArrow.Instance.SetAnchor(_driver.transform);
         _driver = null;
     }
 }

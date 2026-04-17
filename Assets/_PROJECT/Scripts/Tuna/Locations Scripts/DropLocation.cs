@@ -20,7 +20,8 @@ public class DropLocation : MonoBehaviour
                 if (isDelivered)
                 {
                     cargo.MarkAsDelivered();
-                    Destroy(cargo.gameObject, 10);
+                    VfxManager.Instance.PlayVFX(VfxType.DeliverSuccess, transform.position, Quaternion.LookRotation(Vector3.up));
+                    Destroy(cargo.gameObject, 5);
                 }
             }
         }

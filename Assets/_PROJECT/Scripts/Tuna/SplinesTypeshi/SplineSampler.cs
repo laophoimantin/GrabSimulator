@@ -76,7 +76,7 @@ public class SplineSampler : MonoBehaviour
         if (_splineContainer == null) return;
         if (_vertsP1 == null || _vertsP2 == null) return;
 
-        Handles.matrix = transform.localToWorldMatrix;
+        //Handles.matrix = transform.localToWorldMatrix;
 
         //    Gizmos.DrawSphere(p1, (float) 0.1);
         //    Gizmos.DrawSphere(p2, (float) 0.1);

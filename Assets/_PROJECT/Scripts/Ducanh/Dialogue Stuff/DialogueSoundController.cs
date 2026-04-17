@@ -38,7 +38,7 @@ public class DialogueSoundController : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Dictionary doesn't contain \"{convertedLetter}\", please double check within SoundManager");
+            //Debug.Log($"Dictionary doesn't contain \"{convertedLetter}\", please double check within SoundManager");
         }
     }
 }

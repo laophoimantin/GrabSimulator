@@ -19,14 +19,12 @@ public class DeliveryStateMachine
 		_currentDeliveryState = DeliveryState.Pending;
 	}
 
-	// Centralized state change
 	private void ChangeState(DeliveryState newState)
 	{
 		_currentDeliveryState = newState;
 		OnStateEnter(newState);
 	}
 
-	// Called whenever we enter a new state
 	private void OnStateEnter(DeliveryState state)
 	{
 		switch (state)

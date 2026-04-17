@@ -5,119 +5,182 @@ using UnityEngine;
 
 public class DeliveryManager : Singleton<DeliveryManager>
 {
-	private Order _currentOrder;
-	private DeliveryStateMachine _deliveryStateMachine = new();
-	public DeliveryState GetCurrentState() => _deliveryStateMachine.CurrentState;
-	private Dictionary<LocationID, LocationNode> _locationNodes = new();
+    private Order _currentOrder;
+    private DeliveryStateMachine _deliveryStateMachine = new();
+    public DeliveryState GetCurrentState() => _deliveryStateMachine.CurrentState;
+    private Dictionary<LocationID, LocationNode> _locationNodes = new();
 
-	public Order GetCurrentOrder() => _currentOrder;
-	public bool IsOrderAccepted => _deliveryStateMachine.CurrentState == DeliveryState.Accepted;
+    public Order GetCurrentOrder() => _currentOrder;
+    public bool IsOrderAccepted => _deliveryStateMachine.CurrentState == DeliveryState.Accepted;
 
-	public static Action OnDeliveryUpdated;
+    public static Action OnDeliveryUpdated;
 
-	public bool IsPickupLocation(LocationID loc)
-	{
-		return IsOrderAccepted && _currentOrder != null && _currentOrder.PickupLocID == loc;
-	}
-
-
-	public void RegisterStation(LocationID id, LocationNode location)
-	{
-		_locationNodes[id] = location;
-	}
-
-	public void UnregisterStation(LocationID id)
-	{
-		_locationNodes.Remove(id);
-	}
-
-	public List<LocationID> GetAvailablePickupLocations()
-	{
-		return new List<LocationID>(_locationNodes.Keys);
-	}
-
-	public List<LocationID> GetAvailableDropLocations()
-	{
-		return new List<LocationID>(_locationNodes.Keys);
-	}
-
-	public Vector3 GetLocationPosition(LocationID id)
-	{
-		if (_locationNodes.TryGetValue(id, out var pickup))
-			return pickup.transform.position;
-		return Vector3.zero;
-	}
+    public bool IsPickupLocation(LocationID loc)
+    {
+        return IsOrderAccepted && _currentOrder != null && _currentOrder.PickupLocID == loc;
+    }
 
 
-	public List<LocationID> GetLocationsInArea(AreaID targetArea)
-	{
-		List<LocationID> validLoc = new List<LocationID>();
+    public void RegisterStation(LocationID id, LocationNode location)
+    {
+        _locationNodes[id] = location;
+    }
 
-		foreach (var loc in _locationNodes)
-		{
-			if (loc.Value.Area == targetArea)
-			{
-				validLoc.Add(loc.Key);
-			}
-		}
+    public void UnregisterStation(LocationID id)
+    {
+        _locationNodes.Remove(id);
+    }
 
-		return validLoc;
-	}
+    public List<LocationID> GetAvailablePickupLocations()
+    {
+        return new List<LocationID>(_locationNodes.Keys);
+    }
 
-	public AreaID GetAreaOfLocation(LocationID pickupID)
-	{
-		if (_locationNodes.TryGetValue(pickupID, out var pickupLoc))
-		{
-			return pickupLoc.Area;
-		}
+    public List<LocationID> GetAvailableDropLocations()
+    {
+        return new List<LocationID>(_locationNodes.Keys);
+    }
 
-		return AreaID.HaNoi;
-	}
+    public Vector3 GetLocationPosition(LocationID id)
+    {
+        if (_locationNodes.TryGetValue(id, out var pickup))
+            return pickup.transform.position;
+        return Vector3.zero;
+    }
 
 
-	public void AcceptOrder(Order order)
-	{
-		if (_deliveryStateMachine.CurrentState == DeliveryState.CarryingPackage)
-		{
-			return;
-		}
+    public List<LocationID> GetLocationsInArea(AreaID targetArea)
+    {
+        List<LocationID> validLoc = new List<LocationID>();
 
-		Debug.Log($"Accepted order: {order.OrderID}");
-		_currentOrder = order;
-		_deliveryStateMachine.AcceptOrder();
-		OnDeliveryUpdated?.Invoke();
-	}
+        foreach (var loc in _locationNodes)
+        {
+            if (loc.Value.Area == targetArea)
+            {
+                validLoc.Add(loc.Key);
+            }
+        }
 
-	public bool PickupPackage(LocationID id)
-	{
-		if (_currentOrder == null || _currentOrder.PickupLocID != id)
-			return false;
+        return validLoc;
+    }
 
-		if (_deliveryStateMachine.TryPickupPackage())
-		{
-			JobBoardManager.Instance.RemoveJob(_currentOrder);
-			OnDeliveryUpdated?.Invoke();
-			return true;
-		}
+    public AreaID GetAreaOfLocation(LocationID pickupID)
+    {
+        if (_locationNodes.TryGetValue(pickupID, out var pickupLoc))
+        {
+            return pickupLoc.Area;
+        }
 
-		return _currentOrder.PickupLocID == id;
-	}
+        return AreaID.HaNoi;
+    }
 
-	public bool DeliverPackage(LocationID id)
-	{
-		if (_currentOrder == null || _currentOrder.DropLocID != id)
-			return false;
+    public Transform GetLocationTransform(LocationID id)
+    {
+        if (_locationNodes.TryGetValue(id, out var node))
+            return node.transform;
+        return null;
+    }
 
-		if (_deliveryStateMachine.TryDeliver())
-		{
-			WalletSystem.Instance.AddCoins(_currentOrder.Reward);
-			_currentOrder = null;
 
-			JobBoardManager.Instance.TickTurn();
-			OnDeliveryUpdated?.Invoke();
-			return true;
-		}
+    public void AcceptOrder(Order order)
+    {
 
-		return false;
-	}
+        if (_deliveryStateMachine.CurrentState == DeliveryState.CarryingPackage)
+        {
+            return;
+        }
+
+        Debug.Log($"Accepted order: {order.OrderID}");
+        _currentOrder = order;
+        _deliveryStateMachine.AcceptOrder();
+
+        if (QuestArrow.Instance != null)
+        {
+            Transform pickupPoint = GetLocationTransform(order.PickupLocID);
+            QuestArrow.Instance.SetObjective(pickupPoint);
+        }
+
+        OnDeliveryUpdated?.Invoke();
+        //if (_deliveryStateMachine.CurrentState == DeliveryState.CarryingPackage)
+        //{
+        //	return;
+        //}
+
+        //Debug.Log($"Accepted order: {order.OrderID}");
+        //_currentOrder = order;
+        //_deliveryStateMachine.AcceptOrder();
+        //OnDeliveryUpdated?.Invoke();
+    }
+
+    public bool PickupPackage(LocationID id)
+    {
+        if (_currentOrder == null || _currentOrder.PickupLocID != id)
+            return false;
+
+        if (_deliveryStateMachine.TryPickupPackage())
+        {
+            JobBoardManager.Instance.RemoveJob(_currentOrder);
+
+            if (QuestArrow.Instance != null)
+            {
+                Transform dropPoint = GetLocationTransform(_currentOrder.DropLocID);
+                QuestArrow.Instance.SetObjective(dropPoint);
+            }
+
+            OnDeliveryUpdated?.Invoke();
+            return true;
+        }
+
+        return _currentOrder.PickupLocID == id;
+        //if (_currentOrder == null || _currentOrder.PickupLocID != id)
+        //    return false;
+
+        //if (_deliveryStateMachine.TryPickupPackage())
+        //{
+        //    JobBoardManager.Instance.RemoveJob(_currentOrder);
+        //    OnDeliveryUpdated?.Invoke();
+        //    return true;
+        //}
+
+        //return _currentOrder.PickupLocID == id;
+    }
+
+    public bool DeliverPackage(LocationID id)
+    {
+        if (_currentOrder == null || _currentOrder.DropLocID != id)
+            return false;
+
+        if (_deliveryStateMachine.TryDeliver())
+        {
+            WalletSystem.Instance.AddCoins(_currentOrder.Reward);
+            _currentOrder = null;
+
+            if (QuestArrow.Instance != null)
+            {
+                QuestArrow.Instance.SetObjective(null);
+            }
+
+            JobBoardManager.Instance.TickTurn();
+            OnDeliveryUpdated?.Invoke();
+            return true;
+        }
+
+        return false;
+
+
+        //if (_currentOrder == null || _currentOrder.DropLocID != id)
+        //    return false;
+
+        //if (_deliveryStateMachine.TryDeliver())
+        //{
+        //    WalletSystem.Instance.AddCoins(_currentOrder.Reward);
+        //    _currentOrder = null;
+
+        //    JobBoardManager.Instance.TickTurn();
+        //    OnDeliveryUpdated?.Invoke();
+        //    return true;
+        //}
+
+        //return false;
+    }
 }
