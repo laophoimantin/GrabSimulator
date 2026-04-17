@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 245975709836585974}
   - component: {fileID: 2227533112128714005}
   m_Layer: 0
-  m_Name: m_building_roof_edge_01
+  m_Name: m_building_roof_edgeL_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

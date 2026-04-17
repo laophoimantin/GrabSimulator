@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: m_foliage
+  m_Name: m_BRUTEFORCE_building_colour4
   m_Shader: {fileID: -6465566751694194690, guid: 4bbb4dd64d2269c4ebf8439695976fc4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -37,11 +37,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _displacer:
-        m_Texture: {fileID: 2800000, guid: c2c6ce6d0bf02df4ab10285bdbc392ed, type: 3}
+        m_Texture: {fileID: 2800000, guid: b60022d82cc3cc84eb510b76869e872c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _pallette:
-        m_Texture: {fileID: 2800000, guid: e351a97865594b448922aaad8dff567c, type: 3}
+        m_Texture: {fileID: 2800000, guid: ba67086879c3908419801878f6f92ecd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -60,12 +60,12 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _displace_blend: 100
-    - _displace_tiling: 1
+    - _displace_blend: 1
+    - _displace_tiling: 0.5
     m_Colors:
-    - _H_displace_range: {r: -0.1, g: 0, b: 0, a: 0}
-    - _S_displace_range: {r: 0.1, g: 0.25, b: 0, a: 0}
-    - _V_displace_range: {r: -0.01, g: 0.05, b: 0, a: 0}
+    - _H_displace_range: {r: -0.01, g: 0.01, b: 0, a: 0}
+    - _S_displace_range: {r: -0.025, g: 0.025, b: 0, a: 0}
+    - _V_displace_range: {r: -0.02, g: 0.02, b: 0, a: 0}
     - _pallette_offset: {r: 0, g: 0, b: 0, a: 0}
     - _pallette_tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
