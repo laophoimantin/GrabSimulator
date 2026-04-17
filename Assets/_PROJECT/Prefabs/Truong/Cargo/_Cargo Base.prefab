@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 5818865794458883967}
   - component: {fileID: 3515708017266728198}
   m_Layer: 15
-  m_Name: Cargo Stacked boxes
+  m_Name: _Cargo Base
   m_TagString: Cargo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

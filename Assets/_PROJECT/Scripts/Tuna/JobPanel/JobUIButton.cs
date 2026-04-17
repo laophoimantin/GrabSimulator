@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Globalization;
 
 public class JobUIButton : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private TMP_Text _txtCargo;
-    [SerializeField] private TMP_Text _txtRoute;
+    [SerializeField] private TMP_Text _txtFrom;
+    [SerializeField] private TMP_Text _txtTo;
     [SerializeField] private TMP_Text _txtReward;
     
     [Header("Toggle Visuals")]
@@ -23,9 +25,11 @@ public class JobUIButton : MonoBehaviour
         _myOrder = order;
         _myBoss = boss;
 
-        _txtRoute.text = $"{order.PickupLocID} -> {order.DropLocID}";
+        _txtFrom.text = $"{order.PickupLocID}";
+        _txtTo.text = $"{order.DropLocID}";
+
         _txtCargo.text = $"{order.CargoData.CargoName}";
-        _txtReward.text = $"{order.Reward} VND";
+        _txtReward.text = $"{order.Reward.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"))} VND";
 
         _button.onClick.RemoveAllListeners();
         _button.onClick.AddListener(OnPanelClicked);

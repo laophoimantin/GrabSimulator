@@ -11,7 +11,6 @@ public class JobBoardUI : MonoBehaviour
 
     private List<JobUIButton> _spawnedButtons = new();
     private JobUIButton _currentSelectedButton = null;
-
     void Awake()
     {
         for (int i = 0; i < 10; i++)
@@ -25,7 +24,7 @@ public class JobBoardUI : MonoBehaviour
     {
         JobBoardManager.OnBoardUpdated += RefreshUI;
         _btnConfirmTakeJob.onClick.AddListener(ConfirmSelection);
-        RefreshUI(); 
+        RefreshUI();
     }
 
     private void OnDisable()

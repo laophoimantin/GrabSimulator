@@ -17,7 +17,7 @@ public class JobBoardManager : Singleton<JobBoardManager>
     
     private void Start()
     {
-        for (int i = 0; i < Random.Range(3, 6); i++)
+        for (int i = 0; i < Random.Range(4, _maxJobsOnBoard - 2); i++)
         {
             AddNewRandomOrder();
         }

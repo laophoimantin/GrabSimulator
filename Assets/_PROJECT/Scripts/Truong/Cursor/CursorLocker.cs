@@ -41,21 +41,36 @@ public static class CursorLocker
 
         return 0f;
     }
-    
+    public static bool IsUsingFakeCursor = false;
     private static void UpdateCursorState()
     {
         bool needsCursor = _requesters.Count > 0;
 
-        Cursor.lockState = needsCursor ? CursorLockMode.None : CursorLockMode.Locked;
-        Cursor.visible = needsCursor;
-
         if (needsCursor)
         {
+            if (IsUsingFakeCursor)
+            {
+                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = false;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+
             CinemachineCore.GetInputAxis = (axisName) => 0f;
         }
         else
         {
-            CinemachineCore.GetInputAxis = GetNewMouseAxis;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            CinemachineCore.GetInputAxis = GetNewMouseAxis; 
         }
+    }
+
+    public static void RefreshCursor()
+    {
+        UpdateCursorState();
     }
 }

@@ -57,7 +57,6 @@ public class PausePanelUI : MonoBehaviour
     private void ReturnDaGame()
     {
         CursorLocker.ReleaseCursor(this);
-
         InputManager.Instance.RestorePreviousGameplayState();
         _pausePanel.SetActive(false);
     }

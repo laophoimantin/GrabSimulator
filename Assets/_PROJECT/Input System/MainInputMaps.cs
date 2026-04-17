@@ -432,7 +432,7 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""30eb64c0-44ef-4e02-bf3c-2fa0e9885c1a"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

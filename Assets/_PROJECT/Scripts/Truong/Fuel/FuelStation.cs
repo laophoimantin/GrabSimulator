@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FuelStation : MonoBehaviour
 {
-    [SerializeField] private int _refuelCost = 50;
+    [SerializeField] private float _refuelCost = 30000f;
     private FuelSystem _bikeInPumpZone;
 
     private void OnTriggerEnter(Collider other)
@@ -36,9 +36,12 @@ public class FuelStation : MonoBehaviour
             return RefuelResult.TankAlreadyFull;
         }
 
-        Debug.Log(_bikeInPumpZone.FuelPercent);
+        float missingFuelPercent = 1f - _bikeInPumpZone.FuelPercent;
+        float rawCost = missingFuelPercent * _refuelCost;
+        int finalCost = (Mathf.RoundToInt(rawCost + 250) / 500) * 500;
+        finalCost = Mathf.Max(finalCost, 500);
 
-        if (!WalletSystem.Instance.TrySpend(_refuelCost))
+        if (!WalletSystem.Instance.TrySpend(finalCost))
             return RefuelResult.NotEnoughMoney;
 
         _bikeInPumpZone.Refuel();

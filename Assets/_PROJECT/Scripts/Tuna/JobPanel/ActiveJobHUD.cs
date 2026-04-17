@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Globalization;
 using TMPro;
+using UnityEngine;
 
 public class ActiveJobHUD : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class ActiveJobHUD : MonoBehaviour
         }
 
         _panel.SetActive(true);
-        _txtReward.text = $"{currentOrder.Reward} VNĐ";
+        _txtReward.text = $"{currentOrder.Reward.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"))} VND";
         _txtCargo.text = $"{currentOrder.CargoData.CargoName}";
         DeliveryState state = DeliveryManager.Instance.GetCurrentState();
 
@@ -47,7 +48,7 @@ public class ActiveJobHUD : MonoBehaviour
         else if (state == DeliveryState.CarryingPackage)
         {
             _txtStatus.text = "<color=green>DELIVERING PACKAGE</color>";
-            _txtRoute.text = $"Deliver to: {currentOrder.DropLocID}";
+            _txtRoute.text = $"{currentOrder.DropLocID}";
         }
     }
 }

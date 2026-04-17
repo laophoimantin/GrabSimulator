@@ -8,6 +8,9 @@ public class JobBoardUIAnim : MonoBehaviour
     [SerializeField] private RectTransform _canvasRect;
     [SerializeField] private RectTransform _panelRect;
 
+    [Header("FAKE HAND")]
+    [SerializeField] private GameObject _fakeHand;
+
     [Header("Animation Settings")]
     [SerializeField] private float _slideDuration = 0.4f;
     [SerializeField] private Ease _openEase = Ease.OutBack;
@@ -32,6 +35,7 @@ public class JobBoardUIAnim : MonoBehaviour
         
         _panelRect.anchoredPosition = new Vector2(_panelRect.anchoredPosition.x, _hiddenPosY);
         _panelRect.gameObject.SetActive(false);
+        _fakeHand.SetActive(false);
     }
 
     private void OnDestroy()
@@ -56,21 +60,23 @@ public class JobBoardUIAnim : MonoBehaviour
             
             InputLocker.Lock(InputActionType.Interact, this);
             CursorLocker.RequestCursor(this);
-            
+            _fakeHand.SetActive(true);
             _panelRect.DOAnchorPosY(_targetPosY, _slideDuration)
                 .SetEase(_openEase)
                 .SetUpdate(true);
         }
         else
         {
-            
-            InputLocker.Unlock(InputActionType.Interact, this);
-            CursorLocker.ReleaseCursor(this);
 
             _panelRect.DOAnchorPosY(_hiddenPosY, _slideDuration)
                 .SetEase(_closeEase)
                 .SetUpdate(true)
-                .OnComplete(() => { _panelRect.gameObject.SetActive(false); });
+                .OnComplete(() => { 
+                    _panelRect.gameObject.SetActive(false);
+                    _fakeHand.SetActive(false);
+                    InputLocker.Unlock(InputActionType.Interact, this);
+                    CursorLocker.ReleaseCursor(this);
+                });
         }
     }
 }
