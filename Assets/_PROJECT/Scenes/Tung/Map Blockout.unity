@@ -21183,20 +21183,24 @@ PrefabInstance:
       value: Xemay Group
       objectReference: {fileID: 0}
     - target: {fileID: 5502110105009292907, guid: 7c444f944f2af4f4d95760e073973fc1, type: 3}
+      propertyPath: _zTiltAngle
+      value: 50.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5502110105009292907, guid: 7c444f944f2af4f4d95760e073973fc1, type: 3}
       propertyPath: _steerStrength
-      value: 526.5
+      value: 1045.2
       objectReference: {fileID: 0}
     - target: {fileID: 7372840999913664686, guid: 7c444f944f2af4f4d95760e073973fc1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7372840999913664686, guid: 7c444f944f2af4f4d95760e073973fc1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.128
+      value: 0.95
       objectReference: {fileID: 0}
     - target: {fileID: 7372840999913664686, guid: 7c444f944f2af4f4d95760e073973fc1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.31
       objectReference: {fileID: 0}
     - target: {fileID: 7372840999913664686, guid: 7c444f944f2af4f4d95760e073973fc1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -22784,7 +22788,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 190.1, y: -109.4}
+  m_AnchoredPosition: {x: 190.1, y: -165}
   m_SizeDelta: {x: 200, y: 164.7265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1819296007
@@ -22807,11 +22811,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tab to open the Phone
-
-    WASD to move
-
-    E to Interact, pickup'
+  m_text: "Tab:  Open the Phone\nMouse:  Select deliveries after opening Phone\nWASD: 
+    Move \nE:  Interact, hop on & off motorbike, pickup & drop parcel\n\nYou can
+    drop parcel on back of the bike."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -25240,19 +25242,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4757514544443586932, guid: cc53f71adbc99794f9b4b66b939cb9ff, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.4271218
       objectReference: {fileID: 0}
     - target: {fileID: 4757514544443586932, guid: cc53f71adbc99794f9b4b66b939cb9ff, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.06348451
       objectReference: {fileID: 0}
     - target: {fileID: 4757514544443586932, guid: cc53f71adbc99794f9b4b66b939cb9ff, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7142493
       objectReference: {fileID: 0}
     - target: {fileID: 4757514544443586932, guid: cc53f71adbc99794f9b4b66b939cb9ff, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.55080366
       objectReference: {fileID: 0}
     - target: {fileID: 5386934333300124838, guid: cc53f71adbc99794f9b4b66b939cb9ff, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25268,19 +25270,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5386934333300124838, guid: cc53f71adbc99794f9b4b66b939cb9ff, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.4284794
       objectReference: {fileID: 0}
     - target: {fileID: 5386934333300124838, guid: cc53f71adbc99794f9b4b66b939cb9ff, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.05356004
       objectReference: {fileID: 0}
     - target: {fileID: 5386934333300124838, guid: cc53f71adbc99794f9b4b66b939cb9ff, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7268334
       objectReference: {fileID: 0}
     - target: {fileID: 5386934333300124838, guid: cc53f71adbc99794f9b4b66b939cb9ff, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.53408796
       objectReference: {fileID: 0}
     - target: {fileID: 5637619685577235877, guid: cc53f71adbc99794f9b4b66b939cb9ff, type: 3}
       propertyPath: m_LocalPosition.x

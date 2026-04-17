@@ -55,15 +55,15 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
     {
         _state = VehicleState.Occupied;
         InputManager.Instance.SetMotorcycleInputState();
-            
+
         _driver = driver;
         _driver.MountVehicle(_exitPoint);
-        
+
         _controller.AcceptRider();
 
         _soundController.enabled = true;
         _playerBaseCollider.enabled = true;
-
+        QuestArrow.Instance.SetAnchor(_controller.transform);
     }
 
     private void ExitVehicle()
@@ -75,7 +75,8 @@ public class MotorbikeEntrySystem : MonoBehaviour, IInteractable
         InputManager.Instance.SetPlayerInputState();
 
         _controller.EjectRider();
-        
+
+        QuestArrow.Instance.SetAnchor(_driver.transform);
         _driver.DismountVehicle(_exitPoint);
         _driver = null;
 
