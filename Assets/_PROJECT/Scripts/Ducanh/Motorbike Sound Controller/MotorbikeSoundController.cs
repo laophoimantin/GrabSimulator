@@ -96,7 +96,6 @@ public class MotorbikeSoundController : MonoBehaviour
     {
         if (motorbikeSoundSO == null) 
         { 
-            Debug.Log("Assign Motorbike SO");
             return;
         }
 
@@ -129,8 +128,7 @@ public class MotorbikeSoundController : MonoBehaviour
 
 
         driftAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Drift_Sound);
-        if (driftAudio == null) Debug.Log("Assign Drift_Sound in SoundManager");
-        else
+        if (driftAudio != null)
         {
             driftAudioSource.clip = driftAudio;
             driftAudioSource.loop = true;
@@ -139,8 +137,7 @@ public class MotorbikeSoundController : MonoBehaviour
 
 
         collisionAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Collision_Sound);
-        if (collisionAudio == null) Debug.Log("Assign Collision_Sound in SoundManager");
-        else
+        if (collisionAudio != null) 
         {
             collisionAudioSource.clip = collisionAudio;
             collisionAudioSource.loop = false;
@@ -149,8 +146,7 @@ public class MotorbikeSoundController : MonoBehaviour
 
 
         landingAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Landing_Sound);
-        if (landingAudio == null) Debug.Log("Assign Landing_Sound in SoundManager");
-        else
+        if (landingAudio != null)
         {
             landingAudioSource.clip = landingAudio;
             landingAudioSource.loop = false;
@@ -159,8 +155,7 @@ public class MotorbikeSoundController : MonoBehaviour
 
 
         honkingAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Honking_Sound);
-        if (honkingAudio == null) Debug.Log("Assign Honking_Sound in SoundManager");
-        else
+        if (honkingAudio != null) 
         {
             honkingAudioSource.clip = honkingAudio;
             honkingAudioSource.loop = true;
@@ -169,7 +164,6 @@ public class MotorbikeSoundController : MonoBehaviour
 
 
         keyturnAudio = SoundManager.Instance.GetMotorbikeGameplaySound(MotorbikeGameplaySoundType.Key_Turn_Sound);
-        if (keyturnAudio == null) Debug.Log("Assign Key_Turn_Sound in SoundManager");
     }
 
 
@@ -257,7 +251,6 @@ public class MotorbikeSoundController : MonoBehaviour
     {
         if (engineRunAudioSource == null)
         {
-            Debug.LogWarning("No available audio source");
             yield break;
         }
 
@@ -331,8 +324,6 @@ public class MotorbikeSoundController : MonoBehaviour
     #region COLLISION SOUND
     public void CollisionSound(float impactSpeed, float maxSpeed)
     {
-        Debug.Log("Goddamn");
-
         if (collisionAudioSource == null) return;
 
         float crashSeverityPercentage = Mathf.Clamp01(impactSpeed / maxSpeed);
@@ -350,8 +341,6 @@ public class MotorbikeSoundController : MonoBehaviour
     #region LANDING SOUND
     public void LandingSound(float impactSpeed, float maxSpeed)
     {
-        Debug.Log("Goddamn");
-
         if (collisionAudioSource == null) return;
 
         float crashSeverityPercentage = Mathf.Clamp01(impactSpeed / maxSpeed);
@@ -417,13 +406,9 @@ public class MotorbikeSoundController : MonoBehaviour
         }
 
         fadeEngineCoroutine = StartCoroutine(FadingEngineSound(option));
-
-        Debug.Log("Fade Engine");
     }
     private IEnumerator FadingEngineSound(FadeOption option)
     {
-        Debug.Log("Fade Engine Coroutine");
-
         float currentTime = 0f;
         float fadeDuration = 0.25f;
 

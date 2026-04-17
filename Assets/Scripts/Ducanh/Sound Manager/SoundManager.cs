@@ -366,7 +366,6 @@ public class SoundManager : MonoBehaviour
         active3DOneShots.Clear();
 
         Button[] buttons = FindObjectsOfType<Button>(true);
-        Debug.Log($"Found {buttons.Length} buttons. Injecting sound chips...");
 
         //foreach (Button btn in buttons)
         //{
@@ -574,7 +573,6 @@ public class SoundManager : MonoBehaviour
     {
         if (parent == null)
         {
-            Debug.LogWarning($"Trying to play 3D Occasional Sound {sound} but parent is null!");
             return;
         }
 
@@ -682,14 +680,12 @@ public class SoundManager : MonoBehaviour
         {
             if (clips == null || clips.Length == 0)
             {
-                Debug.LogWarning($"SoundManager: No audio clips assigned for [{targetSoundName}]!");
                 return null;
             }
 
             return clips[UnityEngine.Random.Range(0, clips.Length)];
         }
 
-        Debug.LogError($"SoundManager: Missing sound config for [{targetSoundName}]. Check your Inspector typos!");
         return null;
     }
 
@@ -717,10 +713,6 @@ public class SoundManager : MonoBehaviour
                 char lowerChar = char.ToLower(rawLetter);
 
                 tempDictionary.Add(lowerChar, randomSyllableClip);
-            }
-            else
-            {
-                Debug.LogWarning($"SoundManager: Missing audio for {syllableEnum}!");
             }
         }
 
