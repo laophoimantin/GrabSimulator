@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/_PROJECT/Scenes/Truong/MainMenu.unity
     guid: 9c38852e864684549a547c08a12b17da
   - enabled: 1
-    path: Assets/_PROJECT/Scenes/Truong/Gameplay.unity
-    guid: 589e0eb58a9c54f4c836324160e686fa
+    path: Assets/_PROJECT/Scenes/Tung/Map Blockout.unity
+    guid: 23644a77b019a6842b3d1c57bd147d1d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2e14b399bf660df41bdd05ea7fb0c4be, type: 3}

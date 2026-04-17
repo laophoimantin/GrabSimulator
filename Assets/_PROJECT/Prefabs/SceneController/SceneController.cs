@@ -149,7 +149,7 @@ public class SceneController : MonoBehaviour
 public static class SceneName
 {
     public const string MainMenu = "MainMenu";
-    public const string Gameplay = "Gameplay";
+    public const string Gameplay = "Map Blockout";
 }
 
 
