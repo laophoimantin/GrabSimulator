@@ -1,19 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Globalization;
 
 public class JobUIButton : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private TMP_Text _txtCargo;
-    [SerializeField] private TMP_Text _txtRoute;
+    [SerializeField] private TMP_Text _txtFrom;
+    [SerializeField] private TMP_Text _txtTo;
     [SerializeField] private TMP_Text _txtReward;
     
     [Header("Toggle Visuals")]
     [SerializeField] private Image _backgroundImage;
-    [SerializeField] private Sprite _normalSprite; 
-    [SerializeField] private Sprite _selectedSprite;
-    [SerializeField] private Button _btnClickArea;  
+    [SerializeField] private Color _normalColor = Color.white; 
+    [SerializeField] private Color _selectedColor = Color.green;
+    [SerializeField] private Button _button;  
 
     private Order _myOrder;
     private JobBoardUI _myBoss;
@@ -23,12 +25,14 @@ public class JobUIButton : MonoBehaviour
         _myOrder = order;
         _myBoss = boss;
 
-        _txtCargo.text = order.CargoData.CargoName;
-        _txtRoute.text = $"{order.PickupLocID} -> {order.DropLocID}";
-        _txtReward.text = $"{order.Reward} VNĐ";
+        _txtFrom.text = $"{order.PickupLocID}";
+        _txtTo.text = $"{order.DropLocID}";
 
-        _btnClickArea.onClick.RemoveAllListeners();
-        _btnClickArea.onClick.AddListener(OnPanelClicked);
+        _txtCargo.text = $"{order.CargoData.CargoName}";
+        _txtReward.text = $"{order.Reward.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"))} VND";
+
+        _button.onClick.RemoveAllListeners();
+        _button.onClick.AddListener(OnPanelClicked);
 
         SetSelected(false);
     }
@@ -40,7 +44,7 @@ public class JobUIButton : MonoBehaviour
 
     public void SetSelected(bool isSelected)
     {
-        _backgroundImage.sprite = isSelected ? _selectedSprite : _normalSprite;
+        _backgroundImage.color = isSelected ? _selectedColor : _normalColor;
     }
 
     public Order GetOrder() => _myOrder;

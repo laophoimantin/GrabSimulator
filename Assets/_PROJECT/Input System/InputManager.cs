@@ -58,4 +58,11 @@ public class InputManager : Singleton<InputManager>
 	{
 		_previousGameplayState?.Invoke();
 	}
+
+	public void StopAllInput()
+	{
+        _inputActions.OnBike.Disable();
+        _inputActions.OnGround.Disable();
+        _inputActions.Dialogue.Disable();
+    }
 }

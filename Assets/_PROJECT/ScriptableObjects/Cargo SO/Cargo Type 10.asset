@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00e72615102e4f06ba9781c438610e9d, type: 3}
-  m_Name: Cargo Stacked boxes
+  m_Name: Cargo Type 10
   m_EditorClassIdentifier: 
-  CargoName: yellow\
+  CargoName: Yellow
+  CargoPrefab: {fileID: 2262538514669472021, guid: 995244fac15f4b54989454d1d4097b98, type: 3}
+  DifficultyMultiplier: 1.8
   CargoType: 1
-  CargoPrefab: {fileID: 3741958647114510548, guid: 09a14cbd06983db468ca1cb2a5f1116d, type: 3}
-  DifficultyMultiplier: 3

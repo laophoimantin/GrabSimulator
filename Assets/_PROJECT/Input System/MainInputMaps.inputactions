@@ -346,7 +346,7 @@
                 {
                     "name": "",
                     "id": "30eb64c0-44ef-4e02-bf3c-2fa0e9885c1a",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -368,6 +368,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TogglePausePanel",
+                    "type": "Button",
+                    "id": "ac7fd848-a0fe-4331-b37e-6c2140c21ae7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -379,6 +388,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "TogglePanel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2849b048-f6cc-4469-8208-980d4a6f84c0",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TogglePausePanel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

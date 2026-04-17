@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00e72615102e4f06ba9781c438610e9d, type: 3}
-  m_Name: Red
+  m_Name: Cargo Type 9
   m_EditorClassIdentifier: 
-  CargoName: Red
-  CargoType: 2
-  CargoPrefab: {fileID: 2262538514669472021, guid: a14814aa184700c4ca06419880b41fdd, type: 3}
-  DifficultyMultiplier: 4
+  CargoName: Yellow
+  CargoPrefab: {fileID: 2262538514669472021, guid: ba844dd1b2ae5b645aa199a2ae8f5300, type: 3}
+  DifficultyMultiplier: 2.4
+  CargoType: 1

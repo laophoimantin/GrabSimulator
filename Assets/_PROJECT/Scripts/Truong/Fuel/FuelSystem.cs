@@ -3,7 +3,7 @@ using UnityEngine;
 public class FuelSystem : MonoBehaviour
 {
     [SerializeField] private float _maxFuel = 100f;
-    [SerializeField] private float _fuelConsumptionRate = 10f;
+    [SerializeField] private float _fuelConsumptionRate = 1f;
 
     private float _currentFuel;
     public bool IsOutOfFuel => _currentFuel <= 0f;

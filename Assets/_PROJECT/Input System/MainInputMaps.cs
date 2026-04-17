@@ -432,7 +432,7 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""30eb64c0-44ef-4e02-bf3c-2fa0e9885c1a"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -454,6 +454,15 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TogglePausePanel"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac7fd848-a0fe-4331-b37e-6c2140c21ae7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -465,6 +474,17 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TogglePanel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2849b048-f6cc-4469-8208-980d4a6f84c0"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TogglePausePanel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -576,6 +596,7 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_TogglePanel = m_UI.FindAction("TogglePanel", throwIfNotFound: true);
+        m_UI_TogglePausePanel = m_UI.FindAction("TogglePausePanel", throwIfNotFound: true);
         // MouseInput
         m_MouseInput = asset.FindActionMap("MouseInput", throwIfNotFound: true);
         m_MouseInput_MouseLook = m_MouseInput.FindAction("MouseLook", throwIfNotFound: true);
@@ -914,6 +935,7 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_TogglePanel;
+    private readonly InputAction m_UI_TogglePausePanel;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -929,6 +951,10 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/TogglePanel".
         /// </summary>
         public InputAction @TogglePanel => m_Wrapper.m_UI_TogglePanel;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/TogglePausePanel".
+        /// </summary>
+        public InputAction @TogglePausePanel => m_Wrapper.m_UI_TogglePausePanel;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -958,6 +984,9 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
             @TogglePanel.started += instance.OnTogglePanel;
             @TogglePanel.performed += instance.OnTogglePanel;
             @TogglePanel.canceled += instance.OnTogglePanel;
+            @TogglePausePanel.started += instance.OnTogglePausePanel;
+            @TogglePausePanel.performed += instance.OnTogglePausePanel;
+            @TogglePausePanel.canceled += instance.OnTogglePausePanel;
         }
 
         /// <summary>
@@ -972,6 +1001,9 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
             @TogglePanel.started -= instance.OnTogglePanel;
             @TogglePanel.performed -= instance.OnTogglePanel;
             @TogglePanel.canceled -= instance.OnTogglePanel;
+            @TogglePausePanel.started -= instance.OnTogglePausePanel;
+            @TogglePausePanel.performed -= instance.OnTogglePausePanel;
+            @TogglePausePanel.canceled -= instance.OnTogglePausePanel;
         }
 
         /// <summary>
@@ -1302,6 +1334,13 @@ public partial class @MainInputMaps: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTogglePanel(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TogglePausePanel" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTogglePausePanel(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "MouseInput" which allows adding and removing callbacks.

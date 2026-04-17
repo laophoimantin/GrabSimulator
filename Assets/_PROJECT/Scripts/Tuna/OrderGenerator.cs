@@ -30,7 +30,7 @@ public class OrderGenerator : Singleton<OrderGenerator>
         {
             drop = validDrops[Random.Range(0, validDrops.Count)];
             antiInfiniteLoop++;
-            if (antiInfiniteLoop > 100) 
+            if (antiInfiniteLoop > 100)
                 return null;
         } while (drop == pickup);
 
@@ -47,7 +47,6 @@ public class OrderGenerator : Singleton<OrderGenerator>
             // => Creates a new globally unique identifier (GUID), like: d2f1c7b4-8c2a-4d1a-9e2f-7b3a1c0f5e9a
             //.Substring(0, 8) 
             // => Takes only the first 8 characters of that string
-            
             OrderID = System.Guid.NewGuid().ToString().Substring(0, 8),
             CargoData = randomCargo,
             PickupLocID = pickup,
@@ -65,15 +64,15 @@ public class OrderGenerator : Singleton<OrderGenerator>
 
         int tip = Random.Range(_minTip, _maxTip);
 
-        int finalReward = Mathf.RoundToInt(difficultyAdjustedReward) + tip;
+        int rawReward = Mathf.RoundToInt(difficultyAdjustedReward) + tip;
 
-        return Mathf.Max(finalReward, 10);
+        int finalReward = ((rawReward + 250) / 500) * 500;
+
+        return Mathf.Max(finalReward, 1000);
     }
 
     private float CalculateDistance(Vector3 startPos, Vector3 endPos)
     {
-        // TODO: Later
-
-        return Random.Range(100f, 1000f);
+        return Vector3.Distance(startPos, endPos);
     }
 }
