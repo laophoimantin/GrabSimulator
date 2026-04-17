@@ -1,9 +1,9 @@
 public enum LocationID
 {
-    Buv,
-    PizzaHut,
-    TimesCity,
-    Ecopark,
-    SwordLake,
-    SteelFlare
+    BrotherHai,
+    Hung,
+    Lan,
+    SisterK,
+    TuanAnh,
+    Ranger
 }

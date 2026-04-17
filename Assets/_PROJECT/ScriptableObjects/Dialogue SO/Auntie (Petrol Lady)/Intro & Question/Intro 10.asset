@@ -23,6 +23,10 @@ MonoBehaviour:
   - NodeID: 1
     SpeakerName: Auntie (Petrol Lady)
     Text: '"Anyway, enough laughing. Are you here to feed that machine of yours?" '
-    Choices: []
-    DefaultNextNodeID: 2
+    Choices:
+    - ChoiceText: Accept
+      TargetNodeID: Accept
+    - ChoiceText: Decline
+      TargetNodeID: Decline
+    DefaultNextNodeID: 
     EventTrigger: {fileID: 0}

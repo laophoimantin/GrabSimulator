@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 6.79
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 16.23
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -48,13 +48,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7cd0a1f07d459b44cbfe2c9940b9da5f, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 01631c9a7aafbd44aa88291d4a62cb95, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: af17384cc373514479ce0a3a77f14bb8, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 63bd2af68ed5fb844b1772fd164eff0a, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: a45885ac05769854a93bd5a3d0df8113, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e43d94825ebf78843aef3c4915a2419d, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a038956baa86c3c4aa8bd0a366c5c7ab, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 990cf7c64c4de3942b3d037e54dd4e17, type: 2}
     - target: {fileID: 7542018673834634185, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _id
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8941282734211419413, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_Name
-      value: Npc (PizzaHub)
+      value: Brother Hai (Pho Seller)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

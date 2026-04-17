@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -7.38
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 8.99
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -48,13 +48,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 53d5621e8eda8324db59f5f7859506fd, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: bc7c99d3b7b375f4e9724e5724662c6a, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 46f21fe0c0e4d8841a4c6e9ca872e796, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4964522869854194b930b4b575e94d25, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 019e7ba2a0cc47e46b5a02e0bfc3ca36, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d282c90854ac094897a97d5c142423a, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ce1624d1c942ce242bbc8204b38123fc, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4fe8b524a1c7f144491cd8d65329693c, type: 2}
     - target: {fileID: 7542018673834634185, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _id
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8941282734211419413, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_Name
-      value: Npc (SwordLake)
+      value: Hung (Mechanic)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

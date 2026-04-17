@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.37
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 16.52
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -48,9 +48,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f24d74910b7611419759b8e27ab61e6, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b8101c3e28c5e184d94ec29bcb654bb0, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e2a9549ee0e370419b8a693353ebaa6, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 83b6a8920fe7586498b5e63ad65cc535, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _idleDialogues.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: dc13b81c55f979041a76c9f586c96fc6, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 84267fc5cd7065c409d6ddbdb64ee763, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c703c7fc8b8c604aba8523478f787ef, type: 2}
+    - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _pickupDialogues.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: e4409bf39b3f8d546883662f06897c86, type: 2}
+    - target: {fileID: 7542018673834634185, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
+      propertyPath: _id
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8941282734211419413, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_Name
-      value: Npc (BUV) (Base)
+      value: Tuan Anh (Mayor's Son)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

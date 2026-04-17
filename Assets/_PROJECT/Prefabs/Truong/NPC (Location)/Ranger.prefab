@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1429437898104252518
+--- !u!1001 &1515021649736181706
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.41
+      value: 0.22
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 13.79
+      value: 6.05
       objectReference: {fileID: 0}
     - target: {fileID: 3315009458869541175, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -59,42 +59,42 @@ PrefabInstance:
     - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _idleDialogues.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 509a2b9ef50c60e4f93c4dea316ad064, type: 2}
+      objectReference: {fileID: 11400000, guid: 6deea3fb5f191e246b502b6d0578dd8f, type: 2}
     - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _idleDialogues.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 237543d76756169418e42ce1bdeb0437, type: 2}
+      objectReference: {fileID: 11400000, guid: 6a7fe8096852a9241b3ed73a0d321ea4, type: 2}
     - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _idleDialogues.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: afe0ab107e48bba49878a3db09566f3b, type: 2}
+      objectReference: {fileID: 11400000, guid: 49b0202ab0f0446418d555b97fd4bae8, type: 2}
     - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _idleDialogues.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 7e7c37856c1ed594c8d2f88995a3358b, type: 2}
+      objectReference: {fileID: 11400000, guid: 62516fe6f8c62924c89a46644201c401, type: 2}
     - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _idleDialogues.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: f05af0ec69b650f418c859ed7c7d37d2, type: 2}
+      objectReference: {fileID: 11400000, guid: 9e790af12c1179a48819493965b8149a, type: 2}
     - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _pickupDialogues.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: aebd046fbf9666642a95e74caed3ac3e, type: 2}
+      objectReference: {fileID: 11400000, guid: 1a5b562949847724db062b150c84016b, type: 2}
     - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _pickupDialogues.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: d28be5df00bf7e2488dfa48d5acaa619, type: 2}
+      objectReference: {fileID: 11400000, guid: 28196cdf895347e4da0abc6fc39bbf57, type: 2}
     - target: {fileID: 6544814205080121117, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _pickupDialogues.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: b37bcd04c185b5c4b8b842475ce6257e, type: 2}
+      objectReference: {fileID: 11400000, guid: cbffddd8a43590740aec9dbc5641dc44, type: 2}
     - target: {fileID: 7542018673834634185, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: _id
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8941282734211419413, guid: d07b8f206e5e77b44b9e032e78bb6cc2, type: 3}
       propertyPath: m_Name
-      value: Lan (Street Food Vendor)
+      value: Ranger
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

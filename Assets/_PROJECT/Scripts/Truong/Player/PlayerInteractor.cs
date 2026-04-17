@@ -14,6 +14,21 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
     private IInteractable _currentInteractable;
     
     private PhysicalCargo _heldCargo;
+    [SerializeField] private Transform _handBoneR;
+    [SerializeField] private Transform _handBoneL;
+
+    private Vector3 _originLocationR;
+    private Quaternion _originRotationR;
+    private Vector3 _originLocationL;
+    private Quaternion _originRotationL;
+
+    [SerializeField] private Vector3 _holdLocationR;
+    [SerializeField] private Vector3 _holdRotationR;
+    [SerializeField] private Vector3 _holdLocationL;
+    [SerializeField] private Vector3 _holdRotationL;
+
+    private Quaternion _holdRotQuatR;
+    private Quaternion _holdRotQuatL;
 
     private readonly Collider[] _colliders = new Collider[10];
 
@@ -33,6 +48,22 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
         }
     }
 
+    void Start()
+    {
+        if (_handBoneR != null)
+        {
+            _originLocationR = _handBoneR.localPosition;
+            _originRotationR = _handBoneR.localRotation;
+            _holdRotQuatR = Quaternion.Euler(_holdRotationR); 
+        }
+
+        if (_handBoneL != null)
+        {
+            _originLocationL = _handBoneL.localPosition;
+            _originRotationL = _handBoneL.localRotation;
+            _holdRotQuatL = Quaternion.Euler(_holdRotationL);
+        }
+    }
     private void OnInteractInput(InputAction.CallbackContext context)
     {
         if (InputLocker.IsLocked(InputActionType.Interact)) return;
@@ -59,7 +90,17 @@ public class PlayerInteractor : MonoBehaviour, IInteractor
 
         DetectInteractable();
     }
-    
+
+    private void LateUpdate()
+    {
+        if (_handBoneR == null || _handBoneL == null) return;
+
+        _handBoneL.localPosition = _heldCargo ? _holdLocationR : _originLocationR;
+        _handBoneL.localRotation = _heldCargo ? _holdRotQuatR : _originRotationR;
+
+        _handBoneR.localPosition = _heldCargo ? _holdLocationL : _originLocationL;
+        _handBoneR.localRotation = _heldCargo ? _holdRotQuatL : _originRotationL;
+    }
     public void HoldCargo(PhysicalCargo cargo)
     {
         _heldCargo = cargo;

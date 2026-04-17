@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e506260db34f49179908081b2e26da92, type: 3}
   m_Name: Decline Gas
   m_EditorClassIdentifier: 
-  Nodes: []
+  Nodes:
+  - NodeID: 
+    SpeakerName: 
+    Text: Get Out!
+    Choices: []
+    DefaultNextNodeID: 
+    EventTrigger: {fileID: 0}
